@@ -8,7 +8,6 @@ seecon
 
 ## Beta Release ##
 * Add ICE contacts
-# asdfasdf
 * Trace a triangle
 * Message Confirmation
 
