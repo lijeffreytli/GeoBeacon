@@ -4,5 +4,6 @@
     <string name="app_name">Seecon</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="share_my_location">Share My Location</string>
 
 </resources>
