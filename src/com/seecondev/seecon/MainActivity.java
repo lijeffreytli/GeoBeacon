@@ -76,12 +76,12 @@ public class MainActivity extends ActionBarActivity {
 
 	private Dialog createHelpDialog(Builder builder) {
 		// TODO Auto-generated method stub
-				Context context = getApplicationContext();
-				LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-				View layout = inflater.inflate(R.layout.help_dialog, null); 		
-				builder.setView(layout);
-				builder.setPositiveButton("OK", null);	
-				return builder.create();
+		Context context = getApplicationContext();
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+		View layout = inflater.inflate(R.layout.help_dialog, null); 		
+		builder.setView(layout);
+		builder.setPositiveButton("OK", null);	
+		return builder.create();
 	}
 
 
