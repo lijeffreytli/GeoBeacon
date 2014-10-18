@@ -91,7 +91,7 @@ public class MainActivity extends ActionBarActivity {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
 		View layout = inflater.inflate(R.layout.about_dialog, null); 		
 		builder.setView(layout);
-		builder.setPositiveButton("OK", null);	
+		builder.setPositiveButton("OK", null);
 		return builder.create();
 	}
 

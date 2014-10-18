@@ -4,23 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
+	<TextView
+	    android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/seecon_icon" 
+        android:text="help"
+        android:textSize="30sp"
         android:layout_gravity="center"/>
-
+      
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/text1"
-        android:text="Temp"
-        android:textStyle="bold"
-        android:textColor="#ff00ff"
-        android:background="#00ff00"
-        android:textColorHighlight="#000000"
-        android:textIsSelectable="true" />
-
+       	android:layout_width="wrap_content"
+       	android:layout_height="wrap_content"
+       	android:textSize="20sp"
+        android:text="Select 'Share My Location' to send your location information to a friend.\n\nSelect the red button to send a distress message to emergency responders and emergency contacts.\n\nYou can add contacts to your emergency list via the app settings.\n"
+       	android:textIsSelectable="true" />
+    
 </LinearLayout>
