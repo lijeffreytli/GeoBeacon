@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:ems="10"
         android:singleLine="true"
-        android:text="Enter a number"
+        android:hint="Enter a number"
         android:textSize="18sp" >
 
         <requestFocus />
@@ -44,7 +44,7 @@
         android:layout_centerVertical="true"
         android:ems="10"
         android:singleLine="true"
-        android:text="Enter a message"
+        android:hint="Enter a message"
         android:textSize="18sp" />
 
 </RelativeLayout>
