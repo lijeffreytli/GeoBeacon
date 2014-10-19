@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +33,16 @@ public class MainActivity extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+    
+    public void shareMyLocation(View view) {
+		Intent intent = new Intent(this, ShareMyLocation.class);
+	    startActivity(intent);
+	}
+    
+    public void getEmergency(View view) {
+    	Intent intent = new Intent(this, Emergency.class);
+	    startActivity(intent);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -41,6 +52,7 @@ public class MainActivity extends ActionBarActivity {
     	
     	switch (item.getItemId()){
     	case R.id.action_settings:
+    		startActivityForResult(new Intent(this, Settings.class),0);  
     		return true;
     	case R.id.menu_about:
     		showDialog(DIALOG_ABOUT_ID);
