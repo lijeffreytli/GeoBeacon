@@ -1177,7 +1177,7 @@ containing a value of this type.
         public static final int abc_split_action_bar_is_narrow=0x7f0a0002;
     }
     public static final class color {
-        public static final int abc_search_url_text_holo=0x7f070026;
+        public static final int abc_search_url_text_holo=0x7f070028;
         public static final int abc_search_url_text_normal=0x7f070017;
         public static final int abc_search_url_text_pressed=0x7f070019;
         public static final int abc_search_url_text_selected=0x7f070018;
@@ -1195,8 +1195,8 @@ containing a value of this type.
         public static final int common_signin_btn_light_text_disabled=0x7f070006;
         public static final int common_signin_btn_light_text_focused=0x7f070007;
         public static final int common_signin_btn_light_text_pressed=0x7f070005;
-        public static final int common_signin_btn_text_dark=0x7f070027;
-        public static final int common_signin_btn_text_light=0x7f070028;
+        public static final int common_signin_btn_text_dark=0x7f070029;
+        public static final int common_signin_btn_text_light=0x7f07002a;
         public static final int cyan=0x7f070025;
         public static final int darkblue=0x7f07001f;
         public static final int darkgreen=0x7f070021;
@@ -1205,6 +1205,7 @@ containing a value of this type.
         public static final int darkred=0x7f070023;
         public static final int green=0x7f07001c;
         public static final int orange=0x7f07001d;
+        public static final int pitch_black=0x7f070027;
         public static final int purple=0x7f07001b;
         public static final int red=0x7f07001e;
         public static final int wallet_bright_foreground_disabled_holo_light=0x7f07000f;
@@ -1225,8 +1226,9 @@ containing a value of this type.
         public static final int wallet_hint_foreground_holo_light=0x7f070011;
         public static final int wallet_holo_blue_light=0x7f070015;
         public static final int wallet_link_text_light=0x7f070016;
-        public static final int wallet_primary_text_holo_light=0x7f070029;
-        public static final int wallet_secondary_text_holo_dark=0x7f07002a;
+        public static final int wallet_primary_text_holo_light=0x7f07002b;
+        public static final int wallet_secondary_text_holo_dark=0x7f07002c;
+        public static final int white_opaque=0x7f070026;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -1797,6 +1799,11 @@ containing a value of this type.
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     
 
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        
+
         Base application theme for API 11+. This theme completely replaces
         AppBaseTheme from res/values/styles.xml on API 11+ devices.
     
@@ -1812,7 +1819,13 @@ containing a value of this type.
         /**  Application theme. 
          */
         public static final int AppTheme=0x7f050092;
+        /**  the theme applied to the application or activity 
+         */
+        public static final int CustomActionBarTheme=0x7f050093;
         public static final int EditTextStyle=0x7f050091;
+        /**  ActionBar styles 
+         */
+        public static final int MyActionBar=0x7f050094;
         /**  Mimic text appearance in select_dialog_item.xml 
          */
         public static final int TextAppearance_AppCompat_Base_CompactMenu_Dialog=0x7f050068;

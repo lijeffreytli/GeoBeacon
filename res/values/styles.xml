@@ -10,7 +10,6 @@
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
         -->
-        <item name="android:textColor">#00E2FF</item>
     </style>
     
     <style name="EditTextStyle" parent="@android:style/Widget.EditText">
@@ -21,6 +20,8 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     	<item name="android:editTextStyle">@style/EditTextStyle</item>
+    	<item name="android:windowBackground">@color/black</item>
+    	
     </style>
 
 </resources>

@@ -48,38 +48,31 @@ public class MainActivity extends ActionBarActivity{
             e.printStackTrace();
         }
         
-     // Getting LocationManager object from System Service LOCATION_SERVICE
+        // Getting LocationManager object from System Service LOCATION_SERVICE
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         
         // Creating a criteria object to retrieve provider
         Criteria criteria = new Criteria();
         
-     // Getting the name of the best provider
+        // Getting the name of the best provider
         String provider = locationManager.getBestProvider(criteria, true);
         
-     // Getting Current Location
+        // Getting Current Location
         Location location = locationManager.getLastKnownLocation(provider);
  
         LatLng mlocation = null;
-        if (location == null){
-        	Log.d(TAG, "location is null");
-        } else {
-        	Log.d(TAG, "Success!");
-        }
-        
-        
-//        Location location = googleMap.getMyLocation();
-//       
-//        Log.d(TAG, "HELLOOOO ");
-        
+//        if (location == null){
+//        	Log.d(TAG, "location is null");
+//        } else {
+//        	Log.d(TAG, "Success!");
+//        }        
         if (location != null) {
-        	Log.d(TAG, "NOT NULL ");
+        	Log.d(TAG, "Location not null");
         	mlocation = new LatLng(location.getLatitude(), 
         			location.getLongitude());
-        	
-        	googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mlocation, 15));
+        	googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mlocation, 16));
         } else {
-        	Log.d(TAG, "ASDFAWEFAW ");
+        	Log.d(TAG, "Location is null");
         }   
     }
 
