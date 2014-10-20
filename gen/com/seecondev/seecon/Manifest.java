@@ -9,6 +9,6 @@ package com.seecondev.seecon;
 
 public final class Manifest {
     public static final class permission {
-        public static final String MAPS_RECEIVE="com.seecondev.googlemapsv2.permission.MAPS_RECEIVE";
+        public static final String MAPS_RECEIVE="com.seecondev.seecon.permission.MAPS_RECEIVE";
     }
 }

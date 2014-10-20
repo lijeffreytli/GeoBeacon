@@ -80,9 +80,7 @@ public class MainActivity extends ActionBarActivity{
         	googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mlocation, 15));
         } else {
         	Log.d(TAG, "ASDFAWEFAW ");
-        }
-        
-        
+        }   
     }
 
     /**
