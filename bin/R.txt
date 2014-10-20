@@ -354,12 +354,12 @@ int id action_context_bar 0x7f08002f
 int id action_menu_divider 0x7f080028
 int id action_menu_presenter 0x7f080029
 int id action_mode_close_button 0x7f080036
-int id action_settings 0x7f080055
+int id action_settings 0x7f080056
 int id activity_chooser_view_content 0x7f080037
 int id always 0x7f08001e
 int id beginning 0x7f080023
 int id book_now 0x7f080010
-int id button1 0x7f080053
+int id button1 0x7f080054
 int id button_emergency 0x7f080050
 int id button_share_my_location 0x7f08004f
 int id buyButton 0x7f08000a
@@ -372,8 +372,8 @@ int id default_activity_button 0x7f08003a
 int id dialog 0x7f080021
 int id disableHome 0x7f08001b
 int id dropdown 0x7f080022
-int id editMessage 0x7f080054
-int id editPhoneNumber 0x7f080052
+int id editMessage 0x7f080055
+int id editPhoneNumber 0x7f080053
 int id edit_query 0x7f080042
 int id end 0x7f080025
 int id expand_activities_button 0x7f080038
@@ -390,10 +390,10 @@ int id image 0x7f080039
 int id imageView1 0x7f08004e
 int id listMode 0x7f080014
 int id list_item 0x7f08003b
-int id map 0x7f080051
+int id map 0x7f080052
 int id match_parent 0x7f08000c
-int id menu_about 0x7f080057
-int id menu_help 0x7f080056
+int id menu_about 0x7f080058
+int id menu_help 0x7f080057
 int id middle 0x7f080024
 int id monochrome 0x7f080013
 int id never 0x7f08001c
@@ -425,6 +425,7 @@ int id strict_sandbox 0x7f080009
 int id submit_area 0x7f08004b
 int id tabMode 0x7f080015
 int id terrain 0x7f080003
+int id text_view_title 0x7f080051
 int id title 0x7f08003d
 int id top_action_bar 0x7f080032
 int id up 0x7f080033

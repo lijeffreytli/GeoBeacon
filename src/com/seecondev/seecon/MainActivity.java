@@ -21,9 +21,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -36,6 +36,9 @@ public class MainActivity extends ActionBarActivity{
 	static final int DIALOG_ABOUT_ID = 1;
 	static final int DIALOG_HELP_ID = 2;
 	private static final String TAG = "Tag";
+	private String address;
+	private double latitude;
+	private double longitude;
 	
 	// Google Map
     private GoogleMap googleMap;
@@ -45,6 +48,7 @@ public class MainActivity extends ActionBarActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
         
         
         try {
@@ -73,21 +77,21 @@ public class MainActivity extends ActionBarActivity{
         
         List<String> providerList = locationManager.getAllProviders();
         if (location != null && provider!=null && providerList.size()>0){
-        	double longitude = location.getLongitude();
-        	double latitude = location.getLatitude();
+        	longitude = location.getLongitude();
+        	latitude = location.getLatitude();
         	mlocation = new LatLng(location.getLatitude(), 
         			location.getLongitude());
         	Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());   
         	try {
         	    List<Address> listAddresses = geocoder.getFromLocation(latitude, longitude, 1);
         	    if(null!=listAddresses&&listAddresses.size()>0){
-        	        String address = listAddresses.get(0).getAddressLine(0);
+        	        address = listAddresses.get(0).getAddressLine(0);
         	        Log.d(TAG, "Current address: " + address);
         	        Log.d(TAG, "Longitude: " + longitude);
         	        Log.d(TAG, "Latitude: " + latitude);
         	        
         	        // Create a location marker of the user's position
-        	        MarkerOptions marker = new MarkerOptions().position(mlocation).title(address);
+        	        MarkerOptions marker = new MarkerOptions().position(mlocation).title("Current Location").snippet(address);
         	     
         	        // Drop a location marker of the user's position
         	        googleMap.addMarker(marker);
@@ -106,6 +110,8 @@ public class MainActivity extends ActionBarActivity{
         	Log.d(TAG, "Location is null");
         }   
         
+        TextView tv1 = (TextView)findViewById(R.id.text_view_title);
+        tv1.setText("Current Street Address: \n" + address + "\nExact Coordinates: \n" + latitude + ", " + longitude);
     }
 
     /**
