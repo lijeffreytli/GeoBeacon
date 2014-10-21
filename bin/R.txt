@@ -346,6 +346,7 @@ int drawable powered_by_google_dark 0x7f020079
 int drawable powered_by_google_light 0x7f02007a
 int drawable seecon_icon 0x7f02007b
 int drawable seecon_icon3 0x7f02007c
+int drawable text_border 0x7f02007d
 int id action_bar 0x7f08002e
 int id action_bar_activity_content 0x7f080027
 int id action_bar_container 0x7f08002d

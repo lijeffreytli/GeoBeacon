@@ -7,11 +7,15 @@
 
     <Button
         android:id="@+id/buttonSend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="35dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:background="@drawable/button_send"
         android:text="Send" />
 
     <EditText
@@ -37,6 +41,7 @@
         android:layout_toLeftOf="@+id/buttonContacts"
         android:ems="20"
         android:hint="Select a Contact"
+        android:background="@drawable/text_border"
         android:singleLine="true"
         android:textSize="22sp" >
 
@@ -50,6 +55,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:onClick="getContacts"
+        android:background="@drawable/button_default_style"
         android:text="Contacts" />
 
     <EditText
@@ -62,6 +68,7 @@
         android:ems="20"
         android:textSize="22sp"
         android:hint="Enter a message"
+        android:background="@drawable/text_border"
         android:inputType="textMultiLine"
         android:scrollbars="vertical" >
         <requestFocus />
