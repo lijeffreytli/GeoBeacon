@@ -40,17 +40,22 @@ public class MainActivity extends ActionBarActivity{
 	private double latitude;
 	private double longitude;
 	
+	public final static String ADDRESS = "com.seecondev.seecon.ADDRESS";
+	public final static String LAT = "com.seecondev.seecon.LAT";
+	public final static String LONG = "com.seecondev.seecon.LONG";
+	
+	Double lat;
+	Double lon;
+	
 	// Google Map
     private GoogleMap googleMap;
-//    private LocationClient mLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        
-        
+        /* Load Google Maps */
         try {
             // Loading map
             initilizeMap();
@@ -59,8 +64,36 @@ public class MainActivity extends ActionBarActivity{
         } catch (Exception e) {
             e.printStackTrace();
         }
+        /* Get the user's locations from map data */
+        getCoordinates();
         
-        // Getting LocationManager object from System Service LOCATION_SERVICE
+        /* Set/Display the TextView on the Main Menu */
+        TextView textViewMain = (TextView)findViewById(R.id.text_view_title);
+        textViewMain.setText("Current Street Address: \n" + address + "\nExact Coordinates: \n" + latitude + ", " + longitude);
+    }
+
+    /**
+     * Function to load map. If map is not created it will create it for you
+     * */
+    private void initilizeMap() {
+        if (googleMap == null) {
+            googleMap = ((MapFragment) getFragmentManager().findFragmentById(
+                    R.id.map)).getMap();
+ 
+            // check if map is created successfully or not
+            if (googleMap == null) {
+                Toast.makeText(getApplicationContext(),
+                        "Sorry! unable to create maps", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
+    }
+    
+    /**
+     * Function to obtain the longitude and latitude coordinates of the user's location
+     * */
+    private void getCoordinates() {
+    	// Getting LocationManager object from System Service LOCATION_SERVICE
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         // Creating a criteria object to retrieve provider
         Criteria criteria = new Criteria();
@@ -110,25 +143,8 @@ public class MainActivity extends ActionBarActivity{
         	Log.d(TAG, "Location is null");
         }   
         
-        TextView tv1 = (TextView)findViewById(R.id.text_view_title);
-        tv1.setText("Current Street Address: \n" + address + "\nExact Coordinates: \n" + latitude + ", " + longitude);
-    }
-
-    /**
-     * function to load map. If map is not created it will create it for you
-     * */
-    private void initilizeMap() {
-        if (googleMap == null) {
-            googleMap = ((MapFragment) getFragmentManager().findFragmentById(
-                    R.id.map)).getMap();
- 
-            // check if map is created successfully or not
-            if (googleMap == null) {
-                Toast.makeText(getApplicationContext(),
-                        "Sorry! unable to create maps", Toast.LENGTH_SHORT)
-                        .show();
-            }
-        }
+        lat = latitude;
+        lon = longitude;
     }
     
     @Override
@@ -144,11 +160,16 @@ public class MainActivity extends ActionBarActivity{
         return true;
     }
     
+    /* ShareMyLocation Button */
     public void shareMyLocation(View view) {
-		Intent intent = new Intent(this, ShareMyLocation.class);
+        Intent intent = new Intent(this, ShareMyLocation.class);
+        intent.putExtra(ADDRESS, address);
+        intent.putExtra(LONG, lon.toString());
+        intent.putExtra(LAT, lat.toString());
 	    startActivity(intent);
 	}
     
+    /* Emergency Button */
     public void getEmergency(View view) {
     	Intent intent = new Intent(this, Emergency.class);
 	    startActivity(intent);

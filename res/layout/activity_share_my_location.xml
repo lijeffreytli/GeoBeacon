@@ -33,17 +33,35 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:onClick="getContacts"
         android:text="Contacts" />
 
+    
+
     <EditText
-        android:id="@+id/editMessage"
-        android:layout_width="wrap_content"
+        android:id="@+id/editMessage1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/editMessage"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:maxHeight="140dp"
+        android:hint="Enter a message"
+        android:scrollbars="vertical" />
+
+    <EditText
+        android:id="@+id/editCompleteMessage"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/button1"
+        android:layout_marginTop="35dp"
         android:ems="10"
-        android:hint="Enter a message"
-        android:singleLine="true"
-        android:textSize="18sp" />
+        android:hint="Complete Message"
+        android:inputType="textMultiLine"
+        android:maxHeight="140dp"
+        android:scrollbars="vertical" />
 
 </RelativeLayout>

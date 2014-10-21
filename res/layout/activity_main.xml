@@ -26,6 +26,7 @@
          android:onClick="getEmergency"
          android:text="!"
          android:typeface="sans" />
+     
      <TextView
          android:id="@+id/text_view_title"
          android:layout_width="wrap_content"

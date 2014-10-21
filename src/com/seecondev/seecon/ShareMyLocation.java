@@ -1,21 +1,29 @@
 package com.seecondev.seecon;
 
-import android.support.v7.app.ActionBarActivity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.telephony.gsm.SmsManager;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class ShareMyLocation extends ActionBarActivity {
 	
 	static final int DIALOG_ABOUT_ID = 1;
 	static final int DIALOG_HELP_ID = 2;
+	
+	/* Debugging Purposes */
+	private static final String TAG = "Tag";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +31,44 @@ public class ShareMyLocation extends ActionBarActivity {
 		
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_share_my_location);
+		
+		// Get the message from the intent
+		Intent intent = getIntent();
+		String contactName = intent.getStringExtra(GetContacts.CONTACT_NAME);
+		String contactNumber = intent.getStringExtra(GetContacts.CONTACT_NUMBER);
+		
+		
+		Log.d(TAG, "In ShareMyLocation: Contact Name: " + contactName);
+		Log.d(TAG, "In ShareMyLocation: Contact Number: " + contactNumber);
+		
+		EditText text = (EditText) findViewById(R.id.editPhoneNumber);
+		
+		/*This code doesn't work.*/
+		//EditText messageView = (EditText)findViewById(R.id.editMessage);
+		//messageView.setSingleLine();
+		
+		if (contactNumber != null) text.setText(contactName);
+		
+		//get the location information from main
+		Intent intent2 = getIntent();
+		String address = intent2.getStringExtra(MainActivity.ADDRESS);
+		String longitude = intent2.getStringExtra(MainActivity.LAT);
+		String latitude = intent2.getStringExtra(MainActivity.LONG);
+		
+		if (address != null && longitude != null && latitude != null){
+			Log.d(TAG, address + " : " + longitude + " : " + latitude);
+		}
+		
+		TextView tv1 = (TextView)findViewById(R.id.editCompleteMessage);
+        tv1.setText("Current Street Address: \n" + address + "\nExact Coordinates: \n" + latitude + ", " + longitude);
+        
+//		sendSMS("2145976764","https://www.google.com/maps/@"+ longitude + "," + latitude + ",18z");
+	}
+	
+	/* This method sends a text message to a specific phone number */
+	private void sendSMS(String phoneNumber, String message){
+		SmsManager sms = SmsManager.getDefault();
+	    sms.sendTextMessage(phoneNumber, null, message, null, null);
 	}
 
 	@Override
@@ -51,6 +97,11 @@ public class ShareMyLocation extends ActionBarActivity {
     	}
     	return false;
     }
+	
+	public void getContacts(View view) {
+		Intent intent = new Intent(this, GetContacts.class);
+	    startActivity(intent);
+	}
     
     @Override
 	protected Dialog onCreateDialog(int id) {
