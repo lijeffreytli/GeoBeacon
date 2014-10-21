@@ -365,8 +365,8 @@ int id beginning 0x7f080023
 int id book_now 0x7f080010
 int id buttonContacts 0x7f080055
 int id buttonSend 0x7f080053
-int id button_emergency 0x7f080050
-int id button_share_my_location 0x7f080052
+int id button_emergency 0x7f080052
+int id button_share_my_location 0x7f080050
 int id buyButton 0x7f08000a
 int id buy_now 0x7f08000f
 int id buy_with_google 0x7f08000e

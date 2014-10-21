@@ -1,9 +1,12 @@
 package com.seecondev.seecon;
 
+
+
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -14,13 +17,20 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ShareMyLocation extends ActionBarActivity {
 	
 	static final int DIALOG_ABOUT_ID = 1;
 	static final int DIALOG_HELP_ID = 2;
+	
+	Button btnSendSMS;
+	private String message;
+	private String contactNumber;
+	private String contactName;
 	
 	/* Debugging Purposes */
 	private static final String TAG = "Tag";
@@ -34,8 +44,8 @@ public class ShareMyLocation extends ActionBarActivity {
 		
 		// Get the message from the intent
 		Intent intent = getIntent(); 
-		String contactName = intent.getStringExtra(GetContacts.CONTACT_NAME);
-		String contactNumber = intent.getStringExtra(GetContacts.CONTACT_NUMBER);
+		contactName = intent.getStringExtra(GetContacts.CONTACT_NAME);
+		contactNumber = intent.getStringExtra(GetContacts.CONTACT_NUMBER);
 		
 		// Get the location information from MainActivity
 		Intent intent2 = getIntent(); //is this necessary?
@@ -47,28 +57,75 @@ public class ShareMyLocation extends ActionBarActivity {
 		Log.d(TAG, "In ShareMyLocation: Contact Number: " + contactNumber);
 		
 		EditText text = (EditText) findViewById(R.id.editPhoneNumber);
+		if (contactNumber != null) 
+			text.setText(contactName);
 		
 		/*This code doesn't work.*/
 		//EditText messageView = (EditText)findViewById(R.id.editMessage);
 		//messageView.setSingleLine();
 		
-		if (contactNumber != null) 
-			text.setText(contactName);
-		
+		/* Debugging Purposes */
 		if (address != null && longitude != null && latitude != null){
 			Log.d(TAG, address + " : " + longitude + " : " + latitude);
 		}
 		
-		TextView tv1 = (TextView)findViewById(R.id.editCompleteMessage);
-        tv1.setText("Current Street Address: \n" + address);
+		/* Print out the Current Street Address to the screen */
+		TextView currentAddress = (TextView)findViewById(R.id.editCompleteMessage);
+        currentAddress.setText("Current Street Address: \n" + address);
         
 //		sendSMS("2145976764","https://www.google.com/maps/@"+ longitude + "," + latitude + ",18z");
+        
+        /* Obtain the view of the 'Send Button' */
+        btnSendSMS = (Button) findViewById(R.id.buttonSend);
+        
+        /* Once the user hits the "Send" button */
+        btnSendSMS.setOnClickListener(new View.OnClickListener() 
+        {
+            public void onClick(View v) 
+            {   
+            	/* AlertDialog box for user confirmation */
+            	AlertDialog.Builder builder1 = new AlertDialog.Builder(ShareMyLocation.this);
+                builder1.setMessage("Send to this number?");
+                builder1.setCancelable(true);
+                builder1.setPositiveButton("Yes",
+                        new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    	
+                    	message = "HAI. THIS IS NOT A TEST";
+                    	String phoneNo = contactNumber;
+                    	
+                    	if (phoneNo.length()>0) { //Checks whether the number is not null      
+                        	sendSMS(phoneNo, message); 
+                            finish(); //After sending the message, return back to MainActivity
+                        } else //Throw an exception if the number is invalid
+                            Toast.makeText(getBaseContext(), 
+                                "Please enter a valid phone number.", 
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder1.setNegativeButton("No",
+                        new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
+            }
+        });  
+        
 	}
 	
 	/* This method sends a text message to a specific phone number */
 	private void sendSMS(String phoneNumber, String message){
 		SmsManager sms = SmsManager.getDefault();
 	    sms.sendTextMessage(phoneNumber, null, message, null, null);
+	}
+	
+	public void getContacts(View view) {
+		Intent intent = new Intent(this, GetContacts.class);
+	    startActivity(intent);
 	}
 
 	@Override
@@ -98,10 +155,6 @@ public class ShareMyLocation extends ActionBarActivity {
     	return false;
     }
 	
-	public void getContacts(View view) {
-		Intent intent = new Intent(this, GetContacts.class);
-	    startActivity(intent);
-	}
     
     @Override
 	protected Dialog onCreateDialog(int id) {

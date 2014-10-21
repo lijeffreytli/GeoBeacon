@@ -1503,8 +1503,8 @@ containing a value of this type.
         public static final int book_now=0x7f080010;
         public static final int buttonContacts=0x7f080055;
         public static final int buttonSend=0x7f080053;
-        public static final int button_emergency=0x7f080050;
-        public static final int button_share_my_location=0x7f080052;
+        public static final int button_emergency=0x7f080052;
+        public static final int button_share_my_location=0x7f080050;
         public static final int buyButton=0x7f08000a;
         public static final int buy_now=0x7f08000f;
         public static final int buy_with_google=0x7f08000e;
