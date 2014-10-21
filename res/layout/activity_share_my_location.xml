@@ -5,21 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="horizontal" >
 
-    <EditText
-        android:id="@+id/editPhoneNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:ems="10"
-        android:singleLine="true"
-        android:hint="Enter a number"
-        android:textSize="18sp" >
-
-        <requestFocus />
-    </EditText>
-
     <Button
+        android:id="@+id/buttonSend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -27,8 +14,37 @@
         android:layout_alignParentRight="true"
         android:text="Send" />
 
+    <EditText
+        android:id="@+id/editCompleteMessage"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/buttonContacts"
+        android:ems="20"
+        android:textSize="22sp"
+        android:hint="Complete Message"
+        android:inputType="textMultiLine"
+        android:maxHeight="140dp"
+        android:scrollbars="vertical" />
+
+    <EditText
+        android:id="@+id/editPhoneNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/buttonContacts"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/buttonContacts"
+        android:ems="20"
+        android:hint="Select a Contact"
+        android:singleLine="true"
+        android:textSize="22sp" >
+
+        <requestFocus />
+    </EditText>
+        
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/buttonContacts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -36,32 +52,19 @@
         android:onClick="getContacts"
         android:text="Contacts" />
 
-    
-
     <EditText
-        android:id="@+id/editMessage1"
+        android:id="@+id/editMessage"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonSend"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/editMessage"
-        android:layout_marginTop="40dp"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        android:maxHeight="140dp"
+        android:layout_below="@+id/editCompleteMessage"
+        android:ems="20"
+        android:textSize="22sp"
         android:hint="Enter a message"
-        android:scrollbars="vertical" />
-
-    <EditText
-        android:id="@+id/editCompleteMessage"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/button1"
-        android:layout_marginTop="35dp"
-        android:ems="10"
-        android:hint="Complete Message"
         android:inputType="textMultiLine"
-        android:maxHeight="140dp"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical" >
+        <requestFocus />
+    </EditText>
 
 </RelativeLayout>

@@ -33,10 +33,15 @@ public class ShareMyLocation extends ActionBarActivity {
 		setContentView(R.layout.activity_share_my_location);
 		
 		// Get the message from the intent
-		Intent intent = getIntent();
+		Intent intent = getIntent(); 
 		String contactName = intent.getStringExtra(GetContacts.CONTACT_NAME);
 		String contactNumber = intent.getStringExtra(GetContacts.CONTACT_NUMBER);
 		
+		// Get the location information from MainActivity
+		Intent intent2 = getIntent(); //is this necessary?
+		String address = intent2.getStringExtra(MainActivity.ADDRESS);
+		String longitude = intent2.getStringExtra(MainActivity.LAT);
+		String latitude = intent2.getStringExtra(MainActivity.LONG);
 		
 		Log.d(TAG, "In ShareMyLocation: Contact Name: " + contactName);
 		Log.d(TAG, "In ShareMyLocation: Contact Number: " + contactNumber);
@@ -47,20 +52,15 @@ public class ShareMyLocation extends ActionBarActivity {
 		//EditText messageView = (EditText)findViewById(R.id.editMessage);
 		//messageView.setSingleLine();
 		
-		if (contactNumber != null) text.setText(contactName);
-		
-		//get the location information from main
-		Intent intent2 = getIntent();
-		String address = intent2.getStringExtra(MainActivity.ADDRESS);
-		String longitude = intent2.getStringExtra(MainActivity.LAT);
-		String latitude = intent2.getStringExtra(MainActivity.LONG);
+		if (contactNumber != null) 
+			text.setText(contactName);
 		
 		if (address != null && longitude != null && latitude != null){
 			Log.d(TAG, address + " : " + longitude + " : " + latitude);
 		}
 		
 		TextView tv1 = (TextView)findViewById(R.id.editCompleteMessage);
-        tv1.setText("Current Street Address: \n" + address + "\nExact Coordinates: \n" + latitude + ", " + longitude);
+        tv1.setText("Current Street Address: \n" + address);
         
 //		sendSMS("2145976764","https://www.google.com/maps/@"+ longitude + "," + latitude + ",18z");
 	}
@@ -124,7 +124,6 @@ public class ShareMyLocation extends ActionBarActivity {
 		return dialog;        
 	}
 
-
 	private Dialog createHelpDialog(Builder builder) {
 		// TODO Auto-generated method stub
 		Context context = getApplicationContext();
@@ -134,7 +133,6 @@ public class ShareMyLocation extends ActionBarActivity {
 		builder.setPositiveButton("OK", null);	
 		return builder.create();
 	}
-
 
 	private Dialog createAboutDialog(Builder builder) {
 		// TODO Auto-generated method stub
