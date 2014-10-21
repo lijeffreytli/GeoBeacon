@@ -5,9 +5,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="share_my_location">Share My Location</string>
-    <string name="title_activity_share_my_location">ShareMyLocation</string>
+    <string name="title_activity_share_my_location">Share My Location</string>
     <string name="title_activity_emergency">Emergency</string>
     <string name="title_activity_settings">Settings</string>
-    <string name="title_activity_get_contacts">GetContacts</string>
+    <string name="title_activity_get_contacts">Get Contacts</string>
 
 </resources>
