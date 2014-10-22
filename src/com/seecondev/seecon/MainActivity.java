@@ -1,6 +1,7 @@
 package com.seecondev.seecon;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -27,6 +28,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -64,6 +66,7 @@ public class MainActivity extends ActionBarActivity{
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
         /* Get the user's locations from map data */
         getCoordinates();
         
@@ -71,6 +74,8 @@ public class MainActivity extends ActionBarActivity{
         TextView textViewMain = (TextView)findViewById(R.id.text_view_title);
         textViewMain.setText("Current Street Address: \n" + address + "\nExact Coordinates: \n" + latitude + ", " + longitude);
     }
+    
+
 
     /**
      * Function to load map. If map is not created it will create it for you
