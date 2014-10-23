@@ -1,7 +1,6 @@
 package com.seecondev.seecon;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -14,9 +13,11 @@ import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -33,7 +34,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class MainActivity extends ActionBarActivity{
+public class MainActivity extends FragmentActivity{
 	
 	static final int DIALOG_ABOUT_ID = 1;
 	static final int DIALOG_HELP_ID = 2;
@@ -41,6 +42,11 @@ public class MainActivity extends ActionBarActivity{
 	private String address;
 	private double latitude;
 	private double longitude;
+	private List<Address> addresses;
+	
+	Location mLocation;
+	LatLng mLatLong;
+	int tryCount = 0;
 	
 	public final static String ADDRESS = "com.seecondev.seecon.ADDRESS";
 	public final static String LAT = "com.seecondev.seecon.LAT";
@@ -69,14 +75,79 @@ public class MainActivity extends ActionBarActivity{
         
         /* Get the user's locations from map data */
         getCoordinates();
-        
+                
         /* Set/Display the TextView on the Main Menu */
         TextView textViewMain = (TextView)findViewById(R.id.text_view_title);
         textViewMain.setText("Current Street Address: \n" + address + "\nExact Coordinates: \n" + latitude + ", " + longitude);
+        
+        tryGeoCoder();
     }
     
+    // complete on a separate thread as this is a blocking operation on
+    // the network
+    private void tryGeoCoder() {
+        AsyncTask<Geocoder, Void, List<Address>> addressFetcher = new AddFetch();
+        Geocoder gc = new Geocoder(this, Locale.US);
+        addressFetcher.execute(gc);
+    }
 
+    public void tryAgain() {
+        tryCount++;
+        if(tryCount < 10) {
+            AsyncTask<Geocoder, Void, List<Address>> addressFetcher = new AddFetch();
+            Geocoder gc = new Geocoder(this, Locale.US);
+            addressFetcher.execute(gc);
+        }
+    }
+    
+    private  class AddFetch extends AsyncTask<Geocoder, Void, List<Address>> {
 
+        @Override
+        protected List<Address> doInBackground(Geocoder... arg0) {
+            Geocoder gc = arg0[0];
+            Log.d(TAG, "Geocode is present: " + Geocoder.isPresent());
+            addresses = null;
+            // "forward geocoding": get lat and long from name or address
+            try {
+                addresses = gc.getFromLocationName(
+                        "713 North Duchesne, St. Charles, MO", 5);
+            } catch (IOException e) {}
+            if(addresses != null && addresses.size() > 0) {
+                double lat = addresses.get(0).getLatitude();
+                double lng = addresses.get(0). getLongitude ();
+                String zip = addresses.get(0).getPostalCode();
+                Log.d(TAG, "FORWARD GEO CODING: lat: " + lat + ", long: " + lng + ", zip: " + zip);
+            }
+            Log.d(TAG, "forward geocoding address list: " + addresses);
+            
+            // also try reverse geocoding, location from lat and long
+            tryReverseGeocoding(gc);
+            return addresses;
+        }
+
+        private void tryReverseGeocoding(Geocoder gc) {
+            LocationManager locMgr = ((LocationManager) getSystemService(LOCATION_SERVICE));
+            Location location = locMgr.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+            double lat = location.getLatitude() ;
+            double lng = location.getLongitude();
+            Log.d(TAG, "REVERSE GEO CODE TEST lat: " + lat);
+            Log.d(TAG, "REVERSE GEO CODE TEST long: " + lng);
+            List<Address> addresses = null;
+            try {
+              addresses = gc.getFromLocation(lat, lng, 20); // maxResults
+            } catch (IOException e) {}
+            if(addresses != null)
+                Log.d(TAG, "reverse geocoding, addresses from lat and long: " + addresses + " " + addresses.size());
+        }
+
+        protected void onPostExecute(List<Address> result) {
+            if(result == null)
+                tryAgain();
+        }
+
+    }
+    
+    
     /**
      * Function to load map. If map is not created it will create it for you
      * */
@@ -105,20 +176,20 @@ public class MainActivity extends ActionBarActivity{
         // Getting the name of the best provider
         String provider = locationManager.getBestProvider(criteria, true);
         // Getting Current Location
-        Location location = locationManager.getLastKnownLocation(provider);
+        mLocation = locationManager.getLastKnownLocation(provider);
         // Create variable for LatLng
-        LatLng mlocation = null;  
+        mLatLong = null;  
         
         /* This set of code obtains the address, longitude and latitude of a given location */
         /* Source documentation: http://stackoverflow.com/questions/6922312/get-location-name-from-fetched-coordinates */
         /* Source documentation: http://wptrafficanalyzer.in/blog/showing-current-location-in-google-maps-with-gps-and-locationmanager-in-android/ */
         
         List<String> providerList = locationManager.getAllProviders();
-        if (location != null && provider!=null && providerList.size()>0){
-        	longitude = location.getLongitude();
-        	latitude = location.getLatitude();
-        	mlocation = new LatLng(location.getLatitude(), 
-        			location.getLongitude());
+        if (mLocation != null && provider!=null && providerList.size()>0){
+        	longitude = mLocation.getLongitude();
+        	latitude = mLocation.getLatitude();
+        	mLatLong = new LatLng(mLocation.getLatitude(), 
+        			mLocation.getLongitude());
         	Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());   
         	try {
         	    List<Address> listAddresses = geocoder.getFromLocation(latitude, longitude, 1);
@@ -129,21 +200,21 @@ public class MainActivity extends ActionBarActivity{
         	        Log.d(TAG, "Latitude: " + latitude);
         	        
         	        // Create a location marker of the user's position
-        	        MarkerOptions marker = new MarkerOptions().position(mlocation).title("Current Location").snippet(address);
+        	        //MarkerOptions marker = new MarkerOptions().position(mLatLong).title("Current Location").snippet(address);
         	     
         	        // Drop a location marker of the user's position
-        	        googleMap.addMarker(marker);
+        	        //googleMap.addMarker(marker);
         	    }
         	} catch (IOException e) {
         	    e.printStackTrace();
         	}
         }
         
-        if (location != null) {
+        if (mLocation != null) {
         	Log.d(TAG, "Location not null");
-        	mlocation = new LatLng(location.getLatitude(), 
-        			location.getLongitude());
-        	googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mlocation, 16));
+        	mLatLong = new LatLng(mLocation.getLatitude(), 
+        			mLocation.getLongitude());
+        	googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLatLong, 16));
         } else {
         	Log.d(TAG, "Location is null");
         }   
@@ -242,7 +313,4 @@ public class MainActivity extends ActionBarActivity{
 		builder.setPositiveButton("OK", null);
 		return builder.create();
 	}
-
-
-
 }
