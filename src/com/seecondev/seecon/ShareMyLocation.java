@@ -41,7 +41,7 @@ public class ShareMyLocation extends ActionBarActivity {
 	private double mLongitude;
 
 	/* Debugging Purposes */
-	private static final String TAG = "Tag";
+	private static final String TAG = "SEECON_SHAREMYLOCATION";
 	static final int PICK_CONTACT_REQUEST = 0;
 
 	@Override
@@ -88,9 +88,11 @@ public class ShareMyLocation extends ActionBarActivity {
 		else
 			Log.d(TAG, "address is null");
 
+		mMessage = "My Location: " + mAddress + "\n";
 		/* Print out the Current Street Address to the screen */
 		TextView currentAddress = (TextView)findViewById(R.id.editCompleteMessage);
-		currentAddress.setText("Current Street Address: \n" + mAddress);
+		currentAddress.setText(mMessage);
+		mMessage += "\nhttps://www.google.com/maps/@" + mLongitude + "," + mLatitude + ",18z";
 
 		//		sendSMS("2145976764","https://www.google.com/maps/@"+ longitude + "," + latitude + ",18z");
 
@@ -110,10 +112,10 @@ public class ShareMyLocation extends ActionBarActivity {
 						new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 
-						mMessage = "HAI. THIS IS NOT A TEST";
+						//mMessage = "HAI. THIS IS NOT A TEST";
 						String phoneNo = mContactNumber;
 
-						if (phoneNo.length()>0) { //Checks whether the number is not null      
+						if (phoneNo != null && phoneNo.length() > 0) { //Checks whether the number is not null      
 							sendSMS(phoneNo, mMessage); 
 							finish(); //After sending the message, return back to MainActivity
 						} else //Throw an exception if the number is invalid
