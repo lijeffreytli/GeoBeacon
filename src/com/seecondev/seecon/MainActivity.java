@@ -178,6 +178,9 @@ public class MainActivity extends FragmentActivity implements android.location.L
 	/* Emergency Button */
 	public void getEmergency(View view) {
 		Intent intent = new Intent(this, Emergency.class);
+		intent.putExtra(ADDRESS, mAddress);
+		intent.putExtra(LONG, Double.valueOf(mLongitude).toString());
+		intent.putExtra(LAT, Double.valueOf(mLatitude).toString());
 		startActivity(intent);
 	}
 

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +18,16 @@ public class Emergency extends ActionBarActivity {
 	
 	static final int DIALOG_ABOUT_ID = 1;
 	static final int DIALOG_HELP_ID = 2;
+	
+	private String mMessage;
+	private String mContactNumber;
+	private String mContactName;
+	private String mAddress;
+	private double mLatitude;
+	private double mLongitude;
+
+	/* Debugging Purposes */
+	private static final String TAG = "SEECON_EMERGENCY";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +35,23 @@ public class Emergency extends ActionBarActivity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_emergency);
 		
+		
+		// Get the location information from MainActivity
+		Intent intent2 = getIntent(); //is this necessary?
+		mAddress = intent2.getStringExtra(MainActivity.ADDRESS);
+		String latStr = intent2.getStringExtra(MainActivity.LAT);
+		String longStr = intent2.getStringExtra(MainActivity.LONG);
+		
+		if (longStr != null) {
+			mLongitude = Double.parseDouble(longStr);	
+		}
+		if (latStr != null) {
+			mLatitude = Double.parseDouble(latStr);
+		}
+
+		Log.d(TAG, "In Emergency: Address: " + mAddress);
+		Log.d(TAG, "In Emergency: Lat: " + latStr);
+		Log.d(TAG, "In Emergency: Long: " + longStr);
 	}
 
 	@Override

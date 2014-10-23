@@ -88,8 +88,8 @@ public class ShareMyLocation extends ActionBarActivity {
 		else
 			Log.d(TAG, "address is null");
 
-		mMessage = "My Location: " + mAddress + "\n";
 		/* Print out the Current Street Address to the screen */
+		mMessage = "My Location: " + mAddress + "\n";
 		TextView currentAddress = (TextView)findViewById(R.id.editCompleteMessage);
 		currentAddress.setText(mMessage);
 		mMessage += "\nhttps://www.google.com/maps/@" + mLongitude + "," + mLatitude + ",18z";
