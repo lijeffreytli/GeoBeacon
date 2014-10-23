@@ -9,5 +9,13 @@
     <string name="title_activity_emergency">Emergency</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_get_contacts">Get Contacts</string>
+    <string name="dialog_prompt">Select message</string>
+    
+    <string-array name="emergency_dialogs">
+        <item>Help. I am in trouble!</item>
+        <item>Help. I am being followed!</item>
+        <item>Help. I am hurt!</item>
+        <item>Help. I am being robbed!</item>
+    </string-array>
 
 </resources>

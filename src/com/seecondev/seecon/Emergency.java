@@ -1,16 +1,17 @@
 package com.seecondev.seecon;
 
-import android.support.v7.app.ActionBarActivity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 
 public class Emergency extends ActionBarActivity {
 	
@@ -22,6 +23,7 @@ public class Emergency extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_emergency);
+		
 	}
 
 	@Override

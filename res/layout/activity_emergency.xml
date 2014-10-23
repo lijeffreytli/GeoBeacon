@@ -2,15 +2,67 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.seecondev.seecon.Emergency" >
 
-    <TextView
+    <Button
+        android:id="@+id/buttonSend"
+        android:layout_width="200dp"
+        android:layout_height="35dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/button_send"
+        android:onClick="sendMessage"
+        android:text="Send" />
+
+    <CheckBox
+        android:id="@+id/chkEmergencyContacts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_alignParentRight="true"
+        android:layout_marginTop ="5dp" />
+
+    <TextView
+        android:id="@+id/textViewEmergencyContacts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/chkEmergencyContacts"
+        android:layout_alignBottom="@+id/chkEmergencyContacts"
+        android:layout_alignLeft="@+id/buttonSend"
+        android:text="Include emergency contacts"
+        android:textColor="@color/cyan"
+        android:textSize="22sp" />
+
+    <Spinner
+        android:id="@+id/spinnerEmergencyDialogs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/chkEmergencyContacts"
+        android:entries="@array/emergency_dialogs"
+        android:prompt="@string/dialog_prompt"
+        android:spinnerMode="dialog"
+        android:background="@drawable/text_border"/>
+    
+    <EditText
+        android:id="@+id/editMessage"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonSend"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/spinnerEmergencyDialogs"
+        android:background="@drawable/text_border"
+        android:ems="20"
+        android:hint="Enter a message"
+        android:inputType="textMultiLine"
+        android:scrollbars="vertical"
+        android:textSize="22sp" >
+
+        <requestFocus />
+    </EditText>
 
 </RelativeLayout>

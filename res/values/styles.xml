@@ -15,6 +15,19 @@
     <style name="EditTextStyle" parent="@android:style/Widget.EditText">
     	<item name="android:textColor">#00E2FF</item>
 	</style>
+	
+    <style name="spinnerItemStyle">
+        <item name="android:padding">10dp</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">#00E2FF</item>
+    </style>
+
+    <style name="spinnerDropDownItemStyle">
+        <item name="android:padding">7dp</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">#00E2FF</item>
+        <item name="android:background">#2f2f2f</item>
+    </style>
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
@@ -22,6 +35,15 @@
     	<item name="android:editTextStyle">@style/EditTextStyle</item>
     	<item name="android:windowBackground">@color/black</item>
     	
+    	<!-- For the resting Spinner style -->
+        <item name="android:spinnerItemStyle">
+            @style/spinnerItemStyle
+        </item> 
+
+        <!-- For each individual Spinner list item once clicked on -->
+        <item name="android:spinnerDropDownItemStyle">
+            @style/spinnerDropDownItemStyle
+        </item>
     </style>
 
 </resources>
