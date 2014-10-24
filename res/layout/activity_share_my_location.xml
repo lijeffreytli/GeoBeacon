@@ -73,7 +73,7 @@
         android:layout_below="@+id/editCompleteMessage"
         android:ems="20"
         android:textSize="22sp"
-        android:hint="Enter a message"
+        android:hint="Additional message"
         android:background="@drawable/text_border"
         android:inputType="textMultiLine"
         android:scrollbars="vertical" >
