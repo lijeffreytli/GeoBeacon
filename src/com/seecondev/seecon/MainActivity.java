@@ -50,7 +50,7 @@ public class MainActivity extends FragmentActivity implements android.location.L
 	public final static String LAT = "com.seecondev.seecon.LAT";
 	public final static String LONG = "com.seecondev.seecon.LONG";
 	private final static long MIN_TIME = 1000;
-	private final static float MIN_DIST = 0;
+	private final static float MIN_DIST = 1;
 
 
 	// Google Map
@@ -111,14 +111,20 @@ public class MainActivity extends FragmentActivity implements android.location.L
 		Log.d(TAG, "Best provider: " + mProvider);
 		// Getting Current Location
 		Location location = mLocationManager.getLastKnownLocation(mProvider);
-		Log.d(TAG, "location: " + location);  
-		mLatitude = location.getLatitude();
-		mLongitude = location.getLongitude();
-		mAccuracy = location.getAccuracy();
-		Log.d(TAG, "Longitude: " + mLongitude);
-		Log.d(TAG, "Latitude: " + mLatitude);
-		Log.d(TAG, "Accuracy: " + mAccuracy);
-		geocodeAndMarkAddress();
+		if (location != null) {
+			Log.d(TAG, "location: " + location);  
+			mLatitude = location.getLatitude();
+			mLongitude = location.getLongitude();
+			mAccuracy = location.getAccuracy();
+			Log.d(TAG, "Longitude: " + mLongitude);
+			Log.d(TAG, "Latitude: " + mLatitude);
+			Log.d(TAG, "Accuracy: " + mAccuracy);
+			geocodeAndMarkAddress();
+		} else {
+			Toast.makeText(getApplicationContext(),
+					"Sorry! unable to get location", Toast.LENGTH_SHORT)
+					.show();
+		}
 	}
 
 	private void geocodeAndMarkAddress() {
@@ -155,7 +161,9 @@ public class MainActivity extends FragmentActivity implements android.location.L
 
 	@Override
 	public void onPause() {
-		mGoogleMap.setMyLocationEnabled(false);
+		if (mGoogleMap != null) {
+			mGoogleMap.setMyLocationEnabled(false);
+		}
 		super.onPause();
 	}
 
