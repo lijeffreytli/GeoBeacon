@@ -92,7 +92,7 @@ public class ShareMyLocation extends ActionBarActivity {
 		mMessage = "My Location: " + mAddress + "\n";
 		TextView currentAddress = (TextView)findViewById(R.id.editCompleteMessage);
 		currentAddress.setText(mMessage);
-		mMessage += "\nhttps://www.google.com/maps/@" + mLongitude + "," + mLatitude + ",18z";
+		mMessage += "\nhttps://www.google.com/maps/@" + mLatitude + "," + mLongitude + ",18z";
 
 		//		sendSMS("2145976764","https://www.google.com/maps/@"+ longitude + "," + latitude + ",18z");
 
