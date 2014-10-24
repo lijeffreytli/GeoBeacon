@@ -48,7 +48,6 @@ public class ShareMyLocation extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_share_my_location);
 
@@ -61,11 +60,11 @@ public class ShareMyLocation extends ActionBarActivity {
 			mLatitude = savedInstanceState.getDouble("mLatitude");
 		}
 
-		// Get the location information from MainActivity
-		Intent intent2 = getIntent(); //is this necessary?
-		mAddress = intent2.getStringExtra(MainActivity.ADDRESS);
-		String latStr = intent2.getStringExtra(MainActivity.LAT);
-		String longStr = intent2.getStringExtra(MainActivity.LONG);
+		/* Get the location information from MainActivity */
+		Intent intent = getIntent(); //is this necessary?
+		mAddress = intent.getStringExtra(MainActivity.ADDRESS);
+		String latStr = intent.getStringExtra(MainActivity.LAT);
+		String longStr = intent.getStringExtra(MainActivity.LONG);
 
 		if (longStr != null) {
 			mLongitude = Double.parseDouble(longStr);	
@@ -77,24 +76,18 @@ public class ShareMyLocation extends ActionBarActivity {
 		Log.d(TAG, "In ShareMyLocation: Contact Name: " + mContactName);
 		Log.d(TAG, "In ShareMyLocation: Contact Number: " + mContactNumber);
 
-
-		/*This code doesn't work.*/
-		//EditText messageView = (EditText)findViewById(R.id.editMessage);
-		//messageView.setSingleLine();
-
 		/* Debugging Purposes */
 		if (mAddress != null){
 			Log.d(TAG, mAddress + " : " + mLongitude + " : " + mLatitude);
-		}
-		else
+		} else
 			Log.d(TAG, "address is null");
 
-		/* Print out the Current Street Address to the screen */
+		/* Display the current street address to the screen */
 		mMessage = "Current Location: " + mAddress + "\n";
 		TextView currentAddress = (TextView)findViewById(R.id.editCompleteMessage);
 		currentAddress.setText(mMessage);
 
-		
+		/* Add the googlemaps link for the sent message */
 		mMessage += "\nExact Coordinates: https://www.google.com/maps/@" + mLatitude + "," + mLongitude + ",18z\n\n";
 
 		/* Obtain the view of the 'Send Button' */

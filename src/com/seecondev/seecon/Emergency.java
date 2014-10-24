@@ -66,6 +66,7 @@ public class Emergency extends ActionBarActivity {
 		{
 			public void onClick(View v) 
 			{   
+				/* Optional message */
 				EditText mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
 				String mStrOptionalMessage = mOptionalMessage.getText().toString();
 				Log.d(TAG, "Optional Message" + mStrOptionalMessage);
