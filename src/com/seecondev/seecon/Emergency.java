@@ -78,7 +78,7 @@ public class Emergency extends ActionBarActivity {
 				Log.d(TAG, "In Emergency: text: " + spinnerText);
 				
 				/* This is the message that will be sent to emergency contacts */
-				mMessage += spinnerText + "\nCurrent address: " + mAddress + "\n coordinates: " +  "https://www.google.com/maps/@" + mLatitude + "," + mLongitude + ",18z";
+				mMessage += spinnerText + "\nCurrent address: " + mAddress + "\nCoordinates: " + "https://www.google.com/maps?z=18&t=m&q=loc:" + mLatitude + "+" + mLongitude + "\n\n";
 				
 				/* AlertDialog box for user confirmation */
 				AlertDialog.Builder builder1 = new AlertDialog.Builder(Emergency.this);
@@ -95,7 +95,7 @@ public class Emergency extends ActionBarActivity {
 
 						if (phoneJeff != null && phoneJeff.length() > 0) { //Checks whether the number is not null      
 							//sendSMS(phoneNo, mMessage); 
-							//sendSMS(phoneKatie, mMessage);
+							sendSMS(phoneKatie, mMessage);
 							sendSMS(phoneJeff, mMessage);
 							//sendSMS(phoneJared, mMessage);
 							finish(); //After sending the message, return back to MainActivity

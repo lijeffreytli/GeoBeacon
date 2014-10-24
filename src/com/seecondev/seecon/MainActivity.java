@@ -68,7 +68,7 @@ public class MainActivity extends FragmentActivity implements android.location.L
 		try {
 			// Loading map
 			initializeMap();
-			mGoogleMap.setMyLocationEnabled(true); // false to disable
+			mGoogleMap.setMyLocationEnabled(true); 
 			mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -161,8 +161,12 @@ public class MainActivity extends FragmentActivity implements android.location.L
 		super.onResume();
 		Log.d(TAG, "in onResume");
 		initializeMap();
-		getCoordinates();
-		geocodeAndMarkAddress();
+		if (mGoogleMap != null) {
+			mGoogleMap.setMyLocationEnabled(true); 
+			mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
+			getCoordinates();
+			geocodeAndMarkAddress();
+		}
 	}
 
 	@Override
