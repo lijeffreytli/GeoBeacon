@@ -32,7 +32,7 @@ public class ShareMyLocation extends ActionBarActivity {
 	static final int DIALOG_ABOUT_ID = 1;
 	static final int DIALOG_HELP_ID = 2;
 
-	Button btnSendSMS;
+	private Button btnSendSMS;
 	private String mMessage;
 	private String mContactNumber;
 	private String mContactName;
