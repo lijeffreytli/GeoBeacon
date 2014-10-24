@@ -50,7 +50,7 @@ public class MainActivity extends FragmentActivity implements android.location.L
 	public final static String LAT = "com.seecondev.seecon.LAT";
 	public final static String LONG = "com.seecondev.seecon.LONG";
 	private final static long MIN_TIME = 1000;
-	private final static float MIN_DIST = 1;
+	private final static float MIN_DIST = 5;
 
 
 	// Google Map
