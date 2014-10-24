@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -24,7 +25,7 @@ public class Emergency extends ActionBarActivity {
 	static final int DIALOG_HELP_ID = 2;
 	
 	private Button btnSendSMS;
-	private String mMessage;
+	private String mMessage = "";
 	private String mContactNumber;
 	private String mContactName;
 	private String mAddress;
@@ -65,6 +66,10 @@ public class Emergency extends ActionBarActivity {
 		{
 			public void onClick(View v) 
 			{   
+				EditText mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
+				String mStrOptionalMessage = mOptionalMessage.getText().toString();
+				Log.d(TAG, "Optional Message" + mStrOptionalMessage);
+				
 				/* Obtain spinner spinner information */
 				Spinner spinner = (Spinner)findViewById(R.id.spinnerEmergencyDialogs);
 				String spinnerText =spinner.getSelectedItem().toString();
@@ -72,7 +77,7 @@ public class Emergency extends ActionBarActivity {
 				Log.d(TAG, "In Emergency: text: " + spinnerText);
 				
 				/* This is the message that will be sent to emergency contacts */
-				mMessage += spinnerText + "\nMy address: " + mAddress + "\nMy coordinates: " +  "https://www.google.com/maps/@" + mLatitude + "," + mLongitude + ",18z";
+				mMessage += spinnerText + "\nCurrent address: " + mAddress + "\n coordinates: " +  "https://www.google.com/maps/@" + mLatitude + "," + mLongitude + ",18z";
 				
 				/* AlertDialog box for user confirmation */
 				AlertDialog.Builder builder1 = new AlertDialog.Builder(Emergency.this);
@@ -82,16 +87,16 @@ public class Emergency extends ActionBarActivity {
 						new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						/* Debugging purposes - Send to ourselves */
-						String phoneNo = mContactNumber;
+						//String phoneNo = mContactNumber;
 						String phoneKatie = "12145976764";
 						String phoneJeff = "15129653085";
 						String phoneJared = "14693942157";
 
-						if (phoneNo != null && phoneNo.length() > 0) { //Checks whether the number is not null      
-							sendSMS(phoneNo, mMessage); 
-							sendSMS(phoneKatie, mMessage);
+						if (phoneJeff != null && phoneJeff.length() > 0) { //Checks whether the number is not null      
+							//sendSMS(phoneNo, mMessage); 
+							//sendSMS(phoneKatie, mMessage);
 							sendSMS(phoneJeff, mMessage);
-							sendSMS(phoneJared, mMessage);
+							//sendSMS(phoneJared, mMessage);
 							finish(); //After sending the message, return back to MainActivity
 						} else //Throw an exception if the number is invalid
 							Toast.makeText(getBaseContext(), 

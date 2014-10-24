@@ -39,7 +39,8 @@ public class ShareMyLocation extends ActionBarActivity {
 	private String mAddress;
 	private double mLatitude;
 	private double mLongitude;
-
+    private String mStrOptionalMessage = "";
+	
 	/* Debugging Purposes */
 	private static final String TAG = "SEECON_SHAREMYLOCATION";
 	static final int PICK_CONTACT_REQUEST = 0;
@@ -89,12 +90,12 @@ public class ShareMyLocation extends ActionBarActivity {
 			Log.d(TAG, "address is null");
 
 		/* Print out the Current Street Address to the screen */
-		mMessage = "My Location: " + mAddress + "\n";
+		mMessage = "Current Location: " + mAddress + "\n";
 		TextView currentAddress = (TextView)findViewById(R.id.editCompleteMessage);
 		currentAddress.setText(mMessage);
-		mMessage += "\nhttps://www.google.com/maps/@" + mLatitude + "," + mLongitude + ",18z";
 
-		//		sendSMS("2145976764","https://www.google.com/maps/@"+ longitude + "," + latitude + ",18z");
+		
+		mMessage += "\nExact Coordinates: https://www.google.com/maps/@" + mLatitude + "," + mLongitude + ",18z\n\n";
 
 		/* Obtain the view of the 'Send Button' */
 		btnSendSMS = (Button) findViewById(R.id.buttonSend);
@@ -104,6 +105,11 @@ public class ShareMyLocation extends ActionBarActivity {
 		{
 			public void onClick(View v) 
 			{   
+				/* Obtain the optional message if any */
+				EditText mOptionalMessage = (EditText)findViewById(R.id.editMessage);
+				mStrOptionalMessage = mOptionalMessage.getText().toString();
+				Log.d(TAG, "Optional Message" + mStrOptionalMessage);
+				
 				/* AlertDialog box for user confirmation */
 				AlertDialog.Builder builder1 = new AlertDialog.Builder(ShareMyLocation.this);
 				builder1.setMessage("Send to this number?");
@@ -116,7 +122,12 @@ public class ShareMyLocation extends ActionBarActivity {
 						String phoneNo = mContactNumber;
 
 						if (phoneNo != null && phoneNo.length() > 0) { //Checks whether the number is not null      
+							/* Send the user's location */
 							sendSMS(phoneNo, mMessage); 
+							/* Send the optional message */
+							if (mStrOptionalMessage != "" && mStrOptionalMessage != null && !mStrOptionalMessage.isEmpty()) {
+								sendSMS(phoneNo, mStrOptionalMessage);
+							}
 							finish(); //After sending the message, return back to MainActivity
 						} else //Throw an exception if the number is invalid
 							Toast.makeText(getBaseContext(), 

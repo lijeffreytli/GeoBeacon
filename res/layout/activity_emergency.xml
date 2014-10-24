@@ -52,7 +52,7 @@
         android:id="@+id/editMessageToEmergency"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/buttonSend"
+        android:layout_above="@+id/buttonSendEmergency"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/spinnerEmergencyDialogs"
         android:background="@drawable/text_border"
