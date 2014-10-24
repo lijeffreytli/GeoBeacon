@@ -88,7 +88,7 @@ public class ShareMyLocation extends ActionBarActivity {
 		currentAddress.setText(mMessage);
 
 		/* Add the googlemaps link for the sent message */
-		mMessage += "\nExact Coordinates: https://www.google.com/maps/@" + mLatitude + "," + mLongitude + ",18z\n\n";
+		mMessage += "\nExact Coordinates: https://www.google.com/maps?z=18&t=m&q=loc:" + mLatitude + "+" + mLongitude + "\n\n";
 
 		/* Obtain the view of the 'Send Button' */
 		btnSendSMS = (Button) findViewById(R.id.buttonSend);
@@ -105,13 +105,12 @@ public class ShareMyLocation extends ActionBarActivity {
 				
 				/* AlertDialog box for user confirmation */
 				AlertDialog.Builder builder1 = new AlertDialog.Builder(ShareMyLocation.this);
-				builder1.setMessage("Send to this number?");
+				builder1.setMessage("Send to " + mContactName + "?");
 				builder1.setCancelable(true);
 				builder1.setPositiveButton("Yes",
 						new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 
-						//mMessage = "HAI. THIS IS NOT A TEST";
 						String phoneNo = mContactNumber;
 
 						if (phoneNo != null && phoneNo.length() > 0) { //Checks whether the number is not null      

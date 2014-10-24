@@ -30,7 +30,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
@@ -50,11 +52,12 @@ public class MainActivity extends FragmentActivity implements android.location.L
 	public final static String LAT = "com.seecondev.seecon.LAT";
 	public final static String LONG = "com.seecondev.seecon.LONG";
 	private final static long MIN_TIME = 1000;
-	private final static float MIN_DIST = 5;
+	private final static float MIN_DIST = 3;
 
 
 	// Google Map
 	private GoogleMap mGoogleMap;
+	private Marker mMarker;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -135,11 +138,14 @@ public class MainActivity extends FragmentActivity implements android.location.L
 			if(listAddresses != null && listAddresses.size() > 0){
 				mAddress = listAddresses.get(0).getAddressLine(0);
 				Log.d(TAG, "Current address: " + mAddress);
-				// Create a location marker of the user's position
-				MarkerOptions marker = new MarkerOptions().position(latLng).title("Current Location").snippet(mAddress);
 
+				// Create a location marker of the user's position
+				MarkerOptions mo = new MarkerOptions().position(latLng).title("Current Location").snippet(mAddress).icon(BitmapDescriptorFactory.defaultMarker(195)).alpha(0.5f);
+				if (mMarker != null) {
+					mMarker.remove();
+				}
 				// Drop a location marker of the user's position
-				mGoogleMap.addMarker(marker);
+				mMarker = mGoogleMap.addMarker(mo);
 				mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
 			}
 		} catch (IOException e) {
