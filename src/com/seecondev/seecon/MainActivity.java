@@ -153,7 +153,7 @@ public class MainActivity extends FragmentActivity implements android.location.L
 		}	
 		/* Set/Display the TextView on the Main Menu */
 		TextView textViewMain = (TextView)findViewById(R.id.text_view_title);
-		textViewMain.setText("Current Street Address: " + mAddress + "\nCoordinates: " + mLatitude + ", " + mLongitude + "\nAccuracy: " + mAccuracy + " meters");
+		textViewMain.setText("Current Street Address: " + mAddress + "\nCoordinates: " + mLatitude + ", " + mLongitude + "\nAccuracy: +/-" + mAccuracy + " meters");
 	}
 
 	@Override
