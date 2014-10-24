@@ -35,20 +35,21 @@
         android:textSize="22sp" />
 
    <TextView
-        android:id="@+id/editPhoneNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/buttonContacts"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/buttonContacts"
-        android:layout_marginLeft="5dp"
-        android:ems="20"
-        android:hint="Select a Contact"
-        android:background="@drawable/text_border"
-        android:singleLine="true"
-        android:gravity="center"
-        android:textSize="22sp" >
+       android:id="@+id/editPhoneNumber"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignBottom="@+id/buttonContacts"
+       android:layout_alignParentLeft="true"
+       android:layout_alignTop="@+id/buttonContacts"
+       android:layout_marginLeft="5dp"
+       android:layout_toLeftOf="@+id/buttonContacts"
+       android:background="@drawable/text_border"
+       android:ems="20"
+       android:gravity="center"
+       android:hint="Select a Contact"
+       android:singleLine="true"
+       android:textSize="22sp" >
+
     </TextView>
         
     <Button
