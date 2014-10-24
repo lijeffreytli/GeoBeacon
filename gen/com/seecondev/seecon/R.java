@@ -1502,7 +1502,7 @@ containing a value of this type.
         public static final int always=0x7f05000b;
         public static final int beginning=0x7f050011;
         public static final int book_now=0x7f050028;
-        public static final int buttonContacts=0x7f05005a;
+        public static final int buttonContacts=0x7f05005b;
         public static final int buttonSend=0x7f050052;
         public static final int buttonSendEmergency=0x7f05004f;
         public static final int button_emergency=0x7f050058;
@@ -1521,7 +1521,7 @@ containing a value of this type.
         public static final int editCompleteMessage=0x7f050059;
         public static final int editMessage=0x7f05005c;
         public static final int editMessageToEmergency=0x7f050054;
-        public static final int editPhoneNumber=0x7f05005b;
+        public static final int editPhoneNumber=0x7f05005a;
         public static final int edit_query=0x7f050042;
         public static final int end=0x7f050013;
         public static final int expand_activities_button=0x7f050038;

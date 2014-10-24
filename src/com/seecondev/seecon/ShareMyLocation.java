@@ -85,6 +85,7 @@ public class ShareMyLocation extends ActionBarActivity {
 		/* Display the current street address to the screen */
 		mMessage = "Current Location: " + mAddress + "\n";
 		TextView currentAddress = (TextView)findViewById(R.id.editCompleteMessage);
+		currentAddress.setTextColor(getResources().getColor(R.color.cyan));
 		currentAddress.setText(mMessage);
 
 		/* Add the googlemaps link for the sent message */
@@ -282,9 +283,11 @@ public class ShareMyLocation extends ActionBarActivity {
 			}
 		break;
 		}
-		EditText text = (EditText) findViewById(R.id.editPhoneNumber);
-		if (mContactNumber != null) 
+		TextView text = (TextView) findViewById(R.id.editPhoneNumber);
+		text.setTextColor(getResources().getColor(R.color.cyan));
+		if (mContactNumber != null) {
 			text.setText(mContactName);
+		}
 	}
 	
 	

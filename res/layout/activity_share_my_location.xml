@@ -20,20 +20,21 @@
         android:onClick="sendMessage"
         android:text="Send" />
 
-    <EditText
+    <TextView
         android:id="@+id/editCompleteMessage"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_alignLeft="@+id/editPhoneNumber"
+        android:layout_alignRight="@+id/buttonContacts"
         android:layout_below="@+id/buttonContacts"
         android:ems="20"
-        android:textSize="22sp"
         android:hint="Complete Message"
         android:inputType="textMultiLine"
         android:maxHeight="140dp"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:textSize="22sp" />
 
-    <EditText
+   <TextView
         android:id="@+id/editPhoneNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,14 +42,14 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/buttonContacts"
+        android:layout_marginLeft="5dp"
         android:ems="20"
         android:hint="Select a Contact"
         android:background="@drawable/text_border"
         android:singleLine="true"
+        android:gravity="center"
         android:textSize="22sp" >
-
-        <requestFocus />
-    </EditText>
+    </TextView>
         
     <Button
         android:id="@+id/buttonContacts"
@@ -69,14 +70,16 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/buttonSend"
-        android:layout_alignParentLeft="true"
+        android:layout_alignLeft="@+id/editCompleteMessage"
+        android:layout_alignRight="@+id/editCompleteMessage"
         android:layout_below="@+id/editCompleteMessage"
-        android:ems="20"
-        android:textSize="22sp"
-        android:hint="Additional message"
         android:background="@drawable/text_border"
+        android:ems="20"
+        android:hint=" Additional message"
         android:inputType="textMultiLine"
-        android:scrollbars="vertical" >
+        android:scrollbars="vertical"
+        android:textSize="22sp" >
+
         <requestFocus />
     </EditText>
 
