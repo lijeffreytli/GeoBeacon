@@ -4,12 +4,15 @@
 
     <header
         android:fragment="com.seecondev.seecon.GetSettings$GeneralPreferenceFragment"
-        android:title="@string/pref_header_general" />
+        android:title="@string/pref_header_general" 
+        />
     <header
         android:fragment="com.seecondev.seecon.GetSettings$NotificationPreferenceFragment"
-        android:title="@string/pref_header_notifications" />
+        android:title="@string/pref_header_notifications" 
+        />
     <header
         android:fragment="com.seecondev.seecon.GetSettings$DataSyncPreferenceFragment"
-        android:title="@string/pref_header_data_sync" />
+        android:title="@string/pref_header_data_sync" 
+        />
 
 </preference-headers>

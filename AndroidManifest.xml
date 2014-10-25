@@ -84,6 +84,7 @@
 
         <activity
             android:name=".GetSettings"
+            android:theme="@style/settingsPreferenceTheme"
             android:label="@string/title_activity_get_settings" >
         </activity>
     </application>

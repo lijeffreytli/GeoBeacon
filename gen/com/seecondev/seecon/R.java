@@ -1862,14 +1862,14 @@ containing a value of this type.
         public static final int AppBaseTheme=0x7f0c0090;
         /**  Application theme. 
          */
-        public static final int AppTheme=0x7f0c0094;
+        public static final int AppTheme=0x7f0c0095;
         /**  the theme applied to the application or activity 
          */
-        public static final int CustomActionBarTheme=0x7f0c0095;
+        public static final int CustomActionBarTheme=0x7f0c0096;
         public static final int EditTextStyle=0x7f0c0091;
         /**  ActionBar styles 
          */
-        public static final int MyActionBar=0x7f0c0096;
+        public static final int MyActionBar=0x7f0c0097;
         /**  Mimic text appearance in select_dialog_item.xml 
          */
         public static final int TextAppearance_AppCompat_Base_CompactMenu_Dialog=0x7f0c0063;
@@ -2082,6 +2082,7 @@ containing a value of this type.
         public static final int Widget_AppCompat_ProgressBar=0x7f0c000a;
         public static final int Widget_AppCompat_ProgressBar_Horizontal=0x7f0c0009;
         public static final int Widget_AppCompat_Spinner_DropDown_ActionBar=0x7f0c0022;
+        public static final int settingsPreferenceTheme=0x7f0c0094;
         public static final int spinnerDropDownItemStyle=0x7f0c0093;
         public static final int spinnerItemStyle=0x7f0c0092;
     }

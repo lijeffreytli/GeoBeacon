@@ -11,11 +11,11 @@
             backward-compatibility can go here.
         -->
     </style>
-    
+
     <style name="EditTextStyle" parent="@android:style/Widget.EditText">
-    	<item name="android:textColor">#00E2FF</item>
-	</style>
-	
+        <item name="android:textColor">#00E2FF</item>
+    </style>
+
     <style name="spinnerItemStyle">
         <item name="android:padding">10dp</item>
         <item name="android:textSize">22sp</item>
@@ -29,21 +29,27 @@
         <item name="android:background">#2f2f2f</item>
     </style>
 
+    <style name="settingsPreferenceTheme" parent="AppBaseTheme">
+        <item name="android:textColorPrimary">@color/cyan</item>
+        <item name="android:textColorSecondary">#E8E8E8 </item>
+        <item name="android:textColorTertiary">#E8E8E8</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:windowBackground">@color/black</item>
+        
+    </style>
+
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
+
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-    	<item name="android:editTextStyle">@style/EditTextStyle</item>
-    	<item name="android:windowBackground">@color/black</item>
-    	
-    	<!-- For the resting Spinner style -->
-        <item name="android:spinnerItemStyle">
-            @style/spinnerItemStyle
-        </item> 
+        <item name="android:editTextStyle">@style/EditTextStyle</item>
+        <item name="android:windowBackground">@color/black</item>
+
+        <!-- For the resting Spinner style -->
+        <item name="android:spinnerItemStyle">            @style/spinnerItemStyle</item>
 
         <!-- For each individual Spinner list item once clicked on -->
-        <item name="android:spinnerDropDownItemStyle">
-            @style/spinnerDropDownItemStyle
-        </item>
+        <item name="android:spinnerDropDownItemStyle">            @style/spinnerDropDownItemStyle</item>
     </style>
 
 </resources>
