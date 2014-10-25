@@ -69,9 +69,11 @@
 
         <!-- Google API Key -->
         <!-- Katie's Key -->
-        <!--  <meta-data
+        <!--
+              <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyC0N5aNbLqyc2YPtVNsO4zpp37MOIfUmWU" />-->
+            android:value="AIzaSyC0N5aNbLqyc2YPtVNsO4zpp37MOIfUmWU" />
+        -->
         <!-- Jeff's Key -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
@@ -79,6 +81,11 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".GetSettings"
+            android:label="@string/title_activity_get_settings" >
+        </activity>
     </application>
 
 </manifest>
