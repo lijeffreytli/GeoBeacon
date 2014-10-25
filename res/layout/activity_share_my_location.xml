@@ -76,7 +76,7 @@
         android:layout_below="@+id/editCompleteMessage"
         android:background="@drawable/text_border"
         android:ems="20"
-        android:hint=" Additional message"
+        android:hint=" Enter additional message"
         android:inputType="textMultiLine"
         android:scrollbars="vertical"
         android:gravity="top|left"

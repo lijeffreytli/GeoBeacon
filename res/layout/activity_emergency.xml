@@ -61,7 +61,7 @@
         android:background="@drawable/text_border"
         android:layout_marginTop="5dp"
         android:ems="20"
-        android:hint=" Enter a message"
+        android:hint=" Enter additional message"
         android:inputType="textMultiLine"
         android:scrollbars="vertical"
         android:gravity="top|left"
