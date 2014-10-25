@@ -1486,6 +1486,7 @@ containing a value of this type.
         public static final int text_border=0x7f02007d;
     }
     public static final class id {
+        public static final int ScrollView=0x7f05005d;
         public static final int action_bar=0x7f05002e;
         public static final int action_bar_activity_content=0x7f050015;
         public static final int action_bar_container=0x7f05002d;
@@ -1497,7 +1498,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f050016;
         public static final int action_menu_presenter=0x7f050017;
         public static final int action_mode_close_button=0x7f050036;
-        public static final int action_settings=0x7f05005d;
+        public static final int action_settings=0x7f05005e;
         public static final int activity_chooser_view_content=0x7f050037;
         public static final int always=0x7f05000b;
         public static final int beginning=0x7f050011;
@@ -1540,8 +1541,8 @@ containing a value of this type.
         public static final int list_item=0x7f05003b;
         public static final int map=0x7f050057;
         public static final int match_parent=0x7f050024;
-        public static final int menu_about=0x7f05005f;
-        public static final int menu_help=0x7f05005e;
+        public static final int menu_about=0x7f050060;
+        public static final int menu_help=0x7f05005f;
         public static final int middle=0x7f050012;
         public static final int monochrome=0x7f05002b;
         public static final int never=0x7f050009;

@@ -1,24 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/black">
+    android:scrollbars="horizontal" >
 
-	<TextView
-	    android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="help"
-        android:textSize="30sp"
-        android:textColor="@color/cyan"
-        android:layout_gravity="center"/>
-      
-    <TextView
-       	android:layout_width="wrap_content"
-       	android:layout_height="wrap_content"
-       	android:textSize="20sp"
-       	android:textColor="@color/cyan"
-        android:text="Select 'Share My Location' to send your location information to a friend.\n\nSelect the red button to send a distress message to emergency responders and emergency contacts.\n\nYou can add contacts to your emergency list via the app settings.\n"
-       	android:textIsSelectable="true" />
-    
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="help"
+            android:textColor="@color/cyan"
+            android:textSize="30sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" • Select &apos;Share My Location&apos; to send your location information to a friend.\n"
+            android:textColor="@color/cyan"
+            android:textIsSelectable="true"
+            android:textSize="20sp" />
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" •Select the red emergency button to send a distress message to emergency responders and emergency contacts.\n"
+            android:textColor="@color/cyan"
+            android:textIsSelectable="true"
+            android:textSize="20sp" />
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" • You can add contacts to your emergency list via the app settings (currently not supported).\n"
+            android:textColor="@color/cyan"
+            android:textIsSelectable="true"
+            android:textSize="20sp" />
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" • The 'Accuracy' is an estimation of the user's location based on GPS or network connectivity.\n"
+            android:textColor="@color/cyan"
+            android:textIsSelectable="true"
+            android:textSize="20sp" />
+        
+        
+    </LinearLayout>
+
+</ScrollView>
