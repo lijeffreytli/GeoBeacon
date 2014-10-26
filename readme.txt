@@ -45,7 +45,8 @@ MainActivity:
 
 
 7. a list of the classes and major chunks of code you completed yourself
-MainActivity: 
+MainActivity class: 
 •getCoordinates()
 •
 •
+GetSettings class:
