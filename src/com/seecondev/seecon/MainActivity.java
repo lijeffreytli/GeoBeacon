@@ -102,8 +102,6 @@ public class MainActivity extends FragmentActivity implements android.location.L
 	 * Function to obtain the longitude and latitude coordinates of the user's location
 	 * */
 	/* This set of code obtains the address, longitude and latitude of a given location */
-	/* Source documentation: http://stackoverflow.com/questions/6922312/get-location-name-from-fetched-coordinates */
-	/* Source documentation: http://wptrafficanalyzer.in/blog/showing-current-location-in-google-maps-with-gps-and-locationmanager-in-android/ */
 	private void getCoordinates() {
 		// Getting LocationManager object from System Service LOCATION_SERVICE
 		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);

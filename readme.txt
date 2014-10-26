@@ -38,15 +38,30 @@ Settings: This is currently a beta feature. However, a default Settings page is 
 •Menu options: Settings (this is currently incomplete and as mentioned above, will not interact or affect other parts of the app)
 
 6. a list of the classes and major chunks you obtained from other sources/include a reference. (URL and title okay)
-MainActivity:
-•
-•
-•
+MainActivity: onCreate()
+	•Get location name from fetched coordinates
+	http://stackoverflow.com/questions/6922312/get-location-name-from-fetched-coordinates
+	•Showing current location in Google Maps with GPS and LocationManager in Android
+	http://wptrafficanalyzer.in/blog/showing-current-location-in-google-maps-with-gps-and-locationmanager-in-android/
+MainActivity: initializeMap(), onCreate()
+	•Android working with Google Maps V2
+	http://www.androidhive.info/2013/08/android-working-with-google-maps-v2/
+MainActivity/Emergency/ShareMyLocation: createHelpDialog(), createAboutDialog()
+	•Tutorial 6 - Settings
+ShareMyLocation/Emergency: onClickListener(), OnClick()
+	•how to display Alert Dialog in android?
+	http://stackoverflow.com/questions/2115758/how-to-display-alert-dialog-in-android
+ShareMyLocation/GetContacts: onActivityResult()
+	•How to get contacts' phone number in Android
+	-http://stackoverflow.com/questions/11218845/how-to-get-contacts-phone-number-in-android
+	•Pick a Number and Name From Contacts List in android app
+	-http://stackoverflow.com/questions/9496350/pick-a-number-and-name-from-contacts-list-in-android-app
+	•Android Get Random Contact
+	http://stackoverflow.com/questions/5759385/android-get-random-contact
 
 
 7. a list of the classes and major chunks of code you completed yourself
-MainActivity class: 
-•getCoordinates()
-•
-•
-GetSettings class:
+MainActivity/Emergency/ShareMyLocation: onCreateOptionsMenu(), onOptionsItemSelected(), onCreateDialog() (everything else, except what's mentioned above)
+GetSettings (self-implemented, generic Settings template obtained from Android SDK)
+ShareMyLocation: onRestoreInstanceState(), onSavedInstanceState() (everything else, except what's mentioned above)
+Emergency (everything else, except what's mentioned above)
