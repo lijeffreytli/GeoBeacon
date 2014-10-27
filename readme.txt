@@ -58,6 +58,9 @@ ShareMyLocation/GetContacts: onActivityResult()
 	-http://stackoverflow.com/questions/9496350/pick-a-number-and-name-from-contacts-list-in-android-app
 	•Android Get Random Contact
 	http://stackoverflow.com/questions/5759385/android-get-random-contact
+ShareMyLocation/Emergency: checkSMSLength()
+	•How to add Character counter to SMS APP? [closed]
+	http://stackoverflow.com/questions/20736874/how-to-add-character-counter-to-sms-app
 
 
 7. a list of the classes and major chunks of code you completed yourself
