@@ -19,6 +19,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.telephony.gsm.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -89,6 +90,7 @@ public class ShareMyLocation extends ActionBarActivity {
 		/* Display the current street address to the screen */
 		mMessage = "Current Location: " + mAddress + "\n";
 		TextView currentAddress = (TextView)findViewById(R.id.editCompleteMessage);
+		currentAddress.setMovementMethod(new ScrollingMovementMethod());
 		currentAddress.setTextColor(getResources().getColor(R.color.cyan));
 		currentAddress.setText(mMessage);
 
@@ -126,50 +128,66 @@ public class ShareMyLocation extends ActionBarActivity {
 		{
 			public void onClick(View v) 
 			{   
-				
-				if (mValidMessage == false){
-					Toast.makeText(getBaseContext(), 
-							"Message exceeds character limit.", 
-							Toast.LENGTH_SHORT).show();
-				} else {
-					/* Obtain the optional message if any */
-//					mOptionalMessage = (EditText)findViewById(R.id.editMessage);
-					mStrOptionalMessage = mOptionalMessage.getText().toString();
-					Log.d(TAG, "Optional Message" + mStrOptionalMessage);
-					
+				/* Error handling for null contact */
+				if (mContactName == "" || mContactName == null || mContactName.length() == 0){
 					/* AlertDialog box for user confirmation */
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(ShareMyLocation.this);
-					builder1.setMessage("Send to " + mContactName + "?");
+					builder1.setMessage("Please select a contact");
 					builder1.setCancelable(true);
-					builder1.setPositiveButton("Yes",
-							new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-
-							String phoneNo = mContactNumber;
-
-							if (phoneNo != null && phoneNo.length() > 0) { //Checks whether the number is not null      
-								/* Send the user's location */
-								sendSMS(phoneNo, mMessage); 
-								/* Send the optional message */
-								if (mStrOptionalMessage != "" && mStrOptionalMessage != null && !mStrOptionalMessage.isEmpty()) {
-									sendSMS(phoneNo, mStrOptionalMessage);
-								}
-								finish(); //After sending the message, return back to MainActivity
-							} else //Throw an exception if the number is invalid
-								Toast.makeText(getBaseContext(), 
-										"Please select a contact.", 
-										Toast.LENGTH_SHORT).show();
-						}
-					});
-					builder1.setNegativeButton("No",
+					builder1.setPositiveButton("Ok",
 							new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							dialog.cancel();
 						}
 					});
+					AlertDialog noContactAlert = builder1.create();
+					noContactAlert.show();
+				} else {
+					/* Error handling */
+					if (mValidMessage == false){
+						Toast.makeText(getBaseContext(), 
+								"Message exceeds character limit.", 
+								Toast.LENGTH_SHORT).show();
+					} else {
+						/* Obtain the optional message if any */
+//						mOptionalMessage = (EditText)findViewById(R.id.editMessage);
+						mStrOptionalMessage = mOptionalMessage.getText().toString();
+						Log.d(TAG, "Optional Message" + mStrOptionalMessage);
+						
+						/* AlertDialog box for user confirmation */
+						AlertDialog.Builder builder1 = new AlertDialog.Builder(ShareMyLocation.this);
+						builder1.setMessage("Send to " + mContactName + "?");
+						builder1.setCancelable(true);
+						builder1.setPositiveButton("Yes",
+								new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
 
-					AlertDialog alert11 = builder1.create();
-					alert11.show();
+								String phoneNo = mContactNumber;
+
+								if (phoneNo != null && phoneNo.length() > 0) { //Checks whether the number is not null      
+									/* Send the user's location */
+									sendSMS(phoneNo, mMessage); 
+									/* Send the optional message */
+									if (mStrOptionalMessage != "" && mStrOptionalMessage != null && !mStrOptionalMessage.isEmpty()) {
+										sendSMS(phoneNo, mStrOptionalMessage);
+									}
+									finish(); //After sending the message, return back to MainActivity
+								} else //Throw an exception if the number is invalid
+									Toast.makeText(getBaseContext(), 
+											"Please select a contact.", 
+											Toast.LENGTH_SHORT).show();
+							}
+						});
+						builder1.setNegativeButton("No",
+								new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+
+						AlertDialog alert11 = builder1.create();
+						alert11.show();
+					}
 				}
 			}
 		});  

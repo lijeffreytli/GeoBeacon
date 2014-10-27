@@ -17,6 +17,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -74,7 +75,6 @@ public class MainActivity extends FragmentActivity{
 
 		/* Get the user's locations from map data */
 		getCoordinates();
-		
 	}
 
 
@@ -149,6 +149,7 @@ public class MainActivity extends FragmentActivity{
 		}	
 		/* Set/Display the TextView on the Main Menu */
 		TextView textViewMain = (TextView)findViewById(R.id.text_view_title);
+		textViewMain.setMovementMethod(new ScrollingMovementMethod());
 		textViewMain.setText("Current Street Address: " + mAddress + "\nCoordinates: " + mLatitude + ", " + mLongitude + "\nAccuracy: +/-" + mAccuracy + " meters");
 	}
 
