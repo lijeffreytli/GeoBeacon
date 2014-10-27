@@ -43,6 +43,7 @@ public class ShareMyLocation extends ActionBarActivity {
 	private double mLongitude;
     private String mStrOptionalMessage = "";
     EditText mOptionalMessage;
+    boolean mValidMessage = true;
 	
 	/* Debugging Purposes */
 	private static final String TAG = "SEECON_SHAREMYLOCATION";
@@ -125,44 +126,51 @@ public class ShareMyLocation extends ActionBarActivity {
 		{
 			public void onClick(View v) 
 			{   
-				/* Obtain the optional message if any */
-//				mOptionalMessage = (EditText)findViewById(R.id.editMessage);
-				mStrOptionalMessage = mOptionalMessage.getText().toString();
-				Log.d(TAG, "Optional Message" + mStrOptionalMessage);
 				
-				/* AlertDialog box for user confirmation */
-				AlertDialog.Builder builder1 = new AlertDialog.Builder(ShareMyLocation.this);
-				builder1.setMessage("Send to " + mContactName + "?");
-				builder1.setCancelable(true);
-				builder1.setPositiveButton("Yes",
-						new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
+				if (mValidMessage == false){
+					Toast.makeText(getBaseContext(), 
+							"Message exceeds character limit.", 
+							Toast.LENGTH_SHORT).show();
+				} else {
+					/* Obtain the optional message if any */
+//					mOptionalMessage = (EditText)findViewById(R.id.editMessage);
+					mStrOptionalMessage = mOptionalMessage.getText().toString();
+					Log.d(TAG, "Optional Message" + mStrOptionalMessage);
+					
+					/* AlertDialog box for user confirmation */
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(ShareMyLocation.this);
+					builder1.setMessage("Send to " + mContactName + "?");
+					builder1.setCancelable(true);
+					builder1.setPositiveButton("Yes",
+							new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
 
-						String phoneNo = mContactNumber;
+							String phoneNo = mContactNumber;
 
-						if (phoneNo != null && phoneNo.length() > 0) { //Checks whether the number is not null      
-							/* Send the user's location */
-							sendSMS(phoneNo, mMessage); 
-							/* Send the optional message */
-							if (mStrOptionalMessage != "" && mStrOptionalMessage != null && !mStrOptionalMessage.isEmpty()) {
-								sendSMS(phoneNo, mStrOptionalMessage);
-							}
-							finish(); //After sending the message, return back to MainActivity
-						} else //Throw an exception if the number is invalid
-							Toast.makeText(getBaseContext(), 
-									"Please enter a valid phone number.", 
-									Toast.LENGTH_SHORT).show();
-					}
-				});
-				builder1.setNegativeButton("No",
-						new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.cancel();
-					}
-				});
+							if (phoneNo != null && phoneNo.length() > 0) { //Checks whether the number is not null      
+								/* Send the user's location */
+								sendSMS(phoneNo, mMessage); 
+								/* Send the optional message */
+								if (mStrOptionalMessage != "" && mStrOptionalMessage != null && !mStrOptionalMessage.isEmpty()) {
+									sendSMS(phoneNo, mStrOptionalMessage);
+								}
+								finish(); //After sending the message, return back to MainActivity
+							} else //Throw an exception if the number is invalid
+								Toast.makeText(getBaseContext(), 
+										"Please select a contact.", 
+										Toast.LENGTH_SHORT).show();
+						}
+					});
+					builder1.setNegativeButton("No",
+							new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.cancel();
+						}
+					});
 
-				AlertDialog alert11 = builder1.create();
-				alert11.show();
+					AlertDialog alert11 = builder1.create();
+					alert11.show();
+				}
 			}
 		});  
 	}
@@ -178,10 +186,13 @@ public class ShareMyLocation extends ActionBarActivity {
 				tvCharactersUsed.setText("0/160");
 
 			} else if (edt.getText().toString().length() > 160){
+				mValidMessage = false;
 				edt.setError("Error: Character limit exceeded");
 				valid_len = 0;
-				tvCharactersUsed.setText("0/160");
+				tvCharactersUsed.setText("Error");
+				tvCharactersUsed.setTextColor(Color.parseColor("#D00000"));
 			} else {
+				mValidMessage = true;
 				edt.setError(null);
 				valid_len = edt.getText().toString().length();
 				tvCharactersUsed.setText(String.valueOf(valid_len) + "/" + 160);

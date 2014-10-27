@@ -6,9 +6,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.gsm.SmsManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Emergency extends ActionBarActivity {
@@ -31,7 +35,10 @@ public class Emergency extends ActionBarActivity {
 	private String mAddress;
 	private double mLatitude;
 	private double mLongitude;
-
+	EditText mOptionalMessage;
+	String mStrOptionalMessage;
+	boolean mValidMessage = true;
+	
 	/* Debugging Purposes */
 	private static final String TAG = "SEECON_EMERGENCY";
 
@@ -59,6 +66,27 @@ public class Emergency extends ActionBarActivity {
 		Log.d(TAG, "In Emergency: Lat: " + latStr);
 		Log.d(TAG, "In Emergency: Long: " + longStr);
 		
+		mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
+		checkSMSLength(mOptionalMessage);
+		mOptionalMessage.addTextChangedListener(new TextWatcher() {
+
+		    @Override
+		    public void onTextChanged(CharSequence s, int start, int before, int count) {
+		        // TODO Auto-generated method stub
+		    }
+
+		    @Override
+		    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+		        // TODO Auto-generated method stub
+		    }
+
+		    @Override
+		    public void afterTextChanged(Editable s) {
+		        // TODO Auto-generated method stub
+		        checkSMSLength(mOptionalMessage); // pass your EditText Obj here.
+		    }
+		});
+		
 		/* Obtain the view of the 'Send Button' */
 		btnSendSMS = (Button) findViewById(R.id.buttonSendEmergency);
 		/* Once the user hits the "Send" button */
@@ -66,55 +94,89 @@ public class Emergency extends ActionBarActivity {
 		{
 			public void onClick(View v) 
 			{   
-				/* Optional message */
-				EditText mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
-				String mStrOptionalMessage = mOptionalMessage.getText().toString();
-				Log.d(TAG, "Optional Message" + mStrOptionalMessage);
-				
-				/* Obtain spinner spinner information */
-				Spinner spinner = (Spinner)findViewById(R.id.spinnerEmergencyDialogs);
-				String spinnerText =spinner.getSelectedItem().toString();
-				
-				Log.d(TAG, "In Emergency: text: " + spinnerText);
-				
-				/* This is the message that will be sent to emergency contacts */
-				mMessage += spinnerText + "\nCurrent address: " + mAddress + "\nCoordinates: " + "https://www.google.com/maps?z=18&t=m&q=loc:" + mLatitude + "+" + mLongitude + "\n\n";
-				
-				/* AlertDialog box for user confirmation */
-				AlertDialog.Builder builder1 = new AlertDialog.Builder(Emergency.this);
-				builder1.setMessage("Send to emergency contacts?");
-				builder1.setCancelable(true);
-				builder1.setPositiveButton("Yes",
-						new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						/* Debugging purposes - Send to ourselves */
-						//String phoneNo = mContactNumber;
-						String phoneKatie = "12145976764";
-						String phoneJeff = "15129653085";
-						String phoneJared = "14693942157";
+				if (mValidMessage == false){
+					Toast.makeText(getBaseContext(), 
+							"Message exceeds character limit.", 
+							Toast.LENGTH_SHORT).show();
+				} else {
+					/* Optional message */
+//					mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
+					mStrOptionalMessage = mOptionalMessage.getText().toString();
+					Log.d(TAG, "Optional Message" + mStrOptionalMessage);
+					
+					/* Obtain spinner spinner information */
+					Spinner spinner = (Spinner)findViewById(R.id.spinnerEmergencyDialogs);
+					String spinnerText =spinner.getSelectedItem().toString();
+					
+					Log.d(TAG, "In Emergency: text: " + spinnerText);
+					
+					/* This is the message that will be sent to emergency contacts */
+					mMessage += spinnerText + "\nCurrent address: " + mAddress + "\nCoordinates: " + "https://www.google.com/maps?z=18&t=m&q=loc:" + mLatitude + "+" + mLongitude + "\n\n";
+					
+					/* AlertDialog box for user confirmation */
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(Emergency.this);
+					builder1.setMessage("Send to emergency contacts?");
+					builder1.setCancelable(true);
+					builder1.setPositiveButton("Yes",
+							new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							/* Debugging purposes - Send to ourselves */
+							//String phoneNo = mContactNumber;
+							String phoneKatie = "12145976764";
+							String phoneJeff = "15129653085";
+							String phoneJared = "14693942157";
 
-						if (phoneJeff != null && phoneJeff.length() > 0) { //Checks whether the number is not null      
-							//sendSMS(phoneNo, mMessage); 
-							sendSMS(phoneKatie, mMessage);
-							sendSMS(phoneJeff, mMessage);
-							//sendSMS(phoneJared, mMessage);
-							finish(); //After sending the message, return back to MainActivity
-						} else //Throw an exception if the number is invalid
-							Toast.makeText(getBaseContext(), 
-									"Please enter a valid phone number.", 
-									Toast.LENGTH_SHORT).show();
-					}
-				});
-				builder1.setNegativeButton("No",
-						new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.cancel();
-					}
-				});
-				AlertDialog alert11 = builder1.create();
-				alert11.show();
+							if (phoneJeff != null && phoneJeff.length() > 0) { //Checks whether the number is not null      
+								//sendSMS(phoneNo, mMessage); 
+								sendSMS(phoneKatie, mMessage);
+								sendSMS(phoneJeff, mMessage);
+								//sendSMS(phoneJared, mMessage);
+								finish(); //After sending the message, return back to MainActivity
+							} else //Throw an exception if the number is invalid
+								Toast.makeText(getBaseContext(), 
+										"Please enter a valid phone number.", 
+										Toast.LENGTH_SHORT).show();
+						}
+					});
+					builder1.setNegativeButton("No",
+							new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.cancel();
+						}
+					});
+					AlertDialog alert11 = builder1.create();
+					alert11.show();
+				}
 			}
 		});
+	}
+	
+	public void checkSMSLength(EditText edt) throws NumberFormatException {
+		int valid_len = 0;
+		TextView tvCharactersUsed = (TextView) findViewById(R.id.textCharactersUsedEmergency);
+		tvCharactersUsed.setTextColor(Color.parseColor("#F8F8F8"));
+		try {
+			if (edt.getText().toString().length() <= 0) {
+				edt.setError(null);
+				valid_len = 0;
+				tvCharactersUsed.setText("0/160");
+
+			} else if (edt.getText().toString().length() > 160){
+				mValidMessage = false;
+				edt.setError("Error: Character limit exceeded");
+				valid_len = 0;
+				tvCharactersUsed.setText("Error");
+				tvCharactersUsed.setTextColor(Color.parseColor("#D00000"));
+			} else {
+				edt.setError(null);
+				mValidMessage = true;
+				valid_len = edt.getText().toString().length();
+				tvCharactersUsed.setText(String.valueOf(valid_len) + "/" + 160);
+			}
+		} catch (Exception e) {
+			Log.e("error", "" + e);
+		}
+
 	}
 	
 	/* This method sends a text message to a specific phone number */
