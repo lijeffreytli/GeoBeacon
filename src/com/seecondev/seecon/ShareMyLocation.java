@@ -10,13 +10,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Contacts;
 import android.provider.ContactsContract;
-import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.gsm.SmsManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -40,6 +42,7 @@ public class ShareMyLocation extends ActionBarActivity {
 	private double mLatitude;
 	private double mLongitude;
     private String mStrOptionalMessage = "";
+    EditText mOptionalMessage;
 	
 	/* Debugging Purposes */
 	private static final String TAG = "SEECON_SHAREMYLOCATION";
@@ -91,6 +94,29 @@ public class ShareMyLocation extends ActionBarActivity {
 		/* Add the googlemaps link for the sent message */
 		mMessage += "\nExact Coordinates: https://www.google.com/maps?z=18&t=m&q=loc:" + mLatitude + "+" + mLongitude + "\n\n";
 
+		mOptionalMessage = (EditText)findViewById(R.id.editMessage);
+		checkSMSLength(mOptionalMessage);
+		mOptionalMessage.addTextChangedListener(new TextWatcher() {
+
+		    @Override
+		    public void onTextChanged(CharSequence s, int start, int before, int count) {
+		        // TODO Auto-generated method stub
+		    }
+
+		    @Override
+		    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+		        // TODO Auto-generated method stub
+		    }
+
+		    @Override
+		    public void afterTextChanged(Editable s) {
+		        // TODO Auto-generated method stub
+		        checkSMSLength(mOptionalMessage); // pass your EditText Obj here.
+		    }
+		});
+		
+		
+		
 		/* Obtain the view of the 'Send Button' */
 		btnSendSMS = (Button) findViewById(R.id.buttonSend);
 
@@ -100,7 +126,7 @@ public class ShareMyLocation extends ActionBarActivity {
 			public void onClick(View v) 
 			{   
 				/* Obtain the optional message if any */
-				EditText mOptionalMessage = (EditText)findViewById(R.id.editMessage);
+//				mOptionalMessage = (EditText)findViewById(R.id.editMessage);
 				mStrOptionalMessage = mOptionalMessage.getText().toString();
 				Log.d(TAG, "Optional Message" + mStrOptionalMessage);
 				
@@ -139,6 +165,30 @@ public class ShareMyLocation extends ActionBarActivity {
 				alert11.show();
 			}
 		});  
+	}
+	
+	public void checkSMSLength(EditText edt) throws NumberFormatException {
+		int valid_len = 0;
+		TextView tvCharactersUsed = (TextView) findViewById(R.id.textCharactersUsed);
+		tvCharactersUsed.setTextColor(Color.parseColor("#F8F8F8"));
+		try {
+			if (edt.getText().toString().length() <= 0) {
+				edt.setError(null);
+				valid_len = 0;
+				tvCharactersUsed.setText("0/160");
+
+			} else if (edt.getText().toString().length() > 160){
+				edt.setError("Error: Character limit exceeded");
+				valid_len = 0;
+				tvCharactersUsed.setText("0/160");
+			} else {
+				edt.setError(null);
+				valid_len = edt.getText().toString().length();
+				tvCharactersUsed.setText(String.valueOf(valid_len) + "/" + 160);
+			}
+		} catch (Exception e) {
+			Log.e("error", "" + e);
+		}
 
 	}
 

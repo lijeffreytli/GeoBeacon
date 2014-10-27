@@ -1490,7 +1490,7 @@ containing a value of this type.
         public static final int text_border=0x7f02007d;
     }
     public static final class id {
-        public static final int ScrollView=0x7f06005d;
+        public static final int ScrollView=0x7f06005e;
         public static final int action_bar=0x7f06002e;
         public static final int action_bar_activity_content=0x7f060015;
         public static final int action_bar_container=0x7f06002d;
@@ -1502,7 +1502,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f060016;
         public static final int action_menu_presenter=0x7f060017;
         public static final int action_mode_close_button=0x7f060036;
-        public static final int action_settings=0x7f06005e;
+        public static final int action_settings=0x7f06005f;
         public static final int activity_chooser_view_content=0x7f060037;
         public static final int always=0x7f06000b;
         public static final int beginning=0x7f060011;
@@ -1545,8 +1545,8 @@ containing a value of this type.
         public static final int list_item=0x7f06003b;
         public static final int map=0x7f060057;
         public static final int match_parent=0x7f060024;
-        public static final int menu_about=0x7f060060;
-        public static final int menu_help=0x7f06005f;
+        public static final int menu_about=0x7f060061;
+        public static final int menu_help=0x7f060060;
         public static final int middle=0x7f060012;
         public static final int monochrome=0x7f06002b;
         public static final int never=0x7f060009;
@@ -1579,6 +1579,7 @@ containing a value of this type.
         public static final int submit_area=0x7f06004b;
         public static final int tabMode=0x7f060002;
         public static final int terrain=0x7f06001b;
+        public static final int textCharactersUsed=0x7f06005d;
         public static final int textViewEmergencyContacts=0x7f060051;
         public static final int text_view_title=0x7f060055;
         public static final int title=0x7f06003d;
