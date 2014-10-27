@@ -16,7 +16,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,10 +25,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -151,6 +149,7 @@ public class MainActivity extends FragmentActivity implements android.location.L
 		}	
 		/* Set/Display the TextView on the Main Menu */
 		TextView textViewMain = (TextView)findViewById(R.id.text_view_title);
+		textViewMain.setMovementMethod(new ScrollingMovementMethod());
 		textViewMain.setText("Current Street Address: " + mAddress + "\nCoordinates: " + mLatitude + ", " + mLongitude + "\nAccuracy: +/-" + mAccuracy + " meters");
 	}
 

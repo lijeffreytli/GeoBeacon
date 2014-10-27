@@ -14,8 +14,10 @@
          android:layout_alignParentRight="true"
          android:background="@drawable/text_border"
          android:gravity="left"
+         android:scrollbars = "vertical"
          android:textColor="@color/cyan"
          android:textSize="19sp" />
+     
 
      <fragment
          android:id="@+id/map"
