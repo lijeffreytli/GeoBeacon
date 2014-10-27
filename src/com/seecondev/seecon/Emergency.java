@@ -66,6 +66,10 @@ public class Emergency extends ActionBarActivity {
 		Log.d(TAG, "In Emergency: Lat: " + latStr);
 		Log.d(TAG, "In Emergency: Long: " + longStr);
 		
+		TextView currentAddress = (TextView)findViewById(R.id.editEmergencyAddress);
+		currentAddress.setTextColor(getResources().getColor(R.color.cyan));
+		currentAddress.setText("Current location: " + mAddress);
+		
 		mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
 		checkSMSLength(mOptionalMessage);
 		mOptionalMessage.addTextChangedListener(new TextWatcher() {
