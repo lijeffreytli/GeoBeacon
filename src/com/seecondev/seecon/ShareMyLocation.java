@@ -19,6 +19,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.telephony.gsm.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -89,6 +90,7 @@ public class ShareMyLocation extends ActionBarActivity {
 		/* Display the current street address to the screen */
 		mMessage = "Current Location: " + mAddress + "\n";
 		TextView currentAddress = (TextView)findViewById(R.id.editCompleteMessage);
+		currentAddress.setMovementMethod(new ScrollingMovementMethod());
 		currentAddress.setTextColor(getResources().getColor(R.color.cyan));
 		currentAddress.setText(mMessage);
 
