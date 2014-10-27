@@ -13,10 +13,10 @@ import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,10 +25,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -36,7 +34,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class MainActivity extends FragmentActivity implements android.location.LocationListener{
+public class MainActivity extends FragmentActivity{
 
 	static final int DIALOG_ABOUT_ID = 1;
 	static final int DIALOG_HELP_ID = 2;
@@ -76,7 +74,7 @@ public class MainActivity extends FragmentActivity implements android.location.L
 
 		/* Get the user's locations from map data */
 		getCoordinates();
-		mLocationManager.requestLocationUpdates(mProvider, MIN_TIME, MIN_DIST, this);
+		
 	}
 
 
@@ -165,13 +163,16 @@ public class MainActivity extends FragmentActivity implements android.location.L
 			getCoordinates();
 			geocodeAndMarkAddress();
 		}
+		mLocationManager.requestLocationUpdates(mProvider, MIN_TIME, MIN_DIST, seeconLocationListener);
 	}
 
 	@Override
 	public void onPause() {
+		Log.d(TAG, "in onPause");
 		if (mGoogleMap != null) {
 			mGoogleMap.setMyLocationEnabled(false);
 		}
+		mLocationManager.removeUpdates(seeconLocationListener);
 		super.onPause();
 	}
 
@@ -261,24 +262,26 @@ public class MainActivity extends FragmentActivity implements android.location.L
 		return builder.create();
 	}
 
+	private final LocationListener seeconLocationListener =
+			new LocationListener(){
 
+		@Override
+		public void onLocationChanged(Location loc) {
+			Log.d(TAG, "in onLocationChanged");
+			mLatitude = loc.getLatitude();
+			mLongitude = loc.getLongitude();
+			mAccuracy = loc.getAccuracy();
+			geocodeAndMarkAddress();
+		}
+		public void onProviderDisabled(String provider) {
 
-	@Override
-	public void onLocationChanged(Location loc) {
-		Log.d(TAG, "in onLocationChanged");
-		mLatitude = loc.getLatitude();
-		mLongitude = loc.getLongitude();
-		mAccuracy = loc.getAccuracy();
-		geocodeAndMarkAddress();
-	}
-	public void onProviderDisabled(String provider) {
+		}
+		public void onProviderEnabled(String provider) {
 
-	}
-	public void onProviderEnabled(String provider) {
+		}
+		public void onStatusChanged(String provider, int status, Bundle extras) {
 
-	}
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-
-	}
+		}
+	};
 }
 
