@@ -1,7 +1,7 @@
 1. Team members’ names and uteids:
 Jeffrey Li: jl47232
 Katie Ensign: krh524 
-Jared Hettinger: 
+Jared Hettinger: jah3735
 
 2. Brief instructions on how to use the app. After working hours and hours on the app, it will be obvious to you how it works, but imagine a new user, who has no idea. Copy any information from the high level read me.
 
