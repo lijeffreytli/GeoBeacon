@@ -249,7 +249,7 @@ public class ShareMyLocation extends ActionBarActivity {
 
 		switch (item.getItemId()){
 		case R.id.action_settings:
-			startActivityForResult(new Intent(this, GetSettings.class),0);  
+			startActivityForResult(new Intent(this, Preferences.class),0);  
 			return true;
 		case R.id.menu_about:
 			showDialog(DIALOG_ABOUT_ID);

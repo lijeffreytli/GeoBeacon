@@ -146,6 +146,8 @@ public class MainActivity extends FragmentActivity{
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+			// ERROR MESSAGE HERE
+			finish(); // do we want to do this?
 		}	
 		/* Set/Display the TextView on the Main Menu */
 		TextView textViewMain = (TextView)findViewById(R.id.text_view_title);
@@ -210,7 +212,7 @@ public class MainActivity extends FragmentActivity{
 
 		switch (item.getItemId()){
 		case R.id.action_settings:
-			startActivityForResult(new Intent(this, GetSettings.class),0);  
+			startActivityForResult(new Intent(this, Preferences.class),0);  
 			return true;
 		case R.id.menu_about:
 			showDialog(DIALOG_ABOUT_ID);
