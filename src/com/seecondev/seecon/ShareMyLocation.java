@@ -126,8 +126,7 @@ public class ShareMyLocation extends ActionBarActivity {
 		{
 			public void onClick(View v) 
 			{   
-				/* Error handling */
-				TextView text = (TextView) findViewById(R.id.editPhoneNumber);
+				/* Error handling for null contact */
 				if (mContactName == "" || mContactName == null || mContactName.length() == 0){
 					/* AlertDialog box for user confirmation */
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(ShareMyLocation.this);
