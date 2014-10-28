@@ -29,7 +29,6 @@
         android:layout_below="@+id/buttonContacts"
         android:paddingLeft="4.5dp"
         android:paddingRight="4.5dp"
-        android:paddingTop="4.5dp"
         android:paddingBottom="4.5dp"
         android:ems="20"
         android:hint="Complete Message"
@@ -45,6 +44,10 @@
        android:layout_alignBottom="@+id/buttonContacts"
        android:layout_alignParentLeft="true"
        android:layout_alignTop="@+id/buttonContacts"
+       android:paddingLeft="5dp"
+       android:paddingRight="5dp"
+       android:paddingTop="5dp"
+       android:paddingBottom="5dp"
        android:layout_marginLeft="5dp"
        android:layout_toLeftOf="@+id/buttonContacts"
        android:background="@drawable/text_border"
@@ -52,7 +55,7 @@
        android:gravity="center"
        android:hint="Select a Contact"
        android:singleLine="true"
-       android:textSize="20sp" >
+       android:textSize="17sp" >
 
     </TextView>
         
