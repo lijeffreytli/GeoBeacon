@@ -10,12 +10,15 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.method.ScrollingMovementMethod;
@@ -56,10 +59,16 @@ public class MainActivity extends FragmentActivity{
 	private final static long MIN_TIME = 1000;
 	private final static float MIN_DIST = 3;
 
+	private SharedPreferences mPrefs;
 
 	// Google Map
 	private GoogleMap mGoogleMap;
 	private Marker mMarker;
+	
+	// Sound
+	private SoundPool mSounds;	
+	private boolean mSoundOn;
+	private int mClickSoundID;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +76,11 @@ public class MainActivity extends FragmentActivity{
 		setContentView(R.layout.activity_main);
 		Log.d(TAG, "in onCreate");
 
+		/* Get the user's locations from map data */
+		getCoordinates();
+		
+		mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
+		mSoundOn = mPrefs.getBoolean("sound", true);
 		int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());		
 		if (resultCode == ConnectionResult.SUCCESS) {
 			/* Load Google Maps */
@@ -151,7 +165,7 @@ public class MainActivity extends FragmentActivity{
 				Log.d(TAG, "Current address: " + mAddress);
 
 				// Create a location marker of the user's position
-				MarkerOptions mo = new MarkerOptions().position(latLng).title("Current Location").snippet(mAddress).icon(BitmapDescriptorFactory.defaultMarker(195)).alpha(0.5f);
+				MarkerOptions mo = new MarkerOptions().position(latLng).title("Current Location").snippet(mAddress).icon(BitmapDescriptorFactory.defaultMarker(195)).alpha(1.0f);
 				if (mMarker != null) {
 					mMarker.remove();
 				}
@@ -170,10 +184,20 @@ public class MainActivity extends FragmentActivity{
 		textViewMain.setText(mAddress + "\n(" + mLatitude + ", " + mLongitude + ")" + "\nAccuracy: +/-" + mAccuracy + " meters");
 	}
 
+	private void createSoundPool() {
+		mSounds = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+		// 2 = maximum sounds to play at the same time,
+		// AudioManager.STREAM_MUSIC is the stream type typically used for games
+		// 0 is the "the sample-rate converter quality. Currently has no effect. Use 0 for the default."
+		mClickSoundID = mSounds.load(this, R.raw.click, 1);
+	}
+	
+	
 	@Override
 	public void onResume() {
 		super.onResume();
 		Log.d(TAG, "in onResume");
+		createSoundPool();
 		initializeMap();
 		if (mGoogleMap != null) {
 			mGoogleMap.setMyLocationEnabled(true); 
@@ -184,14 +208,24 @@ public class MainActivity extends FragmentActivity{
 		}
 	}
 
+	private void playSound(int soundID) {
+		if (mSoundOn)
+			mSounds.play(soundID, 1, 1, 1, 0, 1);
+	}
+	
 	@Override
 	public void onPause() {
+		super.onPause();
 		Log.d(TAG, "in onPause");
+		if(mSounds != null) {
+			mSounds.release();
+			mSounds = null;
+		}	
 		if (mGoogleMap != null) {
 			mGoogleMap.setMyLocationEnabled(false);
 			mLocationManager.removeUpdates(seeconLocationListener);
 		}
-		super.onPause();
+		mLocationManager.removeUpdates(seeconLocationListener);
 	}
 
 	@Override
@@ -203,6 +237,7 @@ public class MainActivity extends FragmentActivity{
 
 	/* ShareMyLocation Button */
 	public void shareMyLocation(View view) {
+		playSound(mClickSoundID);
 		Intent intent = new Intent(this, ShareMyLocation.class);
 		intent.putExtra(ADDRESS, mAddress);
 		intent.putExtra(LONG, Double.valueOf(mLongitude).toString());
@@ -212,6 +247,7 @@ public class MainActivity extends FragmentActivity{
 
 	/* Emergency Button */
 	public void getEmergency(View view) {
+		playSound(mClickSoundID);
 		Intent intent = new Intent(this, Emergency.class);
 		intent.putExtra(ADDRESS, mAddress);
 		intent.putExtra(LONG, Double.valueOf(mLongitude).toString());

@@ -6,7 +6,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.gsm.SmsManager;
@@ -39,6 +42,12 @@ public class Emergency extends ActionBarActivity {
 	EditText mOptionalMessage;
 	String mStrOptionalMessage;
 	boolean mValidMessage = true;
+	private SharedPreferences mPrefs;
+	
+	// Sound
+	private SoundPool mSounds;	
+	private boolean mSoundOn;
+	private int mSendSoundID;
 	
 	/* Debugging Purposes */
 	private static final String TAG = "SEECON_EMERGENCY";
@@ -49,6 +58,8 @@ public class Emergency extends ActionBarActivity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_emergency);
 		
+		mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
+		mSoundOn = mPrefs.getBoolean("sound", true);
 		
 		// Get the location information from MainActivity
 		Intent intent2 = getIntent(); //is this necessary?
@@ -100,6 +111,7 @@ public class Emergency extends ActionBarActivity {
 		{
 			public void onClick(View v) 
 			{   
+				playSound(mSendSoundID);
 				if (mValidMessage == false){
 					Toast.makeText(getBaseContext(), 
 							"Message exceeds character limit.", 
@@ -259,6 +271,25 @@ public class Emergency extends ActionBarActivity {
 		builder.setView(layout);
 		builder.setPositiveButton("OK", null);
 		return builder.create();
+	}
+
+	private void createSoundPool() {
+		mSounds = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+		// 2 = maximum sounds to play at the same time,
+		// AudioManager.STREAM_MUSIC is the stream type typically used for games
+		// 0 is the "the sample-rate converter quality. Currently has no effect. Use 0 for the default."
+		mSendSoundID = mSounds.load(this, R.raw.click, 1);
+	}
+	
+	private void playSound(int soundID) {
+		if (mSoundOn)
+			mSounds.play(soundID, 1, 1, 1, 0, 1);
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		createSoundPool();
 	}
 	
 }
