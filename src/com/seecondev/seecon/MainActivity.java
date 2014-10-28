@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Criteria;
@@ -26,6 +27,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -63,18 +66,37 @@ public class MainActivity extends FragmentActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		Log.d(TAG, "in onCreate");
-		/* Load Google Maps */
-		try {
-			// Loading map
-			initializeMap();
-			mGoogleMap.setMyLocationEnabled(true); 
-			mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
-		/* Get the user's locations from map data */
-		getCoordinates();
+		int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());		
+		if (resultCode == ConnectionResult.SUCCESS) {
+			/* Load Google Maps */
+			try {
+				// Loading map
+				initializeMap();
+				mGoogleMap.setMyLocationEnabled(true); 
+				mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			/* Get the user's locations from map data */
+			getCoordinates();
+		}
+		else {
+			/* AlertDialog box for user confirmation */
+			AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
+			builder1.setMessage("Please update Google Play Services.");
+			builder1.setCancelable(true);
+			builder1.setNegativeButton("Ok",
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					dialog.cancel();
+				}
+			});
+			AlertDialog alert11 = builder1.create();
+			alert11.show();
+		}
 	}
 
 
@@ -86,13 +108,6 @@ public class MainActivity extends FragmentActivity{
 		if (mGoogleMap == null) {
 			mGoogleMap = ((MapFragment) getFragmentManager().findFragmentById(
 					R.id.map)).getMap();
-
-			// check if map is created successfully or not
-			if (mGoogleMap == null) {
-				Toast.makeText(getApplicationContext(),
-						"Sorry! unable to create maps", Toast.LENGTH_SHORT)
-						.show();
-			}
 		}
 	}
 
@@ -165,8 +180,8 @@ public class MainActivity extends FragmentActivity{
 			mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
 			getCoordinates();
 			geocodeAndMarkAddress();
+			mLocationManager.requestLocationUpdates(mProvider, MIN_TIME, MIN_DIST, seeconLocationListener);
 		}
-		mLocationManager.requestLocationUpdates(mProvider, MIN_TIME, MIN_DIST, seeconLocationListener);
 	}
 
 	@Override
@@ -174,8 +189,8 @@ public class MainActivity extends FragmentActivity{
 		Log.d(TAG, "in onPause");
 		if (mGoogleMap != null) {
 			mGoogleMap.setMyLocationEnabled(false);
+			mLocationManager.removeUpdates(seeconLocationListener);
 		}
-		mLocationManager.removeUpdates(seeconLocationListener);
 		super.onPause();
 	}
 
