@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.seecondev.seecon.Emergency" >
@@ -24,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginTop ="5dp" />
+        android:layout_marginTop="5dp" />
 
     <TextView
         android:id="@+id/textViewEmergencyContacts"
@@ -34,14 +35,14 @@
         android:layout_alignBottom="@+id/chkEmergencyContacts"
         android:layout_alignLeft="@+id/buttonSend"
         android:layout_marginLeft="5dp"
+        android:paddingBottom="4.5dp"
         android:paddingLeft="4.5dp"
         android:paddingRight="4.5dp"
         android:paddingTop="4.5dp"
-        android:paddingBottom="4.5dp"
         android:text="Include emergency contacts"
         android:textColor="@color/cyan"
         android:textSize="22sp" />
-    
+
     <EditText
         android:id="@+id/editMessageToEmergency"
         android:layout_width="fill_parent"
@@ -51,17 +52,16 @@
         android:layout_alignRight="@+id/spinnerEmergencyDialogs"
         android:layout_below="@+id/spinnerEmergencyDialogs"
         android:background="@drawable/text_border"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
         android:ems="20"
         android:gravity="top|left"
         android:hint="Enter additional message"
         android:inputType="textMultiLine"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
         android:scrollbars="vertical"
         android:textSize="22sp" >
-
     </EditText>
 
     <TextView
@@ -84,13 +84,13 @@
         android:layout_alignRight="@+id/textCharactersUsedEmergency"
         android:layout_below="@+id/textViewEmergencyContacts"
         android:ems="20"
-        android:paddingLeft="4.5dp"
-        android:paddingRight="4.5dp"
-        android:paddingTop="4.5dp"
-        android:paddingBottom="4.5dp"
         android:hint="Current location: "
         android:inputType="textMultiLine"
         android:maxHeight="140dp"
+        android:paddingBottom="4.5dp"
+        android:paddingLeft="4.5dp"
+        android:paddingRight="4.5dp"
+        android:paddingTop="4.5dp"
         android:scrollbars="vertical"
         android:textSize="22sp" />
 
