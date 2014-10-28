@@ -75,6 +75,9 @@ public class MainActivity extends FragmentActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		Log.d(TAG, "in onCreate");
+
+		/* Get the user's locations from map data */
+		getCoordinates();
 		
 		mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
 		mSoundOn = mPrefs.getBoolean("sound", true);
@@ -90,12 +93,11 @@ public class MainActivity extends FragmentActivity{
 			catch (Exception e) {
 				e.printStackTrace();
 			}
-
 			/* Get the user's locations from map data */
 			getCoordinates();
 		}
 		else {
-			/* AlertDialog box for user confirmation */
+			/* AlertDialog if the user needs to update Google Play Services */
 			AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
 			builder1.setMessage("Please update Google Play Services.");
 			builder1.setCancelable(true);
@@ -103,6 +105,7 @@ public class MainActivity extends FragmentActivity{
 					new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
 					dialog.cancel();
+					finish();
 				}
 			});
 			AlertDialog alert11 = builder1.create();
@@ -145,10 +148,20 @@ public class MainActivity extends FragmentActivity{
 			Log.d(TAG, "Latitude: " + mLatitude);
 			Log.d(TAG, "Accuracy: " + mAccuracy);
 			geocodeAndMarkAddress();
-		} else {
-			Toast.makeText(getApplicationContext(),
-					"Sorry! unable to get location", Toast.LENGTH_SHORT)
-					.show();
+		} 
+		else {
+			/* AlertDialog apology if we cannot find the user */
+			AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
+			builder1.setMessage("Sorry! unable to get location.");
+			builder1.setCancelable(true);
+			builder1.setNegativeButton("Ok",
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					dialog.cancel();
+				}
+			});
+			AlertDialog alert11 = builder1.create();
+			alert11.show();
 		}
 	}
 
@@ -173,7 +186,7 @@ public class MainActivity extends FragmentActivity{
 		} catch (IOException e) {
 			e.printStackTrace();
 			// ERROR MESSAGE HERE
-			finish(); // do we want to do this?
+			return; // do we want to do this?
 		}	
 		/* Set/Display the TextView on the Main Menu */
 		TextView textViewMain = (TextView)findViewById(R.id.text_view_title);
