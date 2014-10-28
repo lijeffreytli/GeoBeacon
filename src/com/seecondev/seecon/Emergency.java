@@ -125,12 +125,12 @@ public class Emergency extends ActionBarActivity {
 					
 					/* Obtain spinner spinner information */
 					Spinner spinner = (Spinner)findViewById(R.id.spinnerEmergencyDialogs);
-					String spinnerText =spinner.getSelectedItem().toString();
+					String spinnerText = spinner.getSelectedItem().toString();
 					
 					Log.d(TAG, "In Emergency: text: " + spinnerText);
 					
 					/* This is the message that will be sent to emergency contacts */
-					mMessage += spinnerText + "\nCurrent address: " + mAddress + "\nCoordinates: " + "https://www.google.com/maps?z=18&t=m&q=loc:" + mLatitude + "+" + mLongitude + "\n\n";
+					mMessage += "Emergency: " + spinnerText + "\nCurrent address: " + mAddress + "\nCoordinates: " + "https://www.google.com/maps?z=18&t=m&q=loc:" + mLatitude + "+" + mLongitude + "\n\n";
 					
 					/* AlertDialog box for user confirmation */
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(Emergency.this);

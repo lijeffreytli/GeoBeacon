@@ -11,14 +11,16 @@
     <string name="title_activity_get_contacts">Get Contacts</string>
     <string name="dialog_prompt">Select message</string>
     <string name="edit_emergency_contacts">Edit emergency contacts</string>
-    
+
     <string-array name="emergency_dialogs">
-        <item>Help. I am in trouble!</item>
-        <item>Help. I am being followed!</item>
-        <item>Help. I am hurt!</item>
-        <item>Help. I am being robbed!</item>
+        <item>Car Accident</item>
+        <item>Medical Emergency</item>
+        <item>Robbery</item>
+        <item>Kidnapping</item>
+        <item>Fire</item>
+        <item>Assault</item>
+        <item>Other</item>
     </string-array>
-    
     <string-array name="emergency_contacts">
         <item>Mom</item>
         <item>Dad</item>
@@ -26,7 +28,6 @@
         <item>Jared</item>
         <item>Jeff</item>
     </string-array>
-    
     <string-array name="emergency_contacts_values">
         <item>Mom</item>
         <item>Dad</item>
@@ -34,9 +35,6 @@
         <item>Jared</item>
         <item>Jeff</item>
     </string-array>
-    
-    
-    
-    <string-array name="empty_array"/>
+    <string-array name="empty_array" />
 
 </resources>
