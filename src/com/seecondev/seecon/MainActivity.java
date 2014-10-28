@@ -75,9 +75,6 @@ public class MainActivity extends FragmentActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		Log.d(TAG, "in onCreate");
-
-		/* Get the user's locations from map data */
-		getCoordinates();
 		
 		mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
 		mSoundOn = mPrefs.getBoolean("sound", true);
