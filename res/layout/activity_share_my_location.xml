@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal" >
@@ -13,8 +14,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="5dp"
-        android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/button_send"
         android:onClick="sendMessage"
@@ -27,38 +28,37 @@
         android:layout_alignLeft="@+id/editPhoneNumber"
         android:layout_alignRight="@+id/buttonContacts"
         android:layout_below="@+id/buttonContacts"
-        android:paddingLeft="4.5dp"
-        android:paddingRight="4.5dp"
-        android:paddingBottom="4.5dp"
         android:ems="20"
         android:hint="Complete Message"
         android:inputType="textMultiLine"
         android:maxHeight="140dp"
+        android:paddingBottom="4.5dp"
+        android:paddingLeft="4.5dp"
+        android:paddingRight="4.5dp"
         android:scrollbars="vertical"
         android:textSize="22sp" />
 
-   <TextView
-       android:id="@+id/editPhoneNumber"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_alignBottom="@+id/buttonContacts"
-       android:layout_alignParentLeft="true"
-       android:layout_alignTop="@+id/buttonContacts"
-       android:paddingLeft="5dp"
-       android:paddingRight="5dp"
-       android:paddingTop="5dp"
-       android:paddingBottom="5dp"
-       android:layout_marginLeft="5dp"
-       android:layout_toLeftOf="@+id/buttonContacts"
-       android:background="@drawable/text_border"
-       android:ems="20"
-       android:gravity="center"
-       android:hint="Select a Contact"
-       android:singleLine="true"
-       android:textSize="17sp" >
-
+    <TextView
+        android:id="@+id/editPhoneNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/buttonContacts"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/buttonContacts"
+        android:layout_marginLeft="5dp"
+        android:layout_toLeftOf="@+id/buttonContacts"
+        android:background="@drawable/text_border"
+        android:ems="20"
+        android:gravity="center"
+        android:hint="Select a Contact"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:singleLine="true"
+        android:textSize="17sp" >
     </TextView>
-        
+
     <Button
         android:id="@+id/buttonContacts"
         android:layout_width="wrap_content"
@@ -66,11 +66,11 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="5dp"
-        android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
-        android:onClick="getContacts"
         android:background="@drawable/button_default_style"
+        android:onClick="getContacts"
         android:text="Contacts" />
 
     <EditText
@@ -81,18 +81,17 @@
         android:layout_alignLeft="@+id/editCompleteMessage"
         android:layout_alignRight="@+id/editCompleteMessage"
         android:layout_below="@+id/editCompleteMessage"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
         android:background="@drawable/text_border"
         android:ems="20"
         android:gravity="top|left"
         android:hint="Enter additional message"
         android:inputType="textMultiLine"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
         android:scrollbars="vertical"
         android:textSize="22sp" >
-
     </EditText>
 
     <TextView

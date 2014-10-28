@@ -25,7 +25,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.View.OnTouchListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -43,16 +47,16 @@ public class ShareMyLocation extends ActionBarActivity {
 	private String mAddress;
 	private double mLatitude;
 	private double mLongitude;
-    private String mStrOptionalMessage = "";
-    private EditText mOptionalMessage;
-    private boolean mValidMessage = true;
+	private String mStrOptionalMessage = "";
+	private EditText mOptionalMessage;
+	private boolean mValidMessage = true;
 	private SharedPreferences mPrefs;
-    
+
 	// Sound
 	private SoundPool mSounds;	
 	private boolean mSoundOn;
 	private int mSendSoundID;
-	
+
 	/* Debugging Purposes */
 	private static final String TAG = "SEECON_SHAREMYLOCATION";
 	static final int PICK_CONTACT_REQUEST = 0;
@@ -62,6 +66,7 @@ public class ShareMyLocation extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_share_my_location);
+		setupUI(findViewById(R.id.parent));
 
 		if (savedInstanceState != null) {
 			mMessage = savedInstanceState.getString("mMessage");
@@ -71,7 +76,7 @@ public class ShareMyLocation extends ActionBarActivity {
 			mLongitude = savedInstanceState.getDouble("mLongitude");
 			mLatitude = savedInstanceState.getDouble("mLatitude");
 		}
-		
+
 		mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
 		mSoundOn = mPrefs.getBoolean("sound", true);
 
@@ -111,25 +116,25 @@ public class ShareMyLocation extends ActionBarActivity {
 		checkSMSLength(mOptionalMessage);
 		mOptionalMessage.addTextChangedListener(new TextWatcher() {
 
-		    @Override
-		    public void onTextChanged(CharSequence s, int start, int before, int count) {
-		        // TODO Auto-generated method stub
-		    }
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+			}
 
-		    @Override
-		    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-		        // TODO Auto-generated method stub
-		    }
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				// TODO Auto-generated method stub
+			}
 
-		    @Override
-		    public void afterTextChanged(Editable s) {
-		        // TODO Auto-generated method stub
-		        checkSMSLength(mOptionalMessage); // pass your EditText Obj here.
-		    }
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				checkSMSLength(mOptionalMessage); // pass your EditText Obj here.
+			}
 		});
-		
-		
-		
+
+
+
 		/* Obtain the view of the 'Send Button' */
 		btnSendSMS = (Button) findViewById(R.id.buttonSend);
 
@@ -161,10 +166,10 @@ public class ShareMyLocation extends ActionBarActivity {
 								Toast.LENGTH_SHORT).show();
 					} else {
 						/* Obtain the optional message if any */
-//						mOptionalMessage = (EditText)findViewById(R.id.editMessage);
+						//						mOptionalMessage = (EditText)findViewById(R.id.editMessage);
 						mStrOptionalMessage = mOptionalMessage.getText().toString();
 						Log.d(TAG, "Optional Message" + mStrOptionalMessage);
-						
+
 						/* AlertDialog box for user confirmation */
 						AlertDialog.Builder builder1 = new AlertDialog.Builder(ShareMyLocation.this);
 						builder1.setMessage("Send to " + mContactName + "?");
@@ -203,7 +208,7 @@ public class ShareMyLocation extends ActionBarActivity {
 			}
 		});  
 	}
-	
+
 	public void checkSMSLength(EditText edt) throws NumberFormatException {
 		int valid_len = 0;
 		TextView tvCharactersUsed = (TextView) findViewById(R.id.textCharactersUsed);
@@ -337,7 +342,7 @@ public class ShareMyLocation extends ActionBarActivity {
 		builder.setPositiveButton("OK", null);
 		return builder.create();
 	}
-	
+
 	/* Method obtains phone number from the contact Uri. */
 	@Override
 	public void onActivityResult(int reqCode, int resultCode, Intent data) {
@@ -348,18 +353,18 @@ public class ShareMyLocation extends ActionBarActivity {
 			if (resultCode == Activity.RESULT_OK) {
 				Uri contactData = data.getData();
 				Cursor c =  managedQuery(contactData, null, null, null, null);
-				
+
 				if (c.moveToFirst()) {
 					String id =c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
 					String hasPhone =c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
 					if (hasPhone.equalsIgnoreCase("1")) {
-//						Cursor phones = getContentResolver().query( 
-//								ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null, 
-//								ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+ id, 
-//								null, null);
+						//						Cursor phones = getContentResolver().query( 
+						//								ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null, 
+						//								ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+ id, 
+						//								null, null);
 						Cursor phones = getContentResolver().query(contactData, null, null, null, null);
 						if(phones.moveToFirst()){
-	//						String cNumber = phones.getString(phones.getColumnIndex("data1"));
+							//						String cNumber = phones.getString(phones.getColumnIndex("data1"));
 							String cNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 							mContactNumber = cNumber;
 						}
@@ -368,7 +373,7 @@ public class ShareMyLocation extends ActionBarActivity {
 					mContactName = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
 					Log.d(TAG, "Contact Name: " + mContactName);
 					Log.d(TAG, "Contact Number: " + mContactNumber);
-					
+
 				}
 			}
 		break;
@@ -379,7 +384,7 @@ public class ShareMyLocation extends ActionBarActivity {
 			text.setText(mContactName);
 		}
 	}
-	
+
 	private void createSoundPool() {
 		mSounds = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
 		// 2 = maximum sounds to play at the same time,
@@ -387,15 +392,40 @@ public class ShareMyLocation extends ActionBarActivity {
 		// 0 is the "the sample-rate converter quality. Currently has no effect. Use 0 for the default."
 		mSendSoundID = mSounds.load(this, R.raw.click, 1);
 	}
-	
+
 	private void playSound(int soundID) {
 		if (mSoundOn)
 			mSounds.play(soundID, 1, 1, 1, 0, 1);
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
 		createSoundPool();
+	}
+	/* http://stackoverflow.com/questions/4165414/how-to-hide-soft-keyboard-on-android-after-clicking-outside-edittext */
+	public static void hideSoftKeyboard(Activity activity) {
+		InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+		inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+	}
+	/* same source as above */
+	public void setupUI(View view) {
+		//Set up touch listener for non-text box views to hide keyboard.
+		if(!(view instanceof EditText)) {
+			view.setOnTouchListener(new OnTouchListener() {
+				public boolean onTouch(View v, MotionEvent event) {
+					hideSoftKeyboard(ShareMyLocation.this);
+					return false;
+				}
+			});
+		}
+
+		//If a layout container, iterate over children and seed recursion.
+		if (view instanceof ViewGroup) {
+			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+				View innerView = ((ViewGroup) view).getChildAt(i);
+				setupUI(innerView);
+			}
+		}
 	}
 }

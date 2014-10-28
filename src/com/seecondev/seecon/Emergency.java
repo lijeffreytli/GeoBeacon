@@ -33,10 +33,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class Emergency extends ActionBarActivity {
-	
+
 	static final int DIALOG_ABOUT_ID = 1;
 	static final int DIALOG_HELP_ID = 2;
-	
+
 	private Button btnSendSMS;
 	private String mMessage = "";
 	private String mContactNumber;
@@ -48,12 +48,12 @@ public class Emergency extends ActionBarActivity {
 	String mStrOptionalMessage;
 	boolean mValidMessage = true;
 	private SharedPreferences mPrefs;
-	
+
 	// Sound
 	private SoundPool mSounds;	
 	private boolean mSoundOn;
 	private int mSendSoundID;
-	
+
 	/* Debugging Purposes */
 	private static final String TAG = "SEECON_EMERGENCY";
 
@@ -63,16 +63,16 @@ public class Emergency extends ActionBarActivity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_emergency);
 		setupUI(findViewById(R.id.parent));
-		
+
 		mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
 		mSoundOn = mPrefs.getBoolean("sound", true);
-		
+
 		// Get the location information from MainActivity
 		Intent intent2 = getIntent(); //is this necessary?
 		mAddress = intent2.getStringExtra(MainActivity.ADDRESS);
 		String latStr = intent2.getStringExtra(MainActivity.LAT);
 		String longStr = intent2.getStringExtra(MainActivity.LONG);
-		
+
 		if (longStr != null) {
 			mLongitude = Double.parseDouble(longStr);	
 		}
@@ -83,39 +83,39 @@ public class Emergency extends ActionBarActivity {
 		Log.d(TAG, "In Emergency: Address: " + mAddress);
 		Log.d(TAG, "In Emergency: Lat: " + latStr);
 		Log.d(TAG, "In Emergency: Long: " + longStr);
-		
+
 		TextView currentAddress = (TextView)findViewById(R.id.editEmergencyAddress);
 		currentAddress.setMovementMethod(new ScrollingMovementMethod());
 		currentAddress.setTextColor(getResources().getColor(R.color.cyan));
 		currentAddress.setText("Current location: " + mAddress);
-		
+
 		mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
 		checkSMSLength(mOptionalMessage);
 		mOptionalMessage.addTextChangedListener(new TextWatcher() {
 
-		    @Override
-		    public void onTextChanged(CharSequence s, int start, int before, int count) {
-		        // TODO Auto-generated method stub
-		    }
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+			}
 
-		    @Override
-		    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-		        // TODO Auto-generated method stub
-		    }
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				// TODO Auto-generated method stub
+			}
 
-		    @Override
-		    public void afterTextChanged(Editable s) {
-		        // TODO Auto-generated method stub
-		        checkSMSLength(mOptionalMessage); // pass your EditText Obj here.
-		    }
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				checkSMSLength(mOptionalMessage); // pass your EditText Obj here.
+			}
 		});
-		
+
 		/* Obtain the view of the 'Send Button' */
 		btnSendSMS = (Button) findViewById(R.id.buttonSendEmergency);
 		/* Once the user hits the "Send" button */
 		btnSendSMS.setOnClickListener(new View.OnClickListener() 
 		{
-			
+
 			public void onClick(View v) 
 			{   
 				playSound(mSendSoundID);
@@ -125,22 +125,22 @@ public class Emergency extends ActionBarActivity {
 							Toast.LENGTH_SHORT).show();
 				} else {
 					/* Optional message */
-//					mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
+					//					mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
 					mStrOptionalMessage = mOptionalMessage.getText().toString();
 					Log.d(TAG, "Optional Message" + mStrOptionalMessage);
-					
+
 					/* Obtain spinner spinner information */
 					Spinner spinner = (Spinner)findViewById(R.id.spinnerEmergencyDialogs);
 					String spinnerText = spinner.getSelectedItem().toString();
-					
+
 					Log.d(TAG, "In Emergency: text: " + spinnerText);
-					
+
 					/* This is the message that will be sent to emergency contacts */
 					mMessage += "Emergency: " + spinnerText + "\nCurrent address: " + mAddress + "\nCoordinates: " + "https://www.google.com/maps?z=18&t=m&q=loc:" + mLatitude + "+" + mLongitude + "\n\n";
-					
+
 					/* AlertDialog box for user confirmation */
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(Emergency.this);
-					builder1.setMessage("Send to emergency contacts?");
+					builder1.setMessage("Send emergency message?");
 					builder1.setCancelable(true);
 					builder1.setPositiveButton("Yes",
 							new DialogInterface.OnClickListener() {
@@ -175,7 +175,7 @@ public class Emergency extends ActionBarActivity {
 			}
 		});
 	}
-	
+
 	public void checkSMSLength(EditText edt) throws NumberFormatException {
 		int valid_len = 0;
 		TextView tvCharactersUsed = (TextView) findViewById(R.id.textCharactersUsedEmergency);
@@ -203,7 +203,7 @@ public class Emergency extends ActionBarActivity {
 		}
 
 	}
-	
+
 	/* This method sends a text message to a specific phone number */
 	private void sendSMS(String phoneNumber, String message){
 		SmsManager sms = SmsManager.getDefault();
@@ -218,43 +218,43 @@ public class Emergency extends ActionBarActivity {
 	}
 
 	@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-    	
-    	switch (item.getItemId()){
-    	case R.id.action_settings:
-    		startActivityForResult(new Intent(this, Preferences.class),0);  
-    		return true;
-    	case R.id.menu_about:
-    		showDialog(DIALOG_ABOUT_ID);
-    		return true;
-    	case R.id.menu_help:
-    		showDialog(DIALOG_HELP_ID);
-    		return true;
-    	}
-    	return false;
-    }
-    
-    @Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+
+		switch (item.getItemId()){
+		case R.id.action_settings:
+			startActivityForResult(new Intent(this, Preferences.class),0);  
+			return true;
+		case R.id.menu_about:
+			showDialog(DIALOG_ABOUT_ID);
+			return true;
+		case R.id.menu_help:
+			showDialog(DIALOG_HELP_ID);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog = null;
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 		switch(id) {
-			case DIALOG_ABOUT_ID:
-				dialog = createAboutDialog(builder);
-				break;
-			case DIALOG_HELP_ID:
-				dialog = createHelpDialog(builder);
-				break;
+		case DIALOG_ABOUT_ID:
+			dialog = createAboutDialog(builder);
+			break;
+		case DIALOG_HELP_ID:
+			dialog = createHelpDialog(builder);
+			break;
 		}
 
-//		if(dialog == null)
-//			Log.d(TAG, "Uh oh! Dialog is null");
-//		else
-//			Log.d(TAG, "Dialog created: " + id + ", dialog: " + dialog);
+		//		if(dialog == null)
+		//			Log.d(TAG, "Uh oh! Dialog is null");
+		//		else
+		//			Log.d(TAG, "Dialog created: " + id + ", dialog: " + dialog);
 		return dialog;        
 	}
 
@@ -287,48 +287,41 @@ public class Emergency extends ActionBarActivity {
 		// 0 is the "the sample-rate converter quality. Currently has no effect. Use 0 for the default."
 		mSendSoundID = mSounds.load(this, R.raw.click, 1);
 	}
-	
+
 	private void playSound(int soundID) {
 		if (mSoundOn)
 			mSounds.play(soundID, 1, 1, 1, 0, 1);
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
 		createSoundPool();
 	}
-	
+
 	/* http://stackoverflow.com/questions/4165414/how-to-hide-soft-keyboard-on-android-after-clicking-outside-edittext */
 	public static void hideSoftKeyboard(Activity activity) {
-	    InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-	    inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+		InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+		inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
 	}
 	/* same source as above */
 	public void setupUI(View view) {
+		//Set up touch listener for non-text box views to hide keyboard.
+		if(!(view instanceof EditText)) {
+			view.setOnTouchListener(new OnTouchListener() {
+				public boolean onTouch(View v, MotionEvent event) {
+					hideSoftKeyboard(Emergency.this);
+					return false;
+				}
+			});
+		}
 
-	    //Set up touch listener for non-text box views to hide keyboard.
-	    if(!(view instanceof EditText)) {
-
-	        view.setOnTouchListener(new OnTouchListener() {
-
-	            public boolean onTouch(View v, MotionEvent event) {
-	                hideSoftKeyboard(Emergency.this);
-	                return false;
-	            }
-
-	        });
-	    }
-
-	    //If a layout container, iterate over children and seed recursion.
-	    if (view instanceof ViewGroup) {
-
-	        for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-
-	            View innerView = ((ViewGroup) view).getChildAt(i);
-
-	            setupUI(innerView);
-	        }
-	    }
+		//If a layout container, iterate over children and seed recursion.
+		if (view instanceof ViewGroup) {
+			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+				View innerView = ((ViewGroup) view).getChildAt(i);
+				setupUI(innerView);
+			}
+		}
 	}
 }
