@@ -62,7 +62,6 @@
         android:scrollbars="vertical"
         android:textSize="22sp" >
 
-        <requestFocus />
     </EditText>
 
     <TextView
