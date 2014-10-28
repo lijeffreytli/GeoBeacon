@@ -85,7 +85,6 @@ public class Emergency extends ActionBarActivity {
 		currentAddress.setText("Current location: " + mAddress);
 		
 		mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
-		mOptionalMessage.setInputType(0);
 		checkSMSLength(mOptionalMessage);
 		mOptionalMessage.addTextChangedListener(new TextWatcher() {
 
