@@ -83,9 +83,9 @@ public class Emergency extends ActionBarActivity {
 		currentAddress.setMovementMethod(new ScrollingMovementMethod());
 		currentAddress.setTextColor(getResources().getColor(R.color.cyan));
 		currentAddress.setText("Current location: " + mAddress);
-		getWindow().setSoftInputMode(
-			      WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+		
 		mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
+		mOptionalMessage.setInputType(0);
 		checkSMSLength(mOptionalMessage);
 		mOptionalMessage.addTextChangedListener(new TextWatcher() {
 
