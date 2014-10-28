@@ -68,18 +68,19 @@
         </activity>
 
         <!-- Google API Key -->
-        <!-- Katie's Key -->
+        <!-- Katie's Key 
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCLH0c5u2sd4i-bU8MCsCHkljOlmx9J_Fg" />
 
-        <!--
-        Jeff's Key 
+		-->
+		
+        <!-- Jeff's Key -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBUAm0Z-eh_tEh7G2LrDGvUlmh2u4cnh8s" />
-        -->
+        
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

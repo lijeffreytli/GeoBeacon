@@ -152,7 +152,7 @@ public class MainActivity extends FragmentActivity{
 		/* Set/Display the TextView on the Main Menu */
 		TextView textViewMain = (TextView)findViewById(R.id.text_view_title);
 		textViewMain.setMovementMethod(new ScrollingMovementMethod());
-		textViewMain.setText("Current Street Address: " + mAddress + "\nCoordinates: " + mLatitude + ", " + mLongitude + "\nAccuracy: +/-" + mAccuracy + " meters");
+		textViewMain.setText(mAddress + "\n(" + mLatitude + ", " + mLongitude + ")" + "\nAccuracy: +/-" + mAccuracy + " meters");
 	}
 
 	@Override
