@@ -1,7 +1,5 @@
 package com.seecondev.seecon;
 
-
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -9,8 +7,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Contacts;
@@ -43,8 +44,14 @@ public class ShareMyLocation extends ActionBarActivity {
 	private double mLatitude;
 	private double mLongitude;
     private String mStrOptionalMessage = "";
-    EditText mOptionalMessage;
-    boolean mValidMessage = true;
+    private EditText mOptionalMessage;
+    private boolean mValidMessage = true;
+	private SharedPreferences mPrefs;
+    
+	// Sound
+	private SoundPool mSounds;	
+	private boolean mSoundOn;
+	private int mSendSoundID;
 	
 	/* Debugging Purposes */
 	private static final String TAG = "SEECON_SHAREMYLOCATION";
@@ -64,6 +71,9 @@ public class ShareMyLocation extends ActionBarActivity {
 			mLongitude = savedInstanceState.getDouble("mLongitude");
 			mLatitude = savedInstanceState.getDouble("mLatitude");
 		}
+		
+		mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
+		mSoundOn = mPrefs.getBoolean("sound", true);
 
 		/* Get the location information from MainActivity */
 		Intent intent = getIntent(); //is this necessary?
@@ -128,6 +138,7 @@ public class ShareMyLocation extends ActionBarActivity {
 		{
 			public void onClick(View v) 
 			{   
+				playSound(mSendSoundID);
 				/* Error handling for null contact */
 				if (mContactName == "" || mContactName == null || mContactName.length() == 0){
 					/* AlertDialog box for user confirmation */
@@ -369,5 +380,22 @@ public class ShareMyLocation extends ActionBarActivity {
 		}
 	}
 	
+	private void createSoundPool() {
+		mSounds = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+		// 2 = maximum sounds to play at the same time,
+		// AudioManager.STREAM_MUSIC is the stream type typically used for games
+		// 0 is the "the sample-rate converter quality. Currently has no effect. Use 0 for the default."
+		mSendSoundID = mSounds.load(this, R.raw.click, 1);
+	}
 	
+	private void playSound(int soundID) {
+		if (mSoundOn)
+			mSounds.play(soundID, 1, 1, 1, 0, 1);
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		createSoundPool();
+	}
 }
