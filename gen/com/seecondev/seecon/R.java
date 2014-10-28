@@ -18,11 +18,14 @@ public final class R {
     }
     public static final class array {
         public static final int androidcolors=0x7f0e0000;
+        public static final int emergency_contacts=0x7f0e0002;
+        public static final int emergency_contacts_values=0x7f0e0003;
         public static final int emergency_dialogs=0x7f0e0001;
-        public static final int pref_example_list_titles=0x7f0e0002;
-        public static final int pref_example_list_values=0x7f0e0003;
-        public static final int pref_sync_frequency_titles=0x7f0e0004;
-        public static final int pref_sync_frequency_values=0x7f0e0005;
+        public static final int empty_array=0x7f0e0004;
+        public static final int pref_example_list_titles=0x7f0e0005;
+        public static final int pref_example_list_values=0x7f0e0006;
+        public static final int pref_sync_frequency_titles=0x7f0e0007;
+        public static final int pref_sync_frequency_values=0x7f0e0008;
     }
     public static final class attr {
         /**  Custom divider drawable to use for elements in the action bar. 
@@ -1817,34 +1820,35 @@ containing a value of this type.
         public static final int create_calendar_title=0x7f0c0011;
         public static final int decline=0x7f0c0010;
         public static final int dialog_prompt=0x7f0c0038;
+        public static final int edit_emergency_contacts=0x7f0c0039;
         public static final int hello_world=0x7f0c0031;
-        public static final int pref_default_display_name=0x7f0c003e;
-        public static final int pref_description_social_recommendations=0x7f0c003c;
+        public static final int pref_default_display_name=0x7f0c003f;
+        public static final int pref_description_social_recommendations=0x7f0c003d;
         /**  Example settings for Data & Sync 
          */
-        public static final int pref_header_data_sync=0x7f0c0040;
+        public static final int pref_header_data_sync=0x7f0c0041;
         /**  Strings related to Settings 
  Example General settings 
          */
-        public static final int pref_header_general=0x7f0c003a;
+        public static final int pref_header_general=0x7f0c003b;
         /**  Example settings for Notifications 
          */
-        public static final int pref_header_notifications=0x7f0c0043;
-        public static final int pref_ringtone_silent=0x7f0c0046;
-        public static final int pref_title_add_friends_to_messages=0x7f0c003f;
-        public static final int pref_title_display_name=0x7f0c003d;
-        public static final int pref_title_new_message_notifications=0x7f0c0044;
-        public static final int pref_title_ringtone=0x7f0c0045;
-        public static final int pref_title_social_recommendations=0x7f0c003b;
-        public static final int pref_title_sync_frequency=0x7f0c0041;
-        public static final int pref_title_system_sync_settings=0x7f0c0042;
-        public static final int pref_title_vibrate=0x7f0c0047;
+        public static final int pref_header_notifications=0x7f0c0044;
+        public static final int pref_ringtone_silent=0x7f0c0047;
+        public static final int pref_title_add_friends_to_messages=0x7f0c0040;
+        public static final int pref_title_display_name=0x7f0c003e;
+        public static final int pref_title_new_message_notifications=0x7f0c0045;
+        public static final int pref_title_ringtone=0x7f0c0046;
+        public static final int pref_title_social_recommendations=0x7f0c003c;
+        public static final int pref_title_sync_frequency=0x7f0c0042;
+        public static final int pref_title_system_sync_settings=0x7f0c0043;
+        public static final int pref_title_vibrate=0x7f0c0048;
         public static final int share_my_location=0x7f0c0033;
         public static final int store_picture_message=0x7f0c000e;
         public static final int store_picture_title=0x7f0c000d;
         public static final int title_activity_emergency=0x7f0c0035;
         public static final int title_activity_get_contacts=0x7f0c0037;
-        public static final int title_activity_get_settings=0x7f0c0039;
+        public static final int title_activity_get_settings=0x7f0c003a;
         public static final int title_activity_settings=0x7f0c0036;
         public static final int title_activity_share_my_location=0x7f0c0034;
         /**  Text on a placeholder buy button when Google Play services is not
