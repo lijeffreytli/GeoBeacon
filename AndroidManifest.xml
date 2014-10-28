@@ -59,7 +59,7 @@
         <activity
             android:name=".Emergency"
             android:label="@string/title_activity_emergency"
-            android:windowSoftInputMode="adjustPan|adjustResize"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:parentActivityName=".MainActivity" >
         </activity>
         <activity

@@ -110,6 +110,7 @@ public class Emergency extends ActionBarActivity {
 		/* Once the user hits the "Send" button */
 		btnSendSMS.setOnClickListener(new View.OnClickListener() 
 		{
+			
 			public void onClick(View v) 
 			{   
 				playSound(mSendSoundID);
