@@ -19,6 +19,8 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/button_send"
         android:onClick="sendMessage"
+        android:textStyle="bold"
+        android:textColor="#FFFFFFFF"
         android:text="Send" />
 
     <TextView
@@ -71,6 +73,7 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/button_default_style"
         android:onClick="getContacts"
+        android:textColor="#FFFFFFFF"
         android:text="Contacts" />
 
     <EditText

@@ -12,14 +12,13 @@
          android:layout_above="@+id/button_share_my_location"
          android:layout_alignParentLeft="true"
          android:layout_alignParentRight="true"
-         android:background="@drawable/text_border"
          android:gravity="left"
          android:paddingLeft="5dp"
          android:paddingRight="5dp"
          android:paddingTop="4dp"
          android:paddingBottom="4dp"
+         android:textColor="#FFFFFFFF"
          android:scrollbars = "vertical"
-         android:textColor="@color/cyan"
          android:textSize="19sp" />
      
 
@@ -40,8 +39,11 @@
          android:layout_alignParentRight="true"
          android:layout_marginRight="5dp"
          android:layout_marginLeft="2.5dp"
+         android:layout_marginBottom="2.5dp"
          android:onClick="getEmergency"
          android:text="!"
+         android:textStyle="bold"
+         android:textColor="#FFFFFFFF"
          android:background="@drawable/button_emergency"
          android:typeface="sans" />
 
@@ -49,16 +51,17 @@
          android:id="@+id/button_share_my_location"
          android:layout_width="150dp"
          android:layout_height="40dp"
-         android:layout_alignBaseline="@+id/button_emergency"
-         android:layout_alignBottom="@+id/button_emergency"
+         android:layout_alignParentBottom="true"
          android:layout_alignParentLeft="true"
-         android:layout_toLeftOf="@+id/button_emergency"
          android:layout_marginLeft="5dp"
          android:layout_marginRight="2.5dp"
          android:layout_marginTop="2.5dp"
-         android:background="@drawable/button_default_style"
+         android:layout_marginBottom="2.5dp"
+         android:layout_toLeftOf="@+id/button_emergency"
+         android:background="@drawable/button_share_my_location"
          android:onClick="shareMyLocation"
          android:text="@string/share_my_location"
+         android:textColor="#FFFFFFFF"
          android:typeface="sans" />
 
 </RelativeLayout>

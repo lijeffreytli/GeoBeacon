@@ -379,7 +379,7 @@ public class ShareMyLocation extends ActionBarActivity {
 		break;
 		}
 		TextView text = (TextView) findViewById(R.id.editPhoneNumber);
-		text.setTextColor(getResources().getColor(R.color.cyan));
+		text.setTextColor(getResources().getColor(R.color.white));
 		if (mContactNumber != null) {
 			text.setText(mContactName);
 		}
