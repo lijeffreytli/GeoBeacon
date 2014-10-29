@@ -1,6 +1,7 @@
 package com.seecondev.seecon;
 
 import java.io.IOException;
+import java.security.Provider;
 import java.util.List;
 import java.util.Locale;
 
@@ -19,6 +20,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.method.ScrollingMovementMethod;
@@ -46,25 +48,26 @@ public class MainActivity extends FragmentActivity{
 	static final int DIALOG_ABOUT_ID = 1;
 	static final int DIALOG_HELP_ID = 2;
 	private static final String TAG = "SEECON_DEBUG";
+	private Location mLocation;
 	private String mAddress;
 	private double mLatitude;
 	private double mLongitude;
 	private float mAccuracy;
 	private LocationManager mLocationManager;
-	private String mProvider;
+	private List<String> mProviders;
 
 	public final static String ADDRESS = "com.seecondev.seecon.ADDRESS";
 	public final static String LAT = "com.seecondev.seecon.LAT";
 	public final static String LONG = "com.seecondev.seecon.LONG";
 	private final static long MIN_TIME = 1000;
-	private final static float MIN_DIST = 3;
+	private final static float MIN_DIST = 3; // 3?
 
 	private SharedPreferences mPrefs;
 
 	// Google Map
 	private GoogleMap mGoogleMap;
 	private Marker mMarker;
-	
+
 	// Sound
 	private SoundPool mSounds;	
 	private boolean mSoundOn;
@@ -75,7 +78,7 @@ public class MainActivity extends FragmentActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		Log.d(TAG, "in onCreate");
-		
+
 		mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
 		mSoundOn = mPrefs.getBoolean("sound", true);
 		int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());		
@@ -84,14 +87,10 @@ public class MainActivity extends FragmentActivity{
 			try {
 				// Loading map
 				initializeMap();
-				mGoogleMap.setMyLocationEnabled(true); 
-				mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
 			}
 			catch (Exception e) {
 				e.printStackTrace();
 			}
-			/* Get the user's locations from map data */
-			getCoordinates();
 		}
 		else {
 			/* AlertDialog if the user needs to update Google Play Services */
@@ -116,79 +115,49 @@ public class MainActivity extends FragmentActivity{
 	 * Function to load map. If map is not created it will create it for you
 	 * */
 	private void initializeMap() {
+		Log.d(TAG, "in initializeMap");
 		if (mGoogleMap == null) {
+			Log.d(TAG, "gotta get the map");
 			mGoogleMap = ((MapFragment) getFragmentManager().findFragmentById(
 					R.id.map)).getMap();
+			mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		} else {
+			Log.d(TAG, "mGoogleMap wasn't null so we didn't do anything");
 		}
+		// Start with better of two last known locations
+		if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			mLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			Log.d(TAG, "gps last known location is " + mLocation);
+		}
+		Location netLocation = null;
+		if (mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+			netLocation = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+			Log.d(TAG, "network last known location is " + mLocation);
+		}
+		if (netLocation != null && isBetterLocation(netLocation)) {
+			mLocation = netLocation;
+		}
+		Log.d(TAG, "we chose the following best location: " + mLocation);
+		if (mLocation == null) {
+			Log.e(TAG, "we can't get the location from network or gps, bad bad bad");
+			//print an error
+			finish();
+		}
+		updateLocation(mLocation);
+
+		mGoogleMap.setMyLocationEnabled(true); 
+		mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
+		mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLatitude, mLongitude), 16));
+		new GeoCoder().execute();
+		Log.d(TAG, "done with initialize map");
+
 	}
 
-	/**
-	 * Function to obtain the longitude and latitude coordinates of the user's location
-	 * */
-	/* This set of code obtains the address, longitude and latitude of a given location */
-	private void getCoordinates() {
-		// Getting LocationManager object from System Service LOCATION_SERVICE
-		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		// Creating a criteria object to retrieve provider
-		Criteria criteria = new Criteria();
-		// Getting the name of the best provider
-		mProvider = mLocationManager.getBestProvider(criteria, true);
-		Log.d(TAG, "Best provider: " + mProvider);
-		// Getting Current Location
-		Location location = mLocationManager.getLastKnownLocation(mProvider);
-		if (location != null) {
-			Log.d(TAG, "location: " + location);  
-			mLatitude = location.getLatitude();
-			mLongitude = location.getLongitude();
-			mAccuracy = location.getAccuracy();
-			Log.d(TAG, "Longitude: " + mLongitude);
-			Log.d(TAG, "Latitude: " + mLatitude);
-			Log.d(TAG, "Accuracy: " + mAccuracy);
-			geocodeAndMarkAddress();
-		} 
-		else {
-			/* AlertDialog apology if we cannot find the user */
-			AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
-			builder1.setMessage("Sorry! unable to get location.");
-			builder1.setCancelable(true);
-			builder1.setNegativeButton("Ok",
-					new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int id) {
-					dialog.cancel();
-				}
-			});
-			AlertDialog alert11 = builder1.create();
-			alert11.show();
-		}
-	}
-
-	private void geocodeAndMarkAddress() {
-		LatLng latLng = new LatLng(mLatitude, mLongitude);
-		Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());   
-		try {
-			List<Address> listAddresses = geocoder.getFromLocation(mLatitude, mLongitude, 1);
-			if(listAddresses != null && listAddresses.size() > 0){
-				mAddress = listAddresses.get(0).getAddressLine(0);
-				Log.d(TAG, "Current address: " + mAddress);
-
-				// Create a location marker of the user's position
-				MarkerOptions mo = new MarkerOptions().position(latLng).title("Current Location").snippet(mAddress).icon(BitmapDescriptorFactory.defaultMarker(195)).alpha(1.0f);
-				if (mMarker != null) {
-					mMarker.remove();
-				}
-				// Drop a location marker of the user's position
-				mMarker = mGoogleMap.addMarker(mo);
-				mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			// ERROR MESSAGE HERE
-			return; // do we want to do this?
-		}	
-		/* Set/Display the TextView on the Main Menu */
-		TextView textViewMain = (TextView)findViewById(R.id.text_view_title);
-		textViewMain.setMovementMethod(new ScrollingMovementMethod());
-		textViewMain.setText(mAddress + "\n(" + mLatitude + ", " + mLongitude + ")" + "\nAccuracy: +/-" + mAccuracy + " meters");
+	public void updateLocation(Location newLocation) {
+		mLocation = newLocation;
+		mLatitude = mLocation.getLatitude();
+		mLongitude = mLocation.getLongitude();
+		mAccuracy = mLocation.getAccuracy();
 	}
 
 	private void createSoundPool() {
@@ -198,28 +167,28 @@ public class MainActivity extends FragmentActivity{
 		// 0 is the "the sample-rate converter quality. Currently has no effect. Use 0 for the default."
 		mClickSoundID = mSounds.load(this, R.raw.click, 1);
 	}
-	
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
 		Log.d(TAG, "in onResume");
 		createSoundPool();
-		initializeMap();
-		if (mGoogleMap != null) {
-			mGoogleMap.setMyLocationEnabled(true); 
-			mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
-			getCoordinates();
-			geocodeAndMarkAddress();
-			mLocationManager.requestLocationUpdates(mProvider, MIN_TIME, MIN_DIST, seeconLocationListener);
+		Criteria criteria = new Criteria();
+		mProviders = mLocationManager.getProviders(true);
+		
+		for (String provider: mProviders) {
+			Log.d(TAG, "requesting location updates from " + provider);
+			mLocationManager.requestLocationUpdates(provider, MIN_TIME, MIN_DIST, seeconLocationListener);
 		}
+		initializeMap();
 	}
+
 
 	private void playSound(int soundID) {
 		if (mSoundOn)
 			mSounds.play(soundID, 1, 1, 1, 0, 1);
 	}
-	
+
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -229,10 +198,10 @@ public class MainActivity extends FragmentActivity{
 			mSounds = null;
 		}	
 		if (mGoogleMap != null) {
+			Log.d(TAG, "removing location updates");
 			mGoogleMap.setMyLocationEnabled(false);
 			mLocationManager.removeUpdates(seeconLocationListener);
 		}
-		mLocationManager.removeUpdates(seeconLocationListener);
 	}
 
 	@Override
@@ -322,6 +291,100 @@ public class MainActivity extends FragmentActivity{
 		builder.setPositiveButton("OK", null);
 		return builder.create();
 	}
+	//http://developer.android.com/guide/topics/location/strategies.html
+
+	/** Determines whether one Location reading is better than the current Location fix
+	 * @param location  The new Location that you want to evaluate
+	 * @param currentBestLocation  The current Location fix, to which you want to compare the new one
+	 */
+	protected boolean isBetterLocation(Location location) {
+		if (mLocation == null) {
+			Log.d(TAG, "mLocation was null, so we will use the new one");
+			// A new location is always better than no location
+			return true;
+		}
+
+		// Check whether the new location fix is newer or older
+		long timeDelta = location.getTime() - mLocation.getTime();
+		boolean isSignificantlyNewer = timeDelta > 1000;
+		boolean isSignificantlyOlder = timeDelta < -1000;
+		boolean isNewer = timeDelta > 0;
+
+		// If it's been more than two minutes since the current location, use the new location
+		// because the user has likely moved
+		if (isSignificantlyNewer) {
+			return true;
+			// If the new location is more than two minutes older, it must be worse
+		} else if (isSignificantlyOlder) {
+			return false;
+		}
+
+		// Check whether the new location fix is more or less accurate
+		int accuracyDelta = (int) (location.getAccuracy() - mLocation.getAccuracy());
+		boolean isLessAccurate = accuracyDelta > 0;
+		boolean isMoreAccurate = accuracyDelta < 0;
+		boolean isSignificantlyLessAccurate = accuracyDelta > 200;
+
+		// Check if the old and new location are from the same provider
+		boolean isFromSameProvider = isSameProvider(location.getProvider(),
+				mLocation.getProvider());
+
+		// Determine location quality using a combination of timeliness and accuracy
+		if (isMoreAccurate) {
+			return true;
+		} else if (isNewer && !isLessAccurate) {
+			return true;
+		} else if (isNewer && !isSignificantlyLessAccurate && isFromSameProvider) {
+			return true;
+		}
+		return false;
+	}
+
+	/** Checks whether two providers are the same */
+	private boolean isSameProvider(String provider1, String provider2) {
+		if (provider1 == null) {
+			return provider2 == null;
+		}
+		return provider1.equals(provider2);
+	}
+
+	// http://stackoverflow.com/questions/10198614/asynctask-geocoder-sometimes-crashes
+	class GeoCoder extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			Log.d("AsyncTask", "GeoCoder-doInBackGround");
+
+			Geocoder gc = new Geocoder(getApplicationContext(), Locale.getDefault());   
+			try {
+				List<Address> listAddresses = gc.getFromLocation(mLatitude, mLongitude, 1);
+				if(listAddresses != null && listAddresses.size() > 0){
+					mAddress = listAddresses.get(0).getAddressLine(0);
+					Log.d(TAG, "mAddress is " + mAddress);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				// ERROR MESSAGE HERE
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			if (mAddress == null) {
+				mAddress = "Unable to retrieve address";
+			}
+
+			/* Set/Display the TextView on the Main Menu */
+			TextView textViewMain = (TextView)findViewById(R.id.text_view_title);
+			textViewMain.setMovementMethod(new ScrollingMovementMethod());
+			textViewMain.setText(mAddress + "\n(" + mLatitude + ", " + mLongitude + ")" + "\nAccuracy: +/-" + mAccuracy + " meters");
+
+			Log.d("AsyncTask", "GeoCoder-onPostExecute");
+			return;
+		}
+
+	}
 
 	private final LocationListener seeconLocationListener =
 			new LocationListener(){
@@ -329,10 +392,11 @@ public class MainActivity extends FragmentActivity{
 		@Override
 		public void onLocationChanged(Location loc) {
 			Log.d(TAG, "in onLocationChanged");
-			mLatitude = loc.getLatitude();
-			mLongitude = loc.getLongitude();
-			mAccuracy = loc.getAccuracy();
-			geocodeAndMarkAddress();
+
+			if (isBetterLocation(loc)) {
+				updateLocation(loc);
+				new GeoCoder().execute();
+			}
 		}
 		public void onProviderDisabled(String provider) {
 
@@ -344,5 +408,6 @@ public class MainActivity extends FragmentActivity{
 
 		}
 	};
+
 }
 
