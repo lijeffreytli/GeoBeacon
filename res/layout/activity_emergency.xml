@@ -18,9 +18,9 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/button_send"
         android:onClick="sendMessage"
-        android:text="Send" 
+        android:text="Send"
         android:textColor="#FFFFFFFF"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <CheckBox
         android:id="@+id/chkEmergencyContacts"
@@ -87,7 +87,7 @@
         android:layout_below="@+id/textViewEmergencyContacts"
         android:ems="20"
         android:hint="Current location: "
-        android:inputType="textMultiLine"
+        android:inputType="textMultiLine|textNoSuggestions|none"
         android:maxHeight="140dp"
         android:paddingBottom="4.5dp"
         android:paddingLeft="4.5dp"

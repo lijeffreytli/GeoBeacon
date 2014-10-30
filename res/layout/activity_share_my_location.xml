@@ -31,8 +31,8 @@
         android:layout_alignRight="@+id/buttonContacts"
         android:layout_below="@+id/buttonContacts"
         android:ems="20"
-        android:hint="Complete Message"
-        android:inputType="textMultiLine"
+        android:hint="Address"
+        android:inputType="textMultiLine|textNoSuggestions|none"
         android:maxHeight="140dp"
         android:paddingBottom="4.5dp"
         android:paddingLeft="4.5dp"
@@ -78,6 +78,7 @@
 
     <EditText
         android:id="@+id/editMessage"
+        android:imeOptions="flagNoExtractUi"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/textCharactersUsed"
