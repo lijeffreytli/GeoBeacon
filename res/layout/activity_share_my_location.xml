@@ -99,13 +99,13 @@
     <TextView
         android:id="@+id/textCharactersUsed"
         android:layout_width="250dp"
-        android:layout_height="20dp"
+        android:layout_height="18dp"
         android:layout_above="@+id/buttonSend"
         android:layout_alignLeft="@+id/buttonSend"
         android:layout_alignRight="@+id/buttonSend"
         android:ems="20"
         android:inputType="textMultiLine"
         android:maxHeight="20dp"
-        android:textSize="16sp" />
+        android:textSize="14sp" />
 
 </RelativeLayout>
