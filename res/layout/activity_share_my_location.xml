@@ -19,9 +19,9 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/button_send"
         android:onClick="sendMessage"
-        android:textStyle="bold"
+        android:text="Send"
         android:textColor="#FFFFFFFF"
-        android:text="Send" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/editCompleteMessage"
@@ -32,6 +32,7 @@
         android:layout_below="@+id/buttonContacts"
         android:ems="20"
         android:hint="Complete Message"
+        android:inputType="textMultiLine|textNoSuggestions|none"
         android:maxHeight="140dp"
         android:paddingBottom="4.5dp"
         android:paddingLeft="4.5dp"
@@ -72,8 +73,8 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/button_default_style"
         android:onClick="getContacts"
-        android:textColor="#FFFFFFFF"
-        android:text="Contacts" />
+        android:text="Contacts"
+        android:textColor="#FFFFFFFF" />
 
     <EditText
         android:id="@+id/editMessage"
