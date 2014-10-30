@@ -45,6 +45,7 @@ public class ShareMyLocation extends ActionBarActivity {
 	private String mContactNumber;
 	private String mContactName;
 	private String mAddress;
+	private String mMapURL;
 	private double mLatitude;
 	private double mLongitude;
 	private String mStrOptionalMessage = "";
@@ -103,15 +104,13 @@ public class ShareMyLocation extends ActionBarActivity {
 			Log.d(TAG, "address is null");
 
 		/* Display the current street address to the screen */
-		mMessage = "Current Location: " + mAddress + "\n";
+		mMessage = "Current Location:\n" + mAddress + "\n";
 		TextView currentAddress = (TextView)findViewById(R.id.editCompleteMessage);
 		currentAddress.setMovementMethod(new ScrollingMovementMethod());
 		currentAddress.setTextColor(getResources().getColor(R.color.cyan));
 		currentAddress.setText(mMessage);
-
 		/* Add the googlemaps link for the sent message */
-		mMessage += "\nExact Coordinates: https://www.google.com/maps?z=18&t=m&q=loc:" + mLatitude + "+" + mLongitude + "\n\n";
-
+		mMapURL = "https://www.google.com/maps?z=18&t=m&q=loc:" + mLatitude + "+" + mLongitude + "\n\n";
 		mOptionalMessage = (EditText)findViewById(R.id.editMessage);
 		checkSMSLength(mOptionalMessage);
 		mOptionalMessage.addTextChangedListener(new TextWatcher() {
@@ -182,7 +181,22 @@ public class ShareMyLocation extends ActionBarActivity {
 
 								if (phoneNo != null && phoneNo.length() > 0) { //Checks whether the number is not null      
 									/* Send the user's location */
-									sendSMS(phoneNo, mMessage); 
+									if (mMessage.length() > 160) {
+										int i = 0;
+										while (i < mMessage.length()) {
+											int endIdx = Math.min(mMessage.length(), i + 160);
+											sendSMS(phoneNo, mMessage.substring(i, endIdx));
+											i += 160;
+										}
+										sendSMS(phoneNo, mMapURL);
+									} else if (mMessage.length() + mMapURL.length() < 160) {
+										mMessage += mMapURL;
+										sendSMS(phoneNo, mMessage); 
+									} else {
+										sendSMS(phoneNo, mMessage);
+										sendSMS(phoneNo, mMapURL);
+									}
+
 									/* Send the optional message */
 									if (mStrOptionalMessage != "" && mStrOptionalMessage != null && !mStrOptionalMessage.isEmpty()) {
 										sendSMS(phoneNo, mStrOptionalMessage);
