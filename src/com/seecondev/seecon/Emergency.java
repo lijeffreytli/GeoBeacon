@@ -140,6 +140,7 @@ public class Emergency extends ActionBarActivity {
 							mAddress + "\nCoordinates: " + 
 							"https://www.google.com/maps?z=18&t=m&q=loc:" + 
 							mLatitude + "+" + mLongitude + "\n";
+					
 
 					/* AlertDialog box for user confirmation */
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(Emergency.this);
