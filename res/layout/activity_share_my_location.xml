@@ -26,10 +26,11 @@
     <TextView
         android:id="@+id/editCompleteMessage"
         android:layout_width="250dp"
-        android:layout_height="60dp"
+        android:layout_height="85dp"
         android:layout_alignLeft="@+id/editPhoneNumber"
         android:layout_alignRight="@+id/buttonContacts"
         android:layout_below="@+id/buttonContacts"
+        android:layout_marginBottom="5dp"
         android:ems="20"
         android:hint="Complete Message"
         android:inputType="textMultiLine|textNoSuggestions|none"
@@ -38,7 +39,7 @@
         android:paddingLeft="4.5dp"
         android:paddingRight="4.5dp"
         android:scrollbars="vertical"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/editPhoneNumber"
@@ -76,37 +77,37 @@
         android:text="Contacts"
         android:textColor="#FFFFFFFF" />
 
-    <EditText
-        android:id="@+id/editMessage"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/textCharactersUsed"
+    <Button
+        android:id="@+id/buttonAddOptionalMessage"
+        android:layout_width="150dp"
+        android:layout_height="35dp"
         android:layout_alignLeft="@+id/editCompleteMessage"
         android:layout_alignRight="@+id/editCompleteMessage"
         android:layout_below="@+id/editCompleteMessage"
-        android:background="@drawable/text_border"
-        android:ems="20"
-        android:gravity="top|left"
-        android:hint="Enter additional message"
-        android:inputType="textMultiLine"
-        android:paddingBottom="5dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingTop="5dp"
-        android:scrollbars="vertical"
-        android:textSize="22sp" >
-    </EditText>
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/button_send"
+        android:onClick="getAdditionalMessage"
+        android:text="Add Additional Message"
+        android:textColor="#FFFFFFFF"
+        android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/textCharactersUsed"
+        android:id="@+id/tvOptionalMessage"
         android:layout_width="250dp"
-        android:layout_height="18dp"
+        android:layout_height="85dp"
         android:layout_above="@+id/buttonSend"
-        android:layout_alignLeft="@+id/buttonSend"
-        android:layout_alignRight="@+id/buttonSend"
+        android:layout_alignLeft="@+id/buttonAddOptionalMessage"
+        android:layout_alignRight="@+id/buttonAddOptionalMessage"
+        android:layout_below="@+id/buttonAddOptionalMessage"
         android:ems="20"
-        android:inputType="textMultiLine"
-        android:maxHeight="20dp"
-        android:textSize="14sp" />
+        android:hint="Additional Message"
+        android:maxHeight="140dp"
+        android:paddingBottom="6dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:paddingTop="6dp"
+        android:scrollbars="vertical"
+        android:textSize="18sp"
+        android:background="@drawable/text_border" />
 
 </RelativeLayout>
