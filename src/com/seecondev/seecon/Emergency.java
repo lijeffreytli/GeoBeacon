@@ -165,6 +165,7 @@ public class Emergency extends ActionBarActivity {
 							sendSMS(phoneJeff, mStrOptionalMessage);
 							sendSMS(phoneKatie, mStrOptionalMessage);
 							sendSMS(phoneJared, mStrOptionalMessage);
+							finish();
 						}
 					});
 					builder1.setNegativeButton("No",

@@ -179,14 +179,19 @@ public class MainActivity extends FragmentActivity{
 		if (mLocationEnabled) {
 			createSoundPool();
 
-			Criteria criteria = new Criteria();
-			mProviders = mLocationManager.getProviders(true);
-
-			for (String provider: mProviders) {
-				Log.d(TAG, "requesting location updates from " + provider);
-				mLocationManager.requestLocationUpdates(provider, MIN_TIME, MIN_DIST, seeconLocationListener);
+			if (mLocationManager == null) {
+				mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 			}
-			initializeMap();
+			if (mLocationManager != null) {
+				Criteria criteria = new Criteria();
+				mProviders = mLocationManager.getProviders(true);
+
+				for (String provider: mProviders) {
+					Log.d(TAG, "requesting location updates from " + provider);
+					mLocationManager.requestLocationUpdates(provider, MIN_TIME, MIN_DIST, seeconLocationListener);
+				}
+				initializeMap();
+			}
 		}
 	}
 
