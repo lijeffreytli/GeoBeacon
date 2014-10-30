@@ -213,6 +213,12 @@ public class Emergency extends ActionBarActivity {
 
 	/* This method sends a text message to a specific phone number */
 	private void sendSMS(String phoneNumber, String message){
+		if (message != "" && message != null && message.isEmpty()){
+			return;
+		}
+		if (phoneNumber != "" && phoneNumber != null && phoneNumber.isEmpty()){
+			return;
+		}
 		SmsManager sms = SmsManager.getDefault();
 		sms.sendTextMessage(phoneNumber, null, message, null, null);
 	}
