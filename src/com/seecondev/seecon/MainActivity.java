@@ -212,6 +212,14 @@ public class MainActivity extends FragmentActivity{
 		return true;
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == RESULT_CANCELED) {
+			// Apply potentially new settings
+			mSoundOn = mPrefs.getBoolean("sound", true);
+		}
+	}
+
 	/* ShareMyLocation Button */
 	public void shareMyLocation(View view) {
 		playSound(mClickSoundID);
@@ -376,7 +384,6 @@ public class MainActivity extends FragmentActivity{
 				Log.d(TAG, "mAddress is " + mAddress);
 			} catch (Exception e) {
 				e.printStackTrace();
-				//generateAlert("Error: unable to retrieve address", false);
 			}
 			return null;
 		}
@@ -387,12 +394,12 @@ public class MainActivity extends FragmentActivity{
 			if (mAddress == null) {
 				generateAlert("Error: unable to retrieve address", false);
 			} else {
-			/* Set/Display the TextView on the Main Menu */
-			TextView textViewMain = (TextView)findViewById(R.id.text_view_title);
-			textViewMain.setMovementMethod(new ScrollingMovementMethod());
-			textViewMain.setText(mAddress + "\n(" + mLatitude + ", " + 
-					mLongitude + ")" + "\nAccuracy: +/-" + mAccuracy + 
-					" meters");
+				/* Set/Display the TextView on the Main Menu */
+				TextView textViewMain = (TextView)findViewById(R.id.text_view_title);
+				textViewMain.setMovementMethod(new ScrollingMovementMethod());
+				textViewMain.setText(mAddress + "\n(" + mLatitude + ", " + 
+						mLongitude + ")" + "\nAccuracy: +/-" + mAccuracy + 
+						" meters");
 			}
 		}
 

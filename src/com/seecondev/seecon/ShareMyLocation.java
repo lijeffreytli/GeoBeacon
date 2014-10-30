@@ -60,7 +60,7 @@ public class ShareMyLocation extends ActionBarActivity {
 
 	/* Debugging Purposes */
 	private static final String TAG = "SEECON_SHAREMYLOCATION";
-	static final int PICK_CONTACT_REQUEST = 0;
+	static final int PICK_CONTACT_REQUEST = 219;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -117,17 +117,14 @@ public class ShareMyLocation extends ActionBarActivity {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				// TODO Auto-generated method stub
 			}
 
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				// TODO Auto-generated method stub
 			}
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
 				checkSMSLength(mOptionalMessage); // pass your EditText Obj here.
 			}
 		});
@@ -338,7 +335,6 @@ public class ShareMyLocation extends ActionBarActivity {
 	}
 
 	private Dialog createHelpDialog(Builder builder) {
-		// TODO Auto-generated method stub
 		Context context = getApplicationContext();
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
 		View layout = inflater.inflate(R.layout.help_dialog, null); 		
@@ -348,7 +344,6 @@ public class ShareMyLocation extends ActionBarActivity {
 	}
 
 	private Dialog createAboutDialog(Builder builder) {
-		// TODO Auto-generated method stub
 		Context context = getApplicationContext();
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
 		View layout = inflater.inflate(R.layout.about_dialog, null); 		
@@ -391,6 +386,11 @@ public class ShareMyLocation extends ActionBarActivity {
 				}
 			}
 		break;
+		case RESULT_CANCELED: {
+			// Apply potentially new settings
+			mSoundOn = mPrefs.getBoolean("sound", true);
+			break;
+		}
 		}
 		TextView text = (TextView) findViewById(R.id.editPhoneNumber);
 		text.setTextColor(getResources().getColor(R.color.white));
