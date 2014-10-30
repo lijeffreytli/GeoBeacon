@@ -386,11 +386,10 @@ public class ShareMyLocation extends ActionBarActivity {
 				}
 			}
 		break;
-		case RESULT_CANCELED: {
+		case RESULT_CANCELED:
 			// Apply potentially new settings
 			mSoundOn = mPrefs.getBoolean("sound", true);
 			break;
-		}
 		}
 		TextView text = (TextView) findViewById(R.id.editPhoneNumber);
 		text.setTextColor(getResources().getColor(R.color.white));

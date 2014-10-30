@@ -328,4 +328,11 @@ public class Emergency extends ActionBarActivity {
 			}
 		}
 	}
+	public void onActivityResult(int reqCode, int resultCode, Intent data) {
+		super.onActivityResult(reqCode, resultCode, data);
+		if (resultCode ==  RESULT_CANCELED) {
+			// Apply potentially new settings
+			mSoundOn = mPrefs.getBoolean("sound", true);
+		}
+	}
 }
