@@ -46,8 +46,8 @@ Jared Hettinger: jah3735
    app and an abridged version of the information provided above.
    About: This is a generic page that lists developer names, the application 
    icon, and a simplified description of the overall purpose of the app.
-   Settings: This is currently a beta feature. However, a default Settings 
-   page is present but does not interact with the rest of the app.
+   Settings: The sound preference is functional now, but the emergency contact
+   list will not be implemented until the beta. 
 
 3. A list of features/use cases you have completed
 
