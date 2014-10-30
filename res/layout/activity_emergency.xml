@@ -61,7 +61,7 @@
         android:layout_alignRight="@+id/textCharactersUsedEmergency"
         android:ems="20"
         android:hint="Current location: "
-        android:inputType="textMultiLine"
+        android:inputType="textMultiLine|textNoSuggestions|none"
         android:maxHeight="140dp"
         android:paddingBottom="4.5dp"
         android:paddingLeft="4.5dp"
