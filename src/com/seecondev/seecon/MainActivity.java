@@ -94,21 +94,25 @@ public class MainActivity extends FragmentActivity{
 		}
 		else {
 			/* AlertDialog if the user needs to update Google Play Services */
-			AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
-			builder1.setMessage("Please update Google Play Services.");
-			builder1.setCancelable(true);
-			builder1.setNegativeButton("Ok",
-					new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int id) {
-					dialog.cancel();
-					finish();
-				}
-			});
-			AlertDialog alert11 = builder1.create();
-			alert11.show();
+			generateAlert("Please update Google Play Services.", true);
 		}
 	}
 
+	public void generateAlert(String message, final boolean isFatal) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+		builder.setMessage(message);
+		builder.setCancelable(true);
+		builder.setNegativeButton("Ok",
+				new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+				if (isFatal)
+					finish();
+			}
+		});
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
 
 
 	/**
@@ -117,13 +121,12 @@ public class MainActivity extends FragmentActivity{
 	private void initializeMap() {
 		Log.d(TAG, "in initializeMap");
 		if (mGoogleMap == null) {
-			Log.d(TAG, "gotta get the map");
 			mGoogleMap = ((MapFragment) getFragmentManager().findFragmentById(
 					R.id.map)).getMap();
-			mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		} else {
-			Log.d(TAG, "mGoogleMap wasn't null so we didn't do anything");
 		}
+		if (mLocationManager == null) {
+			mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		} 
 		// Start with better of two last known locations
 		if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			mLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -139,16 +142,14 @@ public class MainActivity extends FragmentActivity{
 		}
 		Log.d(TAG, "we chose the following best location: " + mLocation);
 		if (mLocation == null) {
-			Log.e(TAG, "we can't get the location from network or gps, bad bad bad");
-			//print an error
-			finish();
+			generateAlert("Error: location information unavailable.", true);
 		}
 		updateLocation(mLocation);
 
 		mGoogleMap.setMyLocationEnabled(true); 
 		mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
 		mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLatitude, mLongitude), 16));
-		new GeoCoder().execute();
+		new GetAddressTask().execute();
 		Log.d(TAG, "done with initialize map");
 
 	}
@@ -175,7 +176,7 @@ public class MainActivity extends FragmentActivity{
 		createSoundPool();
 		Criteria criteria = new Criteria();
 		mProviders = mLocationManager.getProviders(true);
-		
+
 		for (String provider: mProviders) {
 			Log.d(TAG, "requesting location updates from " + provider);
 			mLocationManager.requestLocationUpdates(provider, MIN_TIME, MIN_DIST, seeconLocationListener);
@@ -264,14 +265,8 @@ public class MainActivity extends FragmentActivity{
 			dialog = createHelpDialog(builder);
 			break;
 		}
-
-		//		if(dialog == null)
-		//			Log.d(TAG, "Uh oh! Dialog is null");
-		//		else
-		//			Log.d(TAG, "Dialog created: " + id + ", dialog: " + dialog);
 		return dialog;        
 	}
-
 
 	private Dialog createHelpDialog(Builder builder) {
 		Context context = getApplicationContext();
@@ -291,9 +286,10 @@ public class MainActivity extends FragmentActivity{
 		builder.setPositiveButton("OK", null);
 		return builder.create();
 	}
-	//http://developer.android.com/guide/topics/location/strategies.html
 
-	/** Determines whether one Location reading is better than the current Location fix
+
+	/** Code adapted from http://developer.android.com/guide/topics/location/strategies.html
+	 * Determines whether one Location reading is better than the current Location fix
 	 * @param location  The new Location that you want to evaluate
 	 * @param currentBestLocation  The current Location fix, to which you want to compare the new one
 	 */
@@ -348,40 +344,50 @@ public class MainActivity extends FragmentActivity{
 		return provider1.equals(provider2);
 	}
 
-	// http://stackoverflow.com/questions/10198614/asynctask-geocoder-sometimes-crashes
-	class GeoCoder extends AsyncTask<Void, Void, Void> {
+	/* Code adapted from http://stackoverflow.com/questions/10198614/asynctask-geocoder-sometimes-crashes */
+	private class GetAddressTask extends AsyncTask<Void, Void, Void> {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			Log.d("AsyncTask", "GeoCoder-doInBackGround");
+			Log.d(TAG, "in GeoCoder doInBackground");
 
 			Geocoder gc = new Geocoder(getApplicationContext(), Locale.getDefault());   
 			try {
 				List<Address> listAddresses = gc.getFromLocation(mLatitude, mLongitude, 1);
-				if(listAddresses != null && listAddresses.size() > 0){
-					mAddress = listAddresses.get(0).getAddressLine(0);
-					Log.d(TAG, "mAddress is " + mAddress);
+				if (listAddresses != null && listAddresses.size() > 0) {
+					int maxAddressLine = listAddresses.get(0).getMaxAddressLineIndex();
+					if (maxAddressLine < 2) {
+						mAddress = "Address unavailable";
+					} else {
+						mAddress = "";
+						// we are making assumptions here that the last line is always country which we don't want. hopefully that's okay
+						for (int i = 0; i < maxAddressLine; i++) {
+							String tmp = listAddresses.get(0).getAddressLine(i);
+							if (tmp != null) {
+								mAddress += tmp;
+								if (i != (maxAddressLine - 1))
+									mAddress += "\n";
+							}
+						}
+					}
+				} else {
+					mAddress = "Address unavailable";
 				}
+				Log.d(TAG, "mAddress is " + mAddress);
 			} catch (Exception e) {
 				e.printStackTrace();
-				// ERROR MESSAGE HERE
+				generateAlert("Error: unable to retrieve address", false);
 			}
 			return null;
 		}
 
 		@Override
 		protected void onPostExecute(Void result) {
-			if (mAddress == null) {
-				mAddress = "Unable to retrieve address";
-			}
-
+			Log.d(TAG, "in GeoCoder onPostExecute");
 			/* Set/Display the TextView on the Main Menu */
 			TextView textViewMain = (TextView)findViewById(R.id.text_view_title);
 			textViewMain.setMovementMethod(new ScrollingMovementMethod());
 			textViewMain.setText(mAddress + "\n(" + mLatitude + ", " + mLongitude + ")" + "\nAccuracy: +/-" + mAccuracy + " meters");
-
-			Log.d("AsyncTask", "GeoCoder-onPostExecute");
-			return;
 		}
 
 	}
@@ -395,7 +401,7 @@ public class MainActivity extends FragmentActivity{
 
 			if (isBetterLocation(loc)) {
 				updateLocation(loc);
-				new GeoCoder().execute();
+				new GetAddressTask().execute();
 			}
 		}
 		public void onProviderDisabled(String provider) {
@@ -408,6 +414,5 @@ public class MainActivity extends FragmentActivity{
 
 		}
 	};
-
 }
 
