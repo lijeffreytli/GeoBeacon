@@ -87,7 +87,7 @@ public class Emergency extends ActionBarActivity {
 		TextView currentAddress = (TextView)findViewById(R.id.editEmergencyAddress);
 		currentAddress.setMovementMethod(new ScrollingMovementMethod());
 		currentAddress.setTextColor(getResources().getColor(R.color.cyan));
-		currentAddress.setText("Current location: " + mAddress);
+		currentAddress.setText(mAddress);
 
 		mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
 		checkSMSLength(mOptionalMessage);
@@ -152,15 +152,18 @@ public class Emergency extends ActionBarActivity {
 							String phoneJared = "14693942157";
 
 							if (phoneJeff != null && phoneJeff.length() > 0) { //Checks whether the number is not null      
-								//sendSMS(phoneNo, mMessage); 
-								sendSMS(phoneKatie, mMessage);
 								sendSMS(phoneJeff, mMessage);
-								//sendSMS(phoneJared, mMessage);
 								finish(); //After sending the message, return back to MainActivity
-							} else //Throw an exception if the number is invalid
-								Toast.makeText(getBaseContext(), 
-										"Please enter a valid phone number.", 
-										Toast.LENGTH_SHORT).show();
+							}
+							if (phoneKatie != null && phoneKatie.length() > 0) { //Checks whether the number is not null      
+								sendSMS(phoneKatie, mMessage);
+								finish(); //After sending the message, return back to MainActivity
+							}
+							if (phoneJared != null && phoneJared.length() > 0) { //Checks whether the number is not null      
+								sendSMS(phoneJared, mMessage);
+								finish(); //After sending the message, return back to MainActivity
+							}
+							
 						}
 					});
 					builder1.setNegativeButton("No",
