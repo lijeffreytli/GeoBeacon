@@ -136,7 +136,10 @@ public class Emergency extends ActionBarActivity {
 					Log.d(TAG, "In Emergency: text: " + spinnerText);
 
 					/* This is the message that will be sent to emergency contacts */
-					mMessage += "Emergency: " + spinnerText + "\nCurrent address: " + mAddress + "\nCoordinates: " + "https://www.google.com/maps?z=18&t=m&q=loc:" + mLatitude + "+" + mLongitude + "\n\n";
+					mMessage += "Emergency: " + spinnerText + "\nCurrent address: " + 
+							mAddress + "\nCoordinates: " + 
+							"https://www.google.com/maps?z=18&t=m&q=loc:" + 
+							mLatitude + "+" + mLongitude + "\n";
 
 					/* AlertDialog box for user confirmation */
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(Emergency.this);
@@ -151,19 +154,17 @@ public class Emergency extends ActionBarActivity {
 							String phoneJeff = "15129653085";
 							String phoneJared = "14693942157";
 
-							if (phoneJeff != null && phoneJeff.length() > 0) { //Checks whether the number is not null      
-								sendSMS(phoneJeff, mMessage);
-								finish(); //After sending the message, return back to MainActivity
+							int i = 0;
+							while (i < mMessage.length()) {
+								int endIdx = Math.min(mMessage.length(), i + 160);
+								sendSMS(phoneJeff, mMessage.substring(i, endIdx));
+								sendSMS(phoneKatie, mMessage.substring(i, endIdx));
+								sendSMS(phoneJared, mMessage.substring(i, endIdx));
+								i += 160;
 							}
-							if (phoneKatie != null && phoneKatie.length() > 0) { //Checks whether the number is not null      
-								sendSMS(phoneKatie, mMessage);
-								finish(); //After sending the message, return back to MainActivity
-							}
-							if (phoneJared != null && phoneJared.length() > 0) { //Checks whether the number is not null      
-								sendSMS(phoneJared, mMessage);
-								finish(); //After sending the message, return back to MainActivity
-							}
-							
+							sendSMS(phoneJeff, mStrOptionalMessage);
+							sendSMS(phoneKatie, mStrOptionalMessage);
+							sendSMS(phoneJared, mStrOptionalMessage);
 						}
 					});
 					builder1.setNegativeButton("No",
