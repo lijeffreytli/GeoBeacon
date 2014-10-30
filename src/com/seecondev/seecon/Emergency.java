@@ -162,9 +162,11 @@ public class Emergency extends ActionBarActivity {
 								sendSMS(phoneJared, mMessage.substring(i, endIdx));
 								i += 160;
 							}
-							sendSMS(phoneJeff, mStrOptionalMessage);
-							sendSMS(phoneKatie, mStrOptionalMessage);
-							sendSMS(phoneJared, mStrOptionalMessage);
+							if (mStrOptionalMessage != "" && mStrOptionalMessage != null && !mStrOptionalMessage.isEmpty()) {
+								sendSMS(phoneJeff, mStrOptionalMessage);
+								sendSMS(phoneKatie, mStrOptionalMessage);
+								sendSMS(phoneJared, mStrOptionalMessage);
+							}
 							finish();
 						}
 					});
