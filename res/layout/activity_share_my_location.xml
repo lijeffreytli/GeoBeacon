@@ -26,7 +26,7 @@
     <TextView
         android:id="@+id/editCompleteMessage"
         android:layout_width="250dp"
-        android:layout_height="60dp"
+        android:layout_height="80dp"
         android:layout_alignLeft="@+id/editPhoneNumber"
         android:layout_alignRight="@+id/buttonContacts"
         android:layout_below="@+id/buttonContacts"
@@ -38,7 +38,7 @@
         android:paddingLeft="4.5dp"
         android:paddingRight="4.5dp"
         android:scrollbars="vertical"
-        android:textSize="22sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/editPhoneNumber"

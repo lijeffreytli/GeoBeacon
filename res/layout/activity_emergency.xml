@@ -81,7 +81,7 @@
     <TextView
         android:id="@+id/editEmergencyAddress"
         android:layout_width="250dp"
-        android:layout_height="60dp"
+        android:layout_height="80dp"
         android:layout_alignLeft="@+id/textViewEmergencyContacts"
         android:layout_alignRight="@+id/textCharactersUsedEmergency"
         android:layout_below="@+id/textViewEmergencyContacts"
@@ -94,7 +94,7 @@
         android:paddingRight="4.5dp"
         android:paddingTop="4.5dp"
         android:scrollbars="vertical"
-        android:textSize="22sp" />
+        android:textSize="18sp" />
 
     <Spinner
         android:id="@+id/spinnerEmergencyDialogs"

@@ -104,7 +104,7 @@ public class ShareMyLocation extends ActionBarActivity {
 			Log.d(TAG, "address is null");
 
 		/* Display the current street address to the screen */
-		mMessage = "Current Location:\n" + mAddress;
+		mMessage = mAddress;
 		TextView currentAddress = (TextView)findViewById(R.id.editCompleteMessage);
 		currentAddress.setMovementMethod(new ScrollingMovementMethod());
 		currentAddress.setTextColor(getResources().getColor(R.color.cyan));
