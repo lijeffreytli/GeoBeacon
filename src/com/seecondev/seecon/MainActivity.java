@@ -60,7 +60,8 @@ public class MainActivity extends FragmentActivity{
 	public final static String LAT = "com.seecondev.seecon.LAT";
 	public final static String LONG = "com.seecondev.seecon.LONG";
 	private final static long MIN_TIME = 1000;
-	private final static float MIN_DIST = 3; // 3?
+	private final static float MIN_DIST = 3;
+	private static boolean mLocationEnabled;
 
 	private SharedPreferences mPrefs;
 
@@ -83,6 +84,7 @@ public class MainActivity extends FragmentActivity{
 		mSoundOn = mPrefs.getBoolean("sound", true);
 		int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());		
 		if (resultCode == ConnectionResult.SUCCESS) {
+			mLocationEnabled = true;
 			/* Load Google Maps */
 			try {
 				// Loading map
@@ -93,6 +95,7 @@ public class MainActivity extends FragmentActivity{
 			}
 		}
 		else {
+			mLocationEnabled = false;
 			/* AlertDialog if the user needs to update Google Play Services */
 			generateAlert("Please update Google Play Services.", true);
 		}
@@ -173,15 +176,18 @@ public class MainActivity extends FragmentActivity{
 	public void onResume() {
 		super.onResume();
 		Log.d(TAG, "in onResume");
-		createSoundPool();
-		Criteria criteria = new Criteria();
-		mProviders = mLocationManager.getProviders(true);
+		if (mLocationEnabled) {
+			createSoundPool();
 
-		for (String provider: mProviders) {
-			Log.d(TAG, "requesting location updates from " + provider);
-			mLocationManager.requestLocationUpdates(provider, MIN_TIME, MIN_DIST, seeconLocationListener);
+			Criteria criteria = new Criteria();
+			mProviders = mLocationManager.getProviders(true);
+
+			for (String provider: mProviders) {
+				Log.d(TAG, "requesting location updates from " + provider);
+				mLocationManager.requestLocationUpdates(provider, MIN_TIME, MIN_DIST, seeconLocationListener);
+			}
+			initializeMap();
 		}
-		initializeMap();
 	}
 
 
