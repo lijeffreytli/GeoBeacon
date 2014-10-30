@@ -162,11 +162,9 @@ public class Emergency extends ActionBarActivity {
 								sendSMS(phoneJared, mMessage.substring(i, endIdx));
 								i += 160;
 							}
-							if (mStrOptionalMessage != "" && mStrOptionalMessage != null && !mStrOptionalMessage.isEmpty()) {
-								sendSMS(phoneJeff, mStrOptionalMessage);
-								sendSMS(phoneKatie, mStrOptionalMessage);
-								sendSMS(phoneJared, mStrOptionalMessage);
-							}
+							sendSMS(phoneJeff, mStrOptionalMessage);
+							sendSMS(phoneKatie, mStrOptionalMessage);
+							sendSMS(phoneJared, mStrOptionalMessage);
 							finish();
 						}
 					});
@@ -213,10 +211,10 @@ public class Emergency extends ActionBarActivity {
 
 	/* This method sends a text message to a specific phone number */
 	private void sendSMS(String phoneNumber, String message){
-		if (message != "" && message != null && message.isEmpty()){
+		if (message == null || message.isEmpty()){
 			return;
 		}
-		if (phoneNumber != "" && phoneNumber != null && phoneNumber.isEmpty()){
+		if (phoneNumber == null || phoneNumber.isEmpty()){
 			return;
 		}
 		SmsManager sms = SmsManager.getDefault();

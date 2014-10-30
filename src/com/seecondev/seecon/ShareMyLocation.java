@@ -195,9 +195,8 @@ public class ShareMyLocation extends ActionBarActivity {
 									}
 
 									/* Send the optional message */
-									if (mStrOptionalMessage != "" && mStrOptionalMessage != null && !mStrOptionalMessage.isEmpty()) {
-										sendSMS(phoneNo, mStrOptionalMessage);
-									}
+									sendSMS(phoneNo, mStrOptionalMessage);
+
 									finish(); //After sending the message, return back to MainActivity
 								} else //Throw an exception if the number is invalid
 									Toast.makeText(getBaseContext(), 
@@ -251,6 +250,12 @@ public class ShareMyLocation extends ActionBarActivity {
 
 	/* This method sends a text message to a specific phone number */
 	private void sendSMS(String phoneNumber, String message){
+		if (message == null || message.isEmpty()){
+			return;
+		}
+		if (phoneNumber == null || phoneNumber.isEmpty()){
+			return;
+		}
 		SmsManager sms = SmsManager.getDefault();
 		sms.sendTextMessage(phoneNumber, null, message, null, null);
 	}
