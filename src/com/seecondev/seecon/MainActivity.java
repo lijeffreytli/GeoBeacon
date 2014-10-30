@@ -364,9 +364,9 @@ public class MainActivity extends FragmentActivity{
 						for (int i = 0; i < maxAddressLine; i++) {
 							String tmp = listAddresses.get(0).getAddressLine(i);
 							if (tmp != null) {
-								mAddress += tmp;
-								if (i != (maxAddressLine - 1))
+								if (i != 0)
 									mAddress += "\n";
+								mAddress += tmp;
 							}
 						}
 					}
@@ -376,7 +376,7 @@ public class MainActivity extends FragmentActivity{
 				Log.d(TAG, "mAddress is " + mAddress);
 			} catch (Exception e) {
 				e.printStackTrace();
-				generateAlert("Error: unable to retrieve address", false);
+				//generateAlert("Error: unable to retrieve address", false);
 			}
 			return null;
 		}
@@ -384,10 +384,16 @@ public class MainActivity extends FragmentActivity{
 		@Override
 		protected void onPostExecute(Void result) {
 			Log.d(TAG, "in GeoCoder onPostExecute");
+			if (mAddress == null) {
+				generateAlert("Error: unable to retrieve address", false);
+			} else {
 			/* Set/Display the TextView on the Main Menu */
 			TextView textViewMain = (TextView)findViewById(R.id.text_view_title);
 			textViewMain.setMovementMethod(new ScrollingMovementMethod());
-			textViewMain.setText(mAddress + "\n(" + mLatitude + ", " + mLongitude + ")" + "\nAccuracy: +/-" + mAccuracy + " meters");
+			textViewMain.setText(mAddress + "\n(" + mLatitude + ", " + 
+					mLongitude + ")" + "\nAccuracy: +/-" + mAccuracy + 
+					" meters");
+			}
 		}
 
 	}
