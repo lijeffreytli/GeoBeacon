@@ -18,9 +18,7 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/button_send"
         android:onClick="sendMessage"
-        android:text="Send"
-        android:textColor="#FFFFFFFF"
-        android:textStyle="bold" />
+        android:text="Send" />
 
     <CheckBox
         android:id="@+id/chkEmergencyContacts"
@@ -42,7 +40,7 @@
         android:paddingRight="4.5dp"
         android:paddingTop="4.5dp"
         android:text="Include emergency contacts"
-        android:textColor="#FFFFFFFF"
+        android:textColor="@color/cyan"
         android:textSize="22sp" />
 
     <EditText
@@ -81,20 +79,20 @@
     <TextView
         android:id="@+id/editEmergencyAddress"
         android:layout_width="250dp"
-        android:layout_height="200dp"
+        android:layout_height="60dp"
         android:layout_alignLeft="@+id/textViewEmergencyContacts"
         android:layout_alignRight="@+id/textCharactersUsedEmergency"
         android:layout_below="@+id/textViewEmergencyContacts"
         android:ems="20"
         android:hint="Current location: "
-        android:inputType="textMultiLine|textNoSuggestions|none"
+        android:inputType="textMultiLine"
         android:maxHeight="140dp"
         android:paddingBottom="4.5dp"
         android:paddingLeft="4.5dp"
         android:paddingRight="4.5dp"
         android:paddingTop="4.5dp"
         android:scrollbars="vertical"
-        android:textSize="18sp" />
+        android:textSize="22sp" />
 
     <Spinner
         android:id="@+id/spinnerEmergencyDialogs"

@@ -26,13 +26,12 @@
     <TextView
         android:id="@+id/editCompleteMessage"
         android:layout_width="250dp"
-        android:layout_height="200dp"
+        android:layout_height="60dp"
         android:layout_alignLeft="@+id/editPhoneNumber"
         android:layout_alignRight="@+id/buttonContacts"
         android:layout_below="@+id/buttonContacts"
         android:ems="20"
-        android:hint="Address"
-        android:inputType="textMultiLine|textNoSuggestions|none"
+        android:hint="Complete Message"
         android:maxHeight="140dp"
         android:paddingBottom="4.5dp"
         android:paddingLeft="4.5dp"
@@ -78,7 +77,6 @@
 
     <EditText
         android:id="@+id/editMessage"
-        android:imeOptions="flagNoExtractUi"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/textCharactersUsed"
