@@ -20,6 +20,7 @@
         android:onClick="sendMessage"
         android:text="Send" />
 
+    <!--  
     <EditText
         android:id="@+id/editMessageToEmergency"
         android:layout_width="fill_parent"
@@ -38,9 +39,10 @@
         android:paddingRight="5dp"
         android:paddingTop="5dp"
         android:scrollbars="vertical"
-        android:textSize="22sp" >
-    </EditText>
+        android:textSize="22sp" />
+		-->
 
+    <!--  
     <TextView
         android:id="@+id/textCharactersUsedEmergency"
         android:layout_width="250dp"
@@ -52,13 +54,14 @@
         android:inputType="textMultiLine"
         android:maxHeight="20dp"
         android:textSize="14sp" />
+        -->
 
     <TextView
         android:id="@+id/editEmergencyAddress"
         android:layout_width="250dp"
-        android:layout_height="75dp"
-        android:layout_alignLeft="@+id/textCharactersUsedEmergency"
-        android:layout_alignRight="@+id/textCharactersUsedEmergency"
+        android:layout_height="85dp"
+        android:layout_alignLeft="@+id/buttonSendEmergency"
+        android:layout_alignRight="@+id/buttonSendEmergency"
         android:ems="20"
         android:hint="Current location: "
         android:inputType="textMultiLine|textNoSuggestions|none"
@@ -68,7 +71,7 @@
         android:paddingRight="4.5dp"
         android:paddingTop="4.5dp"
         android:scrollbars="vertical"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
     <Spinner
         android:id="@+id/spinnerEmergencyDialogs"
@@ -82,5 +85,26 @@
         android:entries="@array/emergency_dialogs"
         android:prompt="@string/dialog_prompt"
         android:spinnerMode="dialog" />
+
+    <TextView
+        android:id="@+id/tvEmergencyOptionalMessage"
+        android:layout_width="250dp"
+        android:layout_height="85dp"
+        android:layout_above="@+id/buttonSendEmergency"
+        android:layout_alignLeft="@+id/spinnerEmergencyDialogs"
+        android:layout_alignRight="@+id/spinnerEmergencyDialogs"
+        android:layout_below="@+id/spinnerEmergencyDialogs"
+        android:background="@drawable/text_border"
+        android:clickable="true"
+        android:ems="20"
+        android:hint="Click here to add an additional message"
+        android:maxHeight="140dp"
+        android:onClick="getAdditionalMessage"
+        android:paddingBottom="6dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:paddingTop="6dp"
+        android:scrollbars="vertical"
+        android:textSize="18sp" />
 
 </RelativeLayout>

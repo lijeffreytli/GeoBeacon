@@ -18,6 +18,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +29,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +50,7 @@ public class Emergency extends ActionBarActivity {
 	String mStrOptionalMessage;
 	boolean mValidMessage = true;
 	private SharedPreferences mPrefs;
+	private TextView tvCharCount;
 
 	// Sound
 	private SoundPool mSounds;	
@@ -62,7 +65,7 @@ public class Emergency extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_emergency);
-		setupUI(findViewById(R.id.parent));
+//		setupUI(findViewById(R.id.parent));
 
 		mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
 		mSoundOn = mPrefs.getBoolean("sound", true);
@@ -89,26 +92,26 @@ public class Emergency extends ActionBarActivity {
 		currentAddress.setTextColor(getResources().getColor(R.color.cyan));
 		currentAddress.setText(mAddress);
 
-		mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
-		checkSMSLength(mOptionalMessage);
-		mOptionalMessage.addTextChangedListener(new TextWatcher() {
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
-				checkSMSLength(mOptionalMessage); // pass your EditText Obj here.
-			}
-		});
+//		mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
+//		checkSMSLength(mOptionalMessage);
+//		mOptionalMessage.addTextChangedListener(new TextWatcher() {
+//
+//			@Override
+//			public void onTextChanged(CharSequence s, int start, int before, int count) {
+//				// TODO Auto-generated method stub
+//			}
+//
+//			@Override
+//			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//				// TODO Auto-generated method stub
+//			}
+//
+//			@Override
+//			public void afterTextChanged(Editable s) {
+//				// TODO Auto-generated method stub
+//				checkSMSLength(mOptionalMessage); // pass your EditText Obj here.
+//			}
+//		});
 
 		/* Obtain the view of the 'Send Button' */
 		btnSendSMS = (Button) findViewById(R.id.buttonSendEmergency);
@@ -182,33 +185,125 @@ public class Emergency extends ActionBarActivity {
 		});
 	}
 
-	public void checkSMSLength(EditText edt) throws NumberFormatException {
-		int valid_len = 0;
-		TextView tvCharactersUsed = (TextView) findViewById(R.id.textCharactersUsedEmergency);
-		tvCharactersUsed.setTextColor(Color.parseColor("#F8F8F8"));
-		try {
-			if (edt.getText().toString().length() <= 0) {
-				edt.setError(null);
-				valid_len = 0;
-				tvCharactersUsed.setText("0/160");
+//	public void checkSMSLength(EditText edt) throws NumberFormatException {
+//		int valid_len = 0;
+//		TextView tvCharactersUsed = (TextView) findViewById(R.id.textCharactersUsedEmergency);
+//		tvCharactersUsed.setTextColor(Color.parseColor("#F8F8F8"));
+//		try {
+//			if (edt.getText().toString().length() <= 0) {
+//				edt.setError(null);
+//				valid_len = 0;
+//				tvCharactersUsed.setText("0/160");
+//
+//			} else if (edt.getText().toString().length() > 160){
+//				mValidMessage = false;
+//				edt.setError("Error: Character limit exceeded");
+//				valid_len = 0;
+//				tvCharactersUsed.setText("Error");
+//				tvCharactersUsed.setTextColor(Color.parseColor("#D00000"));
+//			} else {
+//				edt.setError(null);
+//				mValidMessage = true;
+//				valid_len = edt.getText().toString().length();
+//				tvCharactersUsed.setText(String.valueOf(valid_len) + "/" + 160);
+//			}
+//		} catch (Exception e) {
+//			Log.e("error", "" + e);
+//		}
+//
+//	}
+	
+	public void getAdditionalMessage(View view) {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
-			} else if (edt.getText().toString().length() > 160){
-				mValidMessage = false;
-				edt.setError("Error: Character limit exceeded");
-				valid_len = 0;
-				tvCharactersUsed.setText("Error");
-				tvCharactersUsed.setTextColor(Color.parseColor("#D00000"));
-			} else {
-				edt.setError(null);
-				mValidMessage = true;
-				valid_len = edt.getText().toString().length();
-				tvCharactersUsed.setText(String.valueOf(valid_len) + "/" + 160);
+		LinearLayout layout = new LinearLayout(this);
+		LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+		layout.setOrientation(LinearLayout.VERTICAL);
+		layout.setLayoutParams(parms);
+
+		layout.setGravity(Gravity.CLIP_VERTICAL);
+		layout.setPadding(2, 2, 2, 2);
+
+		TextView tv = new TextView(this);
+		tv.setText("Additional Message");
+		tv.setPadding(10, 10, 10, 10);
+		tv.setGravity(Gravity.CENTER);
+		tv.setTextSize(20);
+
+		mOptionalMessage = new EditText(this);
+		mOptionalMessage.setTextColor(Color.parseColor("#000000"));
+		String etStr = mOptionalMessage.getText().toString();
+		tvCharCount = new TextView(this);
+		tvCharCount.setText("0/160");
+
+
+		//checkSMSLength(mOptionalMessage);
+		mOptionalMessage.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
 			}
-		} catch (Exception e) {
-			Log.e("error", "" + e);
-		}
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+			@Override
+			public void afterTextChanged(Editable s) {
+				//checkSMSLength(mOptionalMessage); // pass your EditText Obj here.
+				int valid_len = 0;
+				tvCharCount.setTextColor(Color.parseColor("#000000"));
+				try {
+					if (mOptionalMessage.getText().toString().length() <= 0) {
+						mOptionalMessage.setError(null);
+						valid_len = 0;
+						tvCharCount.setText("0/160");
+						tvCharCount.setTextColor(Color.parseColor("000000"));
+					} else if (mOptionalMessage.getText().toString().length() > 160){
+						mValidMessage = false;
+						mOptionalMessage.setError("Error: Character limit exceeded");
+						valid_len = 0;
+						tvCharCount.setText("Error");
+						tvCharCount.setTextColor(Color.parseColor("#D00000"));
+					} else {
+						mValidMessage = true;
+						mOptionalMessage.setError(null);
+						valid_len = mOptionalMessage.getText().toString().length();
+						tvCharCount.setText(String.valueOf(valid_len) + "/" + 160);
+						tvCharCount.setTextColor(Color.parseColor("000000"));
+					}
+				} catch (Exception e) {
+					Log.e("error", "" + e);
+				}
+			}
+		});
 
+		LinearLayout.LayoutParams tv1Params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+		tv1Params.bottomMargin = 5;
+
+		layout.addView(mOptionalMessage, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+		layout.addView(tvCharCount,tv1Params);
+
+		alertDialogBuilder.setView(layout);
+		alertDialogBuilder.setTitle("Title");
+		// alertDialogBuilder.setMessage("Input Student ID");
+		alertDialogBuilder.setCustomTitle(tv);
+
+
+		alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				TextView mtvOptionalMessage = (TextView) findViewById(R.id.tvEmergencyOptionalMessage);
+				mtvOptionalMessage.setText(mOptionalMessage.getText().toString());
+				mtvOptionalMessage.setTextColor(Color.parseColor("#FFFFFF"));
+			}
+		});
+
+		alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				// Canceled.
+			}
+		});
+
+		alertDialogBuilder.show();
 	}
+	
 
 	/* This method sends a text message to a specific phone number */
 	private void sendSMS(String phoneNumber, String message){
@@ -311,31 +406,31 @@ public class Emergency extends ActionBarActivity {
 		createSoundPool();
 	}
 
-	/* http://stackoverflow.com/questions/4165414/how-to-hide-soft-keyboard-on-android-after-clicking-outside-edittext */
-	public static void hideSoftKeyboard(Activity activity) {
-		InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-		inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
-	}
-	/* same source as above */
-	public void setupUI(View view) {
-		//Set up touch listener for non-text box views to hide keyboard.
-		if(!(view instanceof EditText)) {
-			view.setOnTouchListener(new OnTouchListener() {
-				public boolean onTouch(View v, MotionEvent event) {
-					hideSoftKeyboard(Emergency.this);
-					return false;
-				}
-			});
-		}
-
-		//If a layout container, iterate over children and seed recursion.
-		if (view instanceof ViewGroup) {
-			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-				View innerView = ((ViewGroup) view).getChildAt(i);
-				setupUI(innerView);
-			}
-		}
-	}
+//	/* http://stackoverflow.com/questions/4165414/how-to-hide-soft-keyboard-on-android-after-clicking-outside-edittext */
+//	public static void hideSoftKeyboard(Activity activity) {
+//		InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+//		inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+//	}
+//	/* same source as above */
+//	public void setupUI(View view) {
+//		//Set up touch listener for non-text box views to hide keyboard.
+//		if(!(view instanceof EditText)) {
+//			view.setOnTouchListener(new OnTouchListener() {
+//				public boolean onTouch(View v, MotionEvent event) {
+//					hideSoftKeyboard(Emergency.this);
+//					return false;
+//				}
+//			});
+//		}
+//
+//		//If a layout container, iterate over children and seed recursion.
+//		if (view instanceof ViewGroup) {
+//			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+//				View innerView = ((ViewGroup) view).getChildAt(i);
+//				setupUI(innerView);
+//			}
+//		}
+//	}
 	public void onActivityResult(int reqCode, int resultCode, Intent data) {
 		super.onActivityResult(reqCode, resultCode, data);
 		if (resultCode ==  RESULT_CANCELED) {
