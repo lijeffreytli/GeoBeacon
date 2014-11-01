@@ -51,6 +51,7 @@ public class ShareMyLocation extends ActionBarActivity {
 	private boolean mValidMessage = true;
 	private SharedPreferences mPrefs;
 	private TextView tvCharCount;
+	
 
 	// Sound
 	private SoundPool mSounds;	
@@ -109,7 +110,7 @@ public class ShareMyLocation extends ActionBarActivity {
 		currentAddress.setTextColor(getResources().getColor(R.color.cyan));
 		currentAddress.setText(mMessage);
 		/* Add the googlemaps link for the sent message */
-		mMapURL = "https://www.google.com/maps?z=18&t=m&q=loc:" + mLatitude + "+" + mLongitude + "\n\n";
+		mMapURL = "https://www.google.com/maps?z=18&t=m&q=loc:" + mLatitude + "+" + mLongitude;
 		//		mOptionalMessage = (EditText)findViewById(R.id.editMessage);
 		//		checkSMSLength(mOptionalMessage);
 		//		mOptionalMessage.addTextChangedListener(new TextWatcher() {
@@ -172,9 +173,15 @@ public class ShareMyLocation extends ActionBarActivity {
 						builder1.setPositiveButton("Yes",
 								new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
-
+								
 								String phoneNo = mContactNumber;
-
+								
+								/* Send the optional message */
+								sendSMS(phoneNo, mStrOptionalMessage);
+								
+								mMessage = "My location: " + mMessage;
+								mMapURL = "Map coordinates: " + mMapURL;
+								
 								if (phoneNo != null && phoneNo.length() > 0) { //Checks whether the number is not null      
 									/* Send the user's location */
 									if (mMessage.length() > 160) {
@@ -185,16 +192,14 @@ public class ShareMyLocation extends ActionBarActivity {
 											i += 160;
 										}
 										sendSMS(phoneNo, mMapURL);
-									} else if (mMessage.length() + mMapURL.length() < 160) {
-										mMessage += mMapURL;
-										sendSMS(phoneNo, mMessage); 
-									} else {
+									} 
+//									else if (mMessage.length() + mMapURL.length() < 160) {
+//										mMessage = mMessage + "\n" + mMapURL;
+//										sendSMS(phoneNo, mMessage); 
+										else {
 										sendSMS(phoneNo, mMessage);
 										sendSMS(phoneNo, mMapURL);
 									}
-
-									/* Send the optional message */
-									sendSMS(phoneNo, mStrOptionalMessage);
 
 									finish(); //After sending the message, return back to MainActivity
 								} else //Throw an exception if the number is invalid

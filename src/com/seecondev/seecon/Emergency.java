@@ -48,6 +48,7 @@ public class Emergency extends ActionBarActivity {
 	private double mLongitude;
 	EditText mOptionalMessage;
 	String mStrOptionalMessage;
+	private String mMapURL;
 	boolean mValidMessage = true;
 	private SharedPreferences mPrefs;
 	private TextView tvCharCount;
@@ -137,12 +138,12 @@ public class Emergency extends ActionBarActivity {
 					String spinnerText = spinner.getSelectedItem().toString();
 
 					Log.d(TAG, "In Emergency: text: " + spinnerText);
-
+					
+					mMapURL = "Map Coordinates: https://www.google.com/maps?z=18&t=m&q=loc:" + mLatitude + "+" + mLongitude;
+					
 					/* This is the message that will be sent to emergency contacts */
-					mMessage += "Emergency: " + spinnerText + "\nCurrent address: " + 
-							mAddress + "\nCoordinates: " + 
-							"https://www.google.com/maps?z=18&t=m&q=loc:" + 
-							mLatitude + "+" + mLongitude + "\n";
+					mMessage += "Emergency: " + spinnerText + "\nMy Location: " + 
+							mAddress;
 					
 
 					/* AlertDialog box for user confirmation */
@@ -158,17 +159,37 @@ public class Emergency extends ActionBarActivity {
 							String phoneJeff = "15129653085";
 							String phoneJared = "14693942157";
 
-							int i = 0;
-							while (i < mMessage.length()) {
-								int endIdx = Math.min(mMessage.length(), i + 160);
-								sendSMS(phoneJeff, mMessage.substring(i, endIdx));
-								sendSMS(phoneKatie, mMessage.substring(i, endIdx));
-								sendSMS(phoneJared, mMessage.substring(i, endIdx));
-								i += 160;
-							}
 							sendSMS(phoneJeff, mStrOptionalMessage);
-							sendSMS(phoneKatie, mStrOptionalMessage);
-							sendSMS(phoneJared, mStrOptionalMessage);
+							//sendSMS(phoneKatie, mStrOptionalMessage);
+							//sendSMS(phoneJared, mStrOptionalMessage);
+							
+							if (mMessage.length() > 160) {
+								int i = 0;
+								while (i < mMessage.length()) {
+									int endIdx = Math.min(mMessage.length(), i + 160);
+									sendSMS(phoneJeff, mMessage.substring(i, endIdx));
+									//sendSMS(phoneKatie, mMessage.substring(i, endIdx));
+									//sendSMS(phoneJared, mMessage.substring(i, endIdx));
+									i += 160;
+								}
+								sendSMS(phoneJeff, mMapURL);
+								//sendSMS(phoneKatie, mMapURL);
+								//sendSMS(phoneJared, mMapURL);
+							} 
+//							else if (mMessage.length() + mMapURL.length() < 160) {
+//								mMessage = mMessage + "\n" + mMapURL;
+//								sendSMS(phoneJeff, mMessage);
+//								//sendSMS(phoneKatie, mMessage);
+//								//sendSMS(phoneJared, mMessage);
+							 else {
+								sendSMS(phoneJeff, mMessage);
+								//sendSMS(phoneKatie, mMessage);
+								//sendSMS(phoneJared, mMessage);
+								sendSMS(phoneJeff, mMapURL);
+								//sendSMS(phoneKatie, mMapURL);
+								//sendSMS(phoneJared, mMapURL);	
+							}
+							
 							finish();
 						}
 					});
