@@ -15,7 +15,9 @@
     <item name="cyan" type="color">#E600E2FF</item>
     <item name="white_opaque" type="color">#FFFFFFFF</item>
     <item name="pitch_black" type="color">#FF000000</item>
- 
+ 	<item name="transparent" type="color">#00000000</item>
+ 	<item name="grey" type="color">#444444</item>
+    
     <integer-array name="androidcolors">
         <item>@color/blue</item>
         <item>@color/purple</item>

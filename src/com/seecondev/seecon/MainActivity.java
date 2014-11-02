@@ -250,6 +250,11 @@ public class MainActivity extends FragmentActivity{
 		intent.putExtra(LAT, Double.valueOf(mLatitude).toString());
 		startActivity(intent);
 	}
+	
+	public void getEmergencyContacts(View view){
+		Intent intent = new Intent(this, EmergencyContacts.class);
+		startActivity(intent);
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -267,6 +272,10 @@ public class MainActivity extends FragmentActivity{
 		case R.id.menu_help:
 			showDialog(DIALOG_HELP_ID);
 			return true;
+		case R.id.menu_emergency_contacts:
+			Intent intent = new Intent(this, EmergencyContacts.class);
+			this.startActivity(intent);
+			break;
 		}
 		return false;
 	}

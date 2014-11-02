@@ -56,6 +56,13 @@
             android:label="@string/title_activity_share_my_location"
             android:parentActivityName=".MainActivity" >
         </activity>
+        
+        <activity
+            android:name=".EmergencyContacts"
+            android:label="Select Emergency Contacts"
+            android:parentActivityName=".MainActivity" >
+        </activity>
+        
         <activity
             android:name=".Emergency"
             android:label="@string/title_activity_emergency"

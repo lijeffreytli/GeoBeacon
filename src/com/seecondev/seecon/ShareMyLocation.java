@@ -386,6 +386,10 @@ public class ShareMyLocation extends ActionBarActivity {
 		case R.id.menu_help:
 			showDialog(DIALOG_HELP_ID);
 			return true;
+		case R.id.menu_emergency_contacts:
+			Intent intent = new Intent(this, EmergencyContacts.class);
+			this.startActivity(intent);
+			break;
 		}
 		return false;
 	}

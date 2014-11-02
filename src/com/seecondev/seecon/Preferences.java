@@ -1,9 +1,11 @@
 package com.seecondev.seecon;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.widget.Spinner;
+import android.view.View;
 
 public class Preferences extends PreferenceActivity {
 	@Override
@@ -14,6 +16,6 @@ public class Preferences extends PreferenceActivity {
 		addPreferencesFromResource(R.xml.preferences);
 		final SharedPreferences prefs =
 				getSharedPreferences("ttt_prefs", MODE_PRIVATE);
-		
+
 	}
 }
