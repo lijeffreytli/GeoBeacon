@@ -3,8 +3,13 @@ package com.seecondev.seecon;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,6 +27,10 @@ import android.widget.Toast;
 //Courtesy: http://www.mysamplecode.com/2012/07/android-listview-checkbox-example.html
 public class EmergencyContacts extends Activity {
 	MyCustomAdapter dataAdapter = null;
+	ArrayList<Contacts> contactList;
+
+	/* Debugging Purposes */
+	private static final String TAG = "SEECON_EMERGENCY_CONTACTS";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -37,10 +46,11 @@ public class EmergencyContacts extends Activity {
 	}
 	private void displayListView(){
 		//Array list of contacts
-		ArrayList<Contacts> contactList = new ArrayList<Contacts>();
+		contactList = new ArrayList<Contacts>();
 		Contacts contact = new Contacts("15129653085", "Jeffrey Li", false);
 		contactList.add(contact);
 		//TODO /*Iterate through phone and obtain all contacts*/
+		storeAllContacts();
 
 		//create an ArrayAdaptar from the String Array
 		dataAdapter = new MyCustomAdapter(this,
@@ -59,6 +69,47 @@ public class EmergencyContacts extends Activity {
 						Toast.LENGTH_LONG).show();
 			}
 		});
+	}
+
+	private void storeAllContacts(){
+		Log.d(TAG, "IN STORE ALL CONTACTS ");
+		ContentResolver cr = EmergencyContacts.this.getContentResolver();
+		Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+		if (cur.getCount() > 0) {
+			while (cur.moveToNext()) {
+				String id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
+				String name = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+				if (Integer.parseInt(cur.getString(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
+					Cursor pCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, 
+							null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?", 
+									new String[]{id}, null);
+					while (pCur.moveToNext()) {
+						int phoneType = pCur.getInt(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+						String phoneNumber = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+						Log.d(TAG, name + ": " + phoneNumber);
+						Contacts contact = new Contacts(phoneNumber, name, false);
+						contactList.add(contact);
+						//		                  switch (phoneType) {
+						//		                        case Phone.TYPE_MOBILE:
+						//		                            Log.e(name + "(mobile number)", phoneNumber);
+						//		                            break;
+						//		                        case Phone.TYPE_HOME:
+						//		                            Log.e(name + "(home number)", phoneNumber);
+						//		                            break;
+						//		                        case Phone.TYPE_WORK:
+						//		                            Log.e(name + "(work number)", phoneNumber);
+						//		                            break;
+						//		                        case Phone.TYPE_OTHER:
+						//		                            Log.e(name + "(other number)", phoneNumber);
+						//		                            break;                                  
+						//		                        default:
+						//		                            break;
+						//		                  }
+					} 
+					pCur.close();
+				}
+			}
+		}
 	}
 
 	private class MyCustomAdapter extends ArrayAdapter<Contacts>{
@@ -110,7 +161,7 @@ public class EmergencyContacts extends Activity {
 				holder = (ViewHolder) convertView.getTag();
 			}
 			Contacts contact = contactsList.get(position);
-			holder.phoneNo.setText(" (#" +  contact.getPhoneNo() + ")");
+			holder.phoneNo.setText(contact.getPhoneNo());
 			holder.name.setText(contact.getName());
 			holder.name.setChecked(contact.isSelected());
 			holder.name.setTag(contact);
@@ -126,10 +177,7 @@ public class EmergencyContacts extends Activity {
 
 			@Override
 			public void onClick(View v) {
-
 				StringBuffer responseText = new StringBuffer();
-
-
 
 				ArrayList<Contacts> contactsList = dataAdapter.contactsList;
 				int selected_count = 0;
@@ -139,20 +187,50 @@ public class EmergencyContacts extends Activity {
 						++selected_count;
 					}
 				}
-
 				if (selected_count == 0){
 					responseText.append("No contacts were selected");
+					Toast.makeText(getApplicationContext(),
+							responseText, Toast.LENGTH_LONG).show();
 				} else {
-					responseText.append("The following contacts were selected:");
+					String names[] = new String[selected_count];
+					int counter = 0;
 					for(int i=0;i<contactsList.size();i++){
 						Contacts contacts = contactsList.get(i);
 						if(contacts.isSelected()){
-							responseText.append("\n" + contacts.getName());
+							names[counter] = contacts.getName();
+							++counter;
 						}
 					}
+			        AlertDialog.Builder alertDialog = new AlertDialog.Builder(EmergencyContacts.this);
+			        LayoutInflater inflater = getLayoutInflater();
+			        View convertView = (View) inflater.inflate(R.layout.alert_emergency_contacts, null);
+			        alertDialog.setView(convertView);
+			        alertDialog.setTitle("Emergency Contacts");
+			        ListView lv = (ListView) convertView.findViewById(R.id.listView1);
+			        ArrayAdapter<String> adapter =new ArrayAdapter<String>(
+		                    EmergencyContacts.this,
+		                    android.R.layout.simple_spinner_dropdown_item, names);
+			        lv.setAdapter(adapter);
+			        lv.setClickable(false);
+			        alertDialog.show();
 				}
-				Toast.makeText(getApplicationContext(),
-						responseText, Toast.LENGTH_LONG).show();
+				
+				
+
+//
+//				if (selected_count == 0){
+//					responseText.append("No contacts were selected");
+//				} else {
+//					responseText.append("The following contacts were selected:");
+//					for(int i=0;i<contactsList.size();i++){
+//						Contacts contacts = contactsList.get(i);
+//						if(contacts.isSelected()){
+//							responseText.append("\n" + contacts.getName());
+//						}
+//					}
+//				}
+//				Toast.makeText(getApplicationContext(),
+//						responseText, Toast.LENGTH_LONG).show();
 			}
 		});
 	}
