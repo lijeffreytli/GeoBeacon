@@ -1,6 +1,7 @@
 package com.seecondev.seecon;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -47,10 +48,14 @@ public class EmergencyContacts extends Activity {
 	private void displayListView(){
 		//Array list of contacts
 		contactList = new ArrayList<Contacts>();
-		Contacts contact = new Contacts("15129653085", "Jeffrey Li", false);
-		contactList.add(contact);
-		//TODO /*Iterate through phone and obtain all contacts*/
+		/* Debugging purposes */
+//		Contacts contact = new Contacts("15129653085", "Jeffrey Li", false);
+//		contactList.add(contact);
+		
+		/* Iterate through phone and obtain all the contacts and store them into the ArrayList */
 		storeAllContacts();
+		/* Sort the list of contacts alphabetically */
+		Collections.sort(contactList);
 
 		//create an ArrayAdaptar from the String Array
 		dataAdapter = new MyCustomAdapter(this,
@@ -87,6 +92,8 @@ public class EmergencyContacts extends Activity {
 						int phoneType = pCur.getInt(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
 						String phoneNumber = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 						Log.d(TAG, name + ": " + phoneNumber);
+						phoneNumber = phoneNumber.replaceAll("\\D+", "");
+						phoneNumber = "+" + phoneNumber;
 						Contacts contact = new Contacts(phoneNumber, name, false);
 						contactList.add(contact);
 						//		                  switch (phoneType) {

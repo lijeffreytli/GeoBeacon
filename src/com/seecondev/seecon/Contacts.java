@@ -1,6 +1,6 @@
 package com.seecondev.seecon;
 
-public class Contacts {
+public class Contacts implements Comparable<Contacts>{
 	String contactName = null;
 	String phoneNo = null;
 	boolean selected = false;
@@ -32,6 +32,10 @@ public class Contacts {
 	}
 	public boolean isSelected(){
 		return selected;
+	}
+	
+	public int compareTo(Contacts other) {
+		return contactName.compareTo(other.contactName);
 	}
 	
 
