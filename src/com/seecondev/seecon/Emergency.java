@@ -66,7 +66,7 @@ public class Emergency extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_emergency);
-//		setupUI(findViewById(R.id.parent));
+//				setupUI(findViewById(R.id.parent));
 
 		mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
 		mSoundOn = mPrefs.getBoolean("sound", true);
@@ -93,26 +93,26 @@ public class Emergency extends ActionBarActivity {
 		currentAddress.setTextColor(getResources().getColor(R.color.cyan));
 		currentAddress.setText(mAddress);
 
-//		mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
-//		checkSMSLength(mOptionalMessage);
-//		mOptionalMessage.addTextChangedListener(new TextWatcher() {
-//
-//			@Override
-//			public void onTextChanged(CharSequence s, int start, int before, int count) {
-//				// TODO Auto-generated method stub
-//			}
-//
-//			@Override
-//			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//				// TODO Auto-generated method stub
-//			}
-//
-//			@Override
-//			public void afterTextChanged(Editable s) {
-//				// TODO Auto-generated method stub
-//				checkSMSLength(mOptionalMessage); // pass your EditText Obj here.
-//			}
-//		});
+		//		mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
+		//		checkSMSLength(mOptionalMessage);
+		//		mOptionalMessage.addTextChangedListener(new TextWatcher() {
+		//
+		//			@Override
+		//			public void onTextChanged(CharSequence s, int start, int before, int count) {
+		//				// TODO Auto-generated method stub
+		//			}
+		//
+		//			@Override
+		//			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+		//				// TODO Auto-generated method stub
+		//			}
+		//
+		//			@Override
+		//			public void afterTextChanged(Editable s) {
+		//				// TODO Auto-generated method stub
+		//				checkSMSLength(mOptionalMessage); // pass your EditText Obj here.
+		//			}
+		//		});
 
 		/* Obtain the view of the 'Send Button' */
 		btnSendSMS = (Button) findViewById(R.id.buttonSendEmergency);
@@ -138,13 +138,13 @@ public class Emergency extends ActionBarActivity {
 					String spinnerText = spinner.getSelectedItem().toString();
 
 					Log.d(TAG, "In Emergency: text: " + spinnerText);
-					
+
 					mMapURL = "Map Coordinates: https://www.google.com/maps?z=18&t=m&q=loc:" + mLatitude + "+" + mLongitude;
-					
+
 					/* This is the message that will be sent to emergency contacts */
 					mMessage += "Emergency: " + spinnerText + "\nMy Location: " + 
 							mAddress;
-					
+
 
 					/* AlertDialog box for user confirmation */
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(Emergency.this);
@@ -162,7 +162,7 @@ public class Emergency extends ActionBarActivity {
 							sendSMS(phoneJeff, mStrOptionalMessage);
 							//sendSMS(phoneKatie, mStrOptionalMessage);
 							//sendSMS(phoneJared, mStrOptionalMessage);
-							
+
 							if (mMessage.length() > 160) {
 								int i = 0;
 								while (i < mMessage.length()) {
@@ -176,12 +176,12 @@ public class Emergency extends ActionBarActivity {
 								//sendSMS(phoneKatie, mMapURL);
 								//sendSMS(phoneJared, mMapURL);
 							} 
-//							else if (mMessage.length() + mMapURL.length() < 160) {
-//								mMessage = mMessage + "\n" + mMapURL;
-//								sendSMS(phoneJeff, mMessage);
-//								//sendSMS(phoneKatie, mMessage);
-//								//sendSMS(phoneJared, mMessage);
-							 else {
+							//							else if (mMessage.length() + mMapURL.length() < 160) {
+							//								mMessage = mMessage + "\n" + mMapURL;
+							//								sendSMS(phoneJeff, mMessage);
+							//								//sendSMS(phoneKatie, mMessage);
+							//								//sendSMS(phoneJared, mMessage);
+							else {
 								sendSMS(phoneJeff, mMessage);
 								//sendSMS(phoneKatie, mMessage);
 								//sendSMS(phoneJared, mMessage);
@@ -189,7 +189,7 @@ public class Emergency extends ActionBarActivity {
 								//sendSMS(phoneKatie, mMapURL);
 								//sendSMS(phoneJared, mMapURL);	
 							}
-							
+
 							finish();
 						}
 					});
@@ -206,34 +206,34 @@ public class Emergency extends ActionBarActivity {
 		});
 	}
 
-//	public void checkSMSLength(EditText edt) throws NumberFormatException {
-//		int valid_len = 0;
-//		TextView tvCharactersUsed = (TextView) findViewById(R.id.textCharactersUsedEmergency);
-//		tvCharactersUsed.setTextColor(Color.parseColor("#F8F8F8"));
-//		try {
-//			if (edt.getText().toString().length() <= 0) {
-//				edt.setError(null);
-//				valid_len = 0;
-//				tvCharactersUsed.setText("0/160");
-//
-//			} else if (edt.getText().toString().length() > 160){
-//				mValidMessage = false;
-//				edt.setError("Error: Character limit exceeded");
-//				valid_len = 0;
-//				tvCharactersUsed.setText("Error");
-//				tvCharactersUsed.setTextColor(Color.parseColor("#D00000"));
-//			} else {
-//				edt.setError(null);
-//				mValidMessage = true;
-//				valid_len = edt.getText().toString().length();
-//				tvCharactersUsed.setText(String.valueOf(valid_len) + "/" + 160);
-//			}
-//		} catch (Exception e) {
-//			Log.e("error", "" + e);
-//		}
-//
-//	}
-	
+	//	public void checkSMSLength(EditText edt) throws NumberFormatException {
+	//		int valid_len = 0;
+	//		TextView tvCharactersUsed = (TextView) findViewById(R.id.textCharactersUsedEmergency);
+	//		tvCharactersUsed.setTextColor(Color.parseColor("#F8F8F8"));
+	//		try {
+	//			if (edt.getText().toString().length() <= 0) {
+	//				edt.setError(null);
+	//				valid_len = 0;
+	//				tvCharactersUsed.setText("0/160");
+	//
+	//			} else if (edt.getText().toString().length() > 160){
+	//				mValidMessage = false;
+	//				edt.setError("Error: Character limit exceeded");
+	//				valid_len = 0;
+	//				tvCharactersUsed.setText("Error");
+	//				tvCharactersUsed.setTextColor(Color.parseColor("#D00000"));
+	//			} else {
+	//				edt.setError(null);
+	//				mValidMessage = true;
+	//				valid_len = edt.getText().toString().length();
+	//				tvCharactersUsed.setText(String.valueOf(valid_len) + "/" + 160);
+	//			}
+	//		} catch (Exception e) {
+	//			Log.e("error", "" + e);
+	//		}
+	//
+	//	}
+
 	public void getAdditionalMessage(View view) {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
@@ -324,7 +324,7 @@ public class Emergency extends ActionBarActivity {
 
 		alertDialogBuilder.show();
 	}
-	
+
 
 	/* This method sends a text message to a specific phone number */
 	private void sendSMS(String phoneNumber, String message){
@@ -431,31 +431,32 @@ public class Emergency extends ActionBarActivity {
 		createSoundPool();
 	}
 
-//	/* http://stackoverflow.com/questions/4165414/how-to-hide-soft-keyboard-on-android-after-clicking-outside-edittext */
-//	public static void hideSoftKeyboard(Activity activity) {
-//		InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-//		inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
-//	}
-//	/* same source as above */
-//	public void setupUI(View view) {
-//		//Set up touch listener for non-text box views to hide keyboard.
-//		if(!(view instanceof EditText)) {
-//			view.setOnTouchListener(new OnTouchListener() {
-//				public boolean onTouch(View v, MotionEvent event) {
-//					hideSoftKeyboard(Emergency.this);
-//					return false;
-//				}
-//			});
+//		/* http://stackoverflow.com/questions/4165414/how-to-hide-soft-keyboard-on-android-after-clicking-outside-edittext */
+//		public static void hideSoftKeyboard(Activity activity) {
+//			InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+//			inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
 //		}
-//
-//		//If a layout container, iterate over children and seed recursion.
-//		if (view instanceof ViewGroup) {
-//			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-//				View innerView = ((ViewGroup) view).getChildAt(i);
-//				setupUI(innerView);
+//		/* same source as above */
+//		public void setupUI(View view) {
+//			//Set up touch listener for non-text box views to hide keyboard.
+//			if(!(view instanceof EditText)) {
+//				view.setOnTouchListener(new OnTouchListener() {
+//					public boolean onTouch(View v, MotionEvent event) {
+//						hideSoftKeyboard(Emergency.this);
+//						return false;
+//					}
+//				});
+//			}
+//	
+//			//If a layout container, iterate over children and seed recursion.
+//			if (view instanceof ViewGroup) {
+//				for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+//					View innerView = ((ViewGroup) view).getChildAt(i);
+//					setupUI(innerView);
+//				}
 //			}
 //		}
-//	}
+		
 	public void onActivityResult(int reqCode, int resultCode, Intent data) {
 		super.onActivityResult(reqCode, resultCode, data);
 		if (resultCode ==  RESULT_CANCELED) {

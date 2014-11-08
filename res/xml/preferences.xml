@@ -17,7 +17,7 @@
         android:negativeButtonText="@null"
         android:positiveButtonText="@null"
         android:title="@string/edit_emergency_contacts" />
-    -->
+    
 
     <MultiSelectListPreference
         android:defaultValue="@array/empty_array"
@@ -27,5 +27,5 @@
         android:key="mode_repeat"
         android:summary=""
         android:title="@string/edit_emergency_contacts" />
-
+	-->
 </PreferenceScreen>
