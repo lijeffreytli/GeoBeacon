@@ -40,22 +40,32 @@
             android:text="An app that simplifies location sharing with friends, family, and emergency personnel\n"
             android:textColor="@color/cyan"
             android:textSize="20sp" />
-
+        
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text=" Alpha Release Features"
+            android:text="\nUpdates and Releases"
             android:textColor="@color/cyan"
-            android:textIsSelectable="true"
             android:textSize="20sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="• \n"
+            android:text=" Alpha Release"
             android:textColor="@color/cyan"
+            android:textIsSelectable="true"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:gravity="center"
+            android:text="•Displays live updates of user location\n•Text/Share your location with a friend\n•Send an emergency/distress text to an emergency number\n"
+            android:textColor="@color/white"
             android:textIsSelectable="true"
             android:textSize="15sp" />
 
@@ -63,19 +73,40 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text=" Beta Release Features"
+            android:text=" Beta Release"
             android:textColor="@color/cyan"
             android:textIsSelectable="true"
-            android:textSize="20sp" />
+            android:textSize="17sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="• \n"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:text="•Select a list of Emergency Contacts to send your distress text\n•Gesture confirmations to prevent accidental message sending\n•Message confirmation that notifies the success/failure of your output texts\n"
+            android:textColor="@color/white"
+            android:textIsSelectable="true"
+            android:textSize="15sp" />
+        
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text=" Future Release"
             android:textColor="@color/cyan"
+            android:textIsSelectable="true"
+            android:textSize="17sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:text="•Send a voice recording instead of a text in times of distress\n•Ping nearby users within a specific radius with a distress signal\n\n"
+            android:textColor="@color/white"
             android:textIsSelectable="true"
             android:textSize="15sp" />
     </LinearLayout>
-
+    
 </ScrollView>
