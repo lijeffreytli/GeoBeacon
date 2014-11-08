@@ -29,7 +29,8 @@ import android.widget.Toast;
 //Courtesy: http://www.mysamplecode.com/2012/07/android-listview-checkbox-example.html
 public class EmergencyContacts extends Activity {
 	MyCustomAdapter dataAdapter = null;
-	ArrayList<Contacts> contactList;
+	static ArrayList<Contact> contactList;
+	static ArrayList<Contact> selectedContactList;
 
 	/* Debugging Purposes */
 	private static final String TAG = "SEECON_EMERGENCY_CONTACTS";
@@ -44,11 +45,12 @@ public class EmergencyContacts extends Activity {
 		//Generate list View from ArrayList
 		displayListView();
 		checkButtonClick();
-
 	}
+	
 	private void displayListView(){
 		//Array list of contacts
-		contactList = new ArrayList<Contacts>();
+		contactList = new ArrayList<Contact>();
+		selectedContactList = new ArrayList<Contact>();
 		/* Debugging purposes */
 		//Contacts contact = new Contacts("15129653082234234234234234245", "AAAJeffrey asdfasdfasdfasdfasdfasdfasdfasdfasdfLi", false);
 		//contactList.add(contact);
@@ -69,7 +71,7 @@ public class EmergencyContacts extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// When clicked, show a toast with the TextView text
-				Contacts contact = (Contacts) parent.getItemAtPosition(position);
+				Contact contact = (Contact) parent.getItemAtPosition(position);
 				Toast.makeText(getApplicationContext(),
 						"Clicked on Row: " + contact.getName(), 
 						Toast.LENGTH_LONG).show();
@@ -97,7 +99,7 @@ public class EmergencyContacts extends Activity {
 						phoneNumber = "+" + phoneNumber;
 						if (phoneNumber.length() > 12)
 							phoneNumber = "Invalid Number";
-						Contacts contact = new Contacts(phoneNumber, name, false);
+						Contact contact = new Contact(phoneNumber, name, false);
 						contactList.add(contact);
 						//		                  switch (phoneType) {
 						//		                        case Phone.TYPE_MOBILE:
@@ -122,12 +124,12 @@ public class EmergencyContacts extends Activity {
 		}
 	}
 
-	private class MyCustomAdapter extends ArrayAdapter<Contacts>{
-		private ArrayList<Contacts> contactsList;
+	private class MyCustomAdapter extends ArrayAdapter<Contact>{
+		private ArrayList<Contact> contactsList;
 
-		public MyCustomAdapter(Context context, int textViewResourceId, ArrayList<Contacts> contactsList){
+		public MyCustomAdapter(Context context, int textViewResourceId, ArrayList<Contact> contactsList){
 			super(context, textViewResourceId, contactsList);
-			this.contactsList = new ArrayList<Contacts>();
+			this.contactsList = new ArrayList<Contact>();
 			this.contactsList.addAll(contactsList);
 		}
 		private class ViewHolder {
@@ -151,7 +153,7 @@ public class EmergencyContacts extends Activity {
 				holder.name.setOnClickListener( new View.OnClickListener() {  
 					public void onClick(View v) {  
 						CheckBox cb = (CheckBox) v ;  
-						Contacts contact = (Contacts) cb.getTag();  
+						Contact contact = (Contact) cb.getTag();  
 						boolean checked;
 						String isChecked;
 						if (cb.isChecked() == true){
@@ -170,7 +172,7 @@ public class EmergencyContacts extends Activity {
 			else {
 				holder = (ViewHolder) convertView.getTag();
 			}
-			Contacts contact = contactsList.get(position);
+			Contact contact = contactsList.get(position);
 			holder.phoneNo.setText(contact.getPhoneNo());
 			holder.name.setText(contact.getName());
 			holder.name.setChecked(contact.isSelected());
@@ -189,10 +191,10 @@ public class EmergencyContacts extends Activity {
 			public void onClick(View v) {
 				StringBuffer responseText = new StringBuffer();
 
-				ArrayList<Contacts> contactsList = dataAdapter.contactsList;
+				ArrayList<Contact> contactsList = dataAdapter.contactsList;
 				int selected_count = 0;
 				for (int i = 0; i < contactsList.size(); ++i){
-					Contacts contacts = contactsList.get(i);
+					Contact contacts = contactsList.get(i);
 					if (contacts.isSelected()){
 						++selected_count;
 					}
@@ -205,10 +207,11 @@ public class EmergencyContacts extends Activity {
 					String names[] = new String[selected_count];
 					int counter = 0;
 					for(int i=0;i<contactsList.size();i++){
-						Contacts contacts = contactsList.get(i);
+						Contact contacts = contactsList.get(i);
 						if(contacts.isSelected()){
 							names[counter] = contacts.getName();
 							++counter;
+							selectedContactList.add(contacts);
 						}
 					}
 			        AlertDialog.Builder alertDialog = new AlertDialog.Builder(EmergencyContacts.this);
@@ -224,23 +227,6 @@ public class EmergencyContacts extends Activity {
 			        lv.setClickable(false);
 			        alertDialog.show();
 				}
-				
-				
-
-//
-//				if (selected_count == 0){
-//					responseText.append("No contacts were selected");
-//				} else {
-//					responseText.append("The following contacts were selected:");
-//					for(int i=0;i<contactsList.size();i++){
-//						Contacts contacts = contactsList.get(i);
-//						if(contacts.isSelected()){
-//							responseText.append("\n" + contacts.getName());
-//						}
-//					}
-//				}
-//				Toast.makeText(getApplicationContext(),
-//						responseText, Toast.LENGTH_LONG).show();
 			}
 		});
 	}

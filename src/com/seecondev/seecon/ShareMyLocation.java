@@ -1,5 +1,7 @@
 package com.seecondev.seecon;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -51,8 +53,7 @@ public class ShareMyLocation extends ActionBarActivity {
 	private boolean mValidMessage = true;
 	private SharedPreferences mPrefs;
 	private TextView tvCharCount;
-
-
+	
 	// Sound
 	private SoundPool mSounds;	
 	private boolean mSoundOn;
@@ -68,6 +69,7 @@ public class ShareMyLocation extends ActionBarActivity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_share_my_location);
 		//setupUI(findViewById(R.id.parent));
+		
 
 		if (savedInstanceState != null) {
 			mMessage = savedInstanceState.getString("mMessage");

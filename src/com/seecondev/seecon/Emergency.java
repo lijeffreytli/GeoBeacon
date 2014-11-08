@@ -1,5 +1,7 @@
 package com.seecondev.seecon;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -36,6 +38,7 @@ import android.widget.Toast;
 
 public class Emergency extends ActionBarActivity {
 
+	// Dialog Menu
 	static final int DIALOG_ABOUT_ID = 1;
 	static final int DIALOG_HELP_ID = 2;
 
@@ -57,6 +60,9 @@ public class Emergency extends ActionBarActivity {
 	private SoundPool mSounds;	
 	private boolean mSoundOn;
 	private int mSendSoundID;
+	
+	// Access Emergency Contact List
+	ArrayList<Contact> contactList = EmergencyContacts.selectedContactList;
 
 	/* Debugging Purposes */
 	private static final String TAG = "SEECON_EMERGENCY";
@@ -66,7 +72,7 @@ public class Emergency extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_emergency);
-//				setupUI(findViewById(R.id.parent));
+//		setupUI(findViewById(R.id.parent));
 
 		mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
 		mSoundOn = mPrefs.getBoolean("sound", true);

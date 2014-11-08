@@ -22,7 +22,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" • Select &apos;Share My Location&apos; to send your location information to a friend.\n"
+            android:text=" • Select &apos;Share My Location&apos; to send your location information to a friend. At this time, users will only be able to send location information to a single contact.\n"
             android:textColor="@color/cyan"
             android:textIsSelectable="true"
             android:textSize="20sp" />
@@ -50,7 +50,7 @@
             android:textColor="@color/cyan"
             android:textIsSelectable="true"
             android:textSize="20sp" />
-        
+         
         
     </LinearLayout>
 
