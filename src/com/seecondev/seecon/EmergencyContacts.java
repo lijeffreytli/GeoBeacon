@@ -10,6 +10,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,8 +50,8 @@ public class EmergencyContacts extends Activity {
 		//Array list of contacts
 		contactList = new ArrayList<Contacts>();
 		/* Debugging purposes */
-//		Contacts contact = new Contacts("15129653085", "Jeffrey Li", false);
-//		contactList.add(contact);
+		//Contacts contact = new Contacts("15129653082234234234234234245", "AAAJeffrey asdfasdfasdfasdfasdfasdfasdfasdfasdfLi", false);
+		//contactList.add(contact);
 		
 		/* Iterate through phone and obtain all the contacts and store them into the ArrayList */
 		storeAllContacts();
@@ -94,6 +95,8 @@ public class EmergencyContacts extends Activity {
 						Log.d(TAG, name + ": " + phoneNumber);
 						phoneNumber = phoneNumber.replaceAll("\\D+", "");
 						phoneNumber = "+" + phoneNumber;
+						if (phoneNumber.length() > 12)
+							phoneNumber = "Invalid Number";
 						Contacts contact = new Contacts(phoneNumber, name, false);
 						contactList.add(contact);
 						//		                  switch (phoneType) {

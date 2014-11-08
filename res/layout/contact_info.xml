@@ -4,28 +4,30 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="6dip" >
- 
+
     <CheckBox
         android:id="@+id/checkBox1"
-        android:layout_width="wrap_content"
+        android:layout_width="175dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:focusable="false"
         android:button="@drawable/checkbox_custom"
+        android:focusable="false"
         android:focusableInTouchMode="false"
-        android:text="CheckBox" 
-        android:textSize="18dp"
-        android:textColor="@color/cyan"/>
+        android:scrollHorizontally="true"
+        android:text="CheckBox"
+        android:textColor="@color/cyan"
+        android:textSize="16dp" />
 
     <TextView
         android:id="@+id/code"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/checkBox1"
         android:layout_alignBottom="@+id/checkBox1"
         android:layout_alignParentRight="true"
-        android:text="TextView" 
-        android:textSize="18dp"
-        android:textColor="#FFFFFF"/>
- 
+        android:text="TextView"
+        android:gravity="right"
+        android:textColor="#FFFFFF"
+        android:textSize="15dp" />
+
 </RelativeLayout>
