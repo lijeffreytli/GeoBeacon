@@ -276,6 +276,10 @@ public class MainActivity extends FragmentActivity{
 			Intent intent = new Intent(this, EmergencyContacts.class);
 			this.startActivity(intent);
 			break;
+		case R.id.menu_gesture_confirmation:
+			Intent intent2 = new Intent(this, GestureConfirmation.class);
+			this.startActivity(intent2);
+			break;
 		}
 		return false;
 	}

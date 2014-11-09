@@ -2,7 +2,6 @@ package com.seecondev.seecon;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -24,11 +23,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -66,6 +61,13 @@ public class Emergency extends ActionBarActivity {
 
 	/* Debugging Purposes */
 	private static final String TAG = "SEECON_EMERGENCY";
+	
+	// Intent variables sent to Gesture Confirmation
+	public final static String OPTIONAL_MESSAGE = "com.seecondev.seecon.OPTIONAL_MESSAGE";
+	public final static String CONTACT_NAME = "com.seecondev.seecon.CONTACT_NAME";
+	public final static String MAP_URL = "com.seecondev.seecon.MAP_URL";
+	public final static String CONTACT_PHONE_NUMBER = "com.seecondev.seecon.CONTACT_PHONE_NUMBER";
+	public final static String MESSAGE = "com.seecondev.seecon.MESSAGE";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -154,62 +156,67 @@ public class Emergency extends ActionBarActivity {
 					/* This is the message that will be sent to emergency contacts */
 					mMessage += "Emergency: " + spinnerText + "\nMy Location: " + 
 							mAddress;
+					
+					Intent myIntent = new Intent(Emergency.this, GestureConfirmation.class);
+					myIntent.putExtra(OPTIONAL_MESSAGE, mStrOptionalMessage);
+					myIntent.putExtra(MESSAGE, mMessage);
+					myIntent.putExtra(MAP_URL, mMapURL);
+					Emergency.this.startActivity(myIntent);
 
-
-					/* AlertDialog box for user confirmation */
-					AlertDialog.Builder builder1 = new AlertDialog.Builder(Emergency.this);
-					builder1.setMessage("Send emergency message?");
-					builder1.setCancelable(true);
-					builder1.setPositiveButton("Yes",
-							new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							/* Debugging purposes - Send to ourselves */
-							//String phoneNo = mContactNumber;
-							String phoneKatie = "12145976764";
-							String phoneJeff = "15129653085";
-							String phoneJared = "14693942157";
-
-							sendSMS(phoneJeff, mStrOptionalMessage);
-							//sendSMS(phoneKatie, mStrOptionalMessage);
-							//sendSMS(phoneJared, mStrOptionalMessage);
-
-							if (mMessage.length() > 160) {
-								int i = 0;
-								while (i < mMessage.length()) {
-									int endIdx = Math.min(mMessage.length(), i + 160);
-									sendSMS(phoneJeff, mMessage.substring(i, endIdx));
-									//sendSMS(phoneKatie, mMessage.substring(i, endIdx));
-									//sendSMS(phoneJared, mMessage.substring(i, endIdx));
-									i += 160;
-								}
-								sendSMS(phoneJeff, mMapURL);
-								//sendSMS(phoneKatie, mMapURL);
-								//sendSMS(phoneJared, mMapURL);
-							} 
-							//							else if (mMessage.length() + mMapURL.length() < 160) {
-							//								mMessage = mMessage + "\n" + mMapURL;
-							//								sendSMS(phoneJeff, mMessage);
-							//								//sendSMS(phoneKatie, mMessage);
-							//								//sendSMS(phoneJared, mMessage);
-							else {
-								sendSMS(phoneJeff, mMessage);
-								//sendSMS(phoneKatie, mMessage);
-								//sendSMS(phoneJared, mMessage);
-								sendSMS(phoneJeff, mMapURL);
-								//sendSMS(phoneKatie, mMapURL);
-								//sendSMS(phoneJared, mMapURL);	
-							}
-							finish();
-						}
-					});
-					builder1.setNegativeButton("No",
-							new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-						}
-					});
-					AlertDialog alert11 = builder1.create();
-					alert11.show();
+//					/* AlertDialog box for user confirmation */
+//					AlertDialog.Builder builder1 = new AlertDialog.Builder(Emergency.this);
+//					builder1.setMessage("Send emergency message?");
+//					builder1.setCancelable(true);
+//					builder1.setPositiveButton("Yes",
+//							new DialogInterface.OnClickListener() {
+//						public void onClick(DialogInterface dialog, int id) {
+//							/* Debugging purposes - Send to ourselves */
+//							//String phoneNo = mContactNumber;
+//							String phoneKatie = "12145976764";
+//							String phoneJeff = "15129653085";
+//							String phoneJared = "14693942157";
+//
+//							sendSMS(phoneJeff, mStrOptionalMessage);
+//							//sendSMS(phoneKatie, mStrOptionalMessage);
+//							//sendSMS(phoneJared, mStrOptionalMessage);
+//
+//							if (mMessage.length() > 160) {
+//								int i = 0;
+//								while (i < mMessage.length()) {
+//									int endIdx = Math.min(mMessage.length(), i + 160);
+//									sendSMS(phoneJeff, mMessage.substring(i, endIdx));
+//									//sendSMS(phoneKatie, mMessage.substring(i, endIdx));
+//									//sendSMS(phoneJared, mMessage.substring(i, endIdx));
+//									i += 160;
+//								}
+//								sendSMS(phoneJeff, mMapURL);
+//								//sendSMS(phoneKatie, mMapURL);
+//								//sendSMS(phoneJared, mMapURL);
+//							} 
+//							//							else if (mMessage.length() + mMapURL.length() < 160) {
+//							//								mMessage = mMessage + "\n" + mMapURL;
+//							//								sendSMS(phoneJeff, mMessage);
+//							//								//sendSMS(phoneKatie, mMessage);
+//							//								//sendSMS(phoneJared, mMessage);
+//							else {
+//								sendSMS(phoneJeff, mMessage);
+//								//sendSMS(phoneKatie, mMessage);
+//								//sendSMS(phoneJared, mMessage);
+//								sendSMS(phoneJeff, mMapURL);
+//								//sendSMS(phoneKatie, mMapURL);
+//								//sendSMS(phoneJared, mMapURL);	
+//							}
+//							finish();
+//						}
+//					});
+//					builder1.setNegativeButton("No",
+//							new DialogInterface.OnClickListener() {
+//						public void onClick(DialogInterface dialog, int id) {
+//							dialog.cancel();
+//						}
+//					});
+//					AlertDialog alert11 = builder1.create();
+//					alert11.show();
 				}
 			}
 		});
