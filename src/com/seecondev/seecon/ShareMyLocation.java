@@ -164,9 +164,13 @@ public class ShareMyLocation extends ActionBarActivity {
 								Toast.LENGTH_SHORT).show();
 					} else {
 						/* Obtain the optional message if any */
-						//						mOptionalMessage = (EditText)findViewById(R.id.editMessage);
-						mStrOptionalMessage = mOptionalMessage.getText().toString();
-						Log.d(TAG, "Optional Message" + mStrOptionalMessage);
+						// mOptionalMessage = (EditText)findViewById(R.id.editMessage);
+						if (mOptionalMessage == null || mOptionalMessage.getText().toString().isEmpty()){
+							Log.e(TAG, "No Optional Message");
+						} else {
+							mStrOptionalMessage = mOptionalMessage.getText().toString();
+							Log.e(TAG, "Optional Message" + mStrOptionalMessage);
+						}
 
 						/* AlertDialog box for user confirmation */
 						AlertDialog.Builder builder1 = new AlertDialog.Builder(ShareMyLocation.this);
