@@ -92,7 +92,6 @@
         <activity
             android:name=".Preferences"
             android:label="@string/title_activity_get_settings"
-            android:parentActivityName=".MainActivity"
             android:theme="@style/settingsPreferenceTheme" >
         </activity>
     </application>

@@ -4,6 +4,7 @@
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="sound"
+        android:widgetLayout="@layout/custom_checkbox"
         android:summary="Turn the sound on or off"
         android:title="Sound" />
 

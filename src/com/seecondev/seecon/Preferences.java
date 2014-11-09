@@ -11,7 +11,7 @@ public class Preferences extends PreferenceActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(false);
 		getPreferenceManager().setSharedPreferencesName("ttt_prefs");
 		addPreferencesFromResource(R.xml.preferences);
 		final SharedPreferences prefs =
