@@ -135,9 +135,13 @@ public class Emergency extends ActionBarActivity {
 							Toast.LENGTH_SHORT).show();
 				} else {
 					/* Optional message */
-					//					mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
-					mStrOptionalMessage = mOptionalMessage.getText().toString();
-					Log.d(TAG, "Optional Message" + mStrOptionalMessage);
+					//mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
+					if (mOptionalMessage == null || mOptionalMessage.getText().toString().isEmpty()){
+						Log.e(TAG, "No Optional Message");
+					} else {
+						mStrOptionalMessage = mOptionalMessage.getText().toString();
+						Log.e(TAG, "Optional Message" + mStrOptionalMessage);
+					}
 
 					/* Obtain spinner spinner information */
 					Spinner spinner = (Spinner)findViewById(R.id.spinnerEmergencyDialogs);
@@ -195,7 +199,6 @@ public class Emergency extends ActionBarActivity {
 								//sendSMS(phoneKatie, mMapURL);
 								//sendSMS(phoneJared, mMapURL);	
 							}
-
 							finish();
 						}
 					});

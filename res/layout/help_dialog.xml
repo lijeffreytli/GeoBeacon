@@ -3,6 +3,8 @@
     android:id="@+id/ScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
     android:scrollbars="horizontal" >
 
     <LinearLayout
@@ -22,36 +24,42 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:text=" • Select &apos;Share My Location&apos; to send your location information to a friend. At this time, users will only be able to send location information to a single contact.\n"
             android:textColor="@color/cyan"
             android:textIsSelectable="true"
             android:textSize="20sp" />
-        
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:text=" •Select the red emergency button to send a distress message to emergency responders and emergency contacts.\n"
             android:textColor="@color/cyan"
             android:textIsSelectable="true"
             android:textSize="20sp" />
-        
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:text=" • You can add contacts to your emergency list via the app settings (currently not supported).\n"
             android:textColor="@color/cyan"
             android:textIsSelectable="true"
             android:textSize="20sp" />
-        
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" • The 'Accuracy' is an estimation of the user's location based on GPS or network connectivity.\n"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text=" • The &apos;Accuracy&apos; is an estimation of the user&apos;s location based on GPS or network connectivity.\n"
             android:textColor="@color/cyan"
             android:textIsSelectable="true"
             android:textSize="20sp" />
-         
-        
     </LinearLayout>
 
 </ScrollView>
