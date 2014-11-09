@@ -20,7 +20,7 @@
         android:onClick="sendMessage"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
-        android:text="Send" />
+        android:text="Send (requires confirmation)" />
 
     <!--  
     <EditText

@@ -40,7 +40,7 @@ public class GestureConfirmation extends Activity {
 
 		//Testing purposes
 		Toast.makeText(getApplicationContext(),
-				mStrOptionalMessage, 
+				"Sent message: " + mStrOptionalMessage, 
 				Toast.LENGTH_LONG).show();
 
 		mLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures);
@@ -65,78 +65,72 @@ public class GestureConfirmation extends Activity {
 			// We want at least one prediction
 			if (predictions.size() > 0) {
 				Prediction prediction = predictions.get(0);
-
 				Log.d(TAG, "prediction score: " + prediction.score + ", name: " + prediction.name);
 				String figure = null;
 				// We want at least some confidence in the result
 				if (prediction.score > 5.0) {
 					String name = prediction.name;
-					if(name.contains("circle")) {
+					if(name.contains("triangle") || name.contains("circle")) {
 						figure = prediction.name;
-					}
-					else if(name.contains("triangle")) {
-						figure = prediction.name;
+						/* AlertDialog box for user confirmation */
+						AlertDialog.Builder builder1 = new AlertDialog.Builder(GestureConfirmation.this);
+						builder1.setMessage("Send emergency message?");
+						builder1.setCancelable(true);
+						builder1.setPositiveButton("Yes",
+								new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								/* Debugging purposes - Send to ourselves */
+								//String phoneNo = mContactNumber;
+								String phoneKatie = "12145976764";
+								String phoneJeff = "15129653085";
+								String phoneJared = "14693942157";
+
+								sendSMS(phoneJeff, mStrOptionalMessage);
+								//sendSMS(phoneKatie, mStrOptionalMessage);
+								//sendSMS(phoneJared, mStrOptionalMessage);
+
+								if (mMessage.length() > 160) {
+									int i = 0;
+									while (i < mMessage.length()) {
+										int endIdx = Math.min(mMessage.length(), i + 160);
+										sendSMS(phoneJeff, mMessage.substring(i, endIdx));
+										//sendSMS(phoneKatie, mMessage.substring(i, endIdx));
+										//sendSMS(phoneJared, mMessage.substring(i, endIdx));
+										i += 160;
+									}
+									sendSMS(phoneJeff, mMapURL);
+									//sendSMS(phoneKatie, mMapURL);
+									//sendSMS(phoneJared, mMapURL);
+								} 
+								//							else if (mMessage.length() + mMapURL.length() < 160) {
+								//								mMessage = mMessage + "\n" + mMapURL;
+								//								sendSMS(phoneJeff, mMessage);
+								//								//sendSMS(phoneKatie, mMessage);
+								//								//sendSMS(phoneJared, mMessage);
+								else {
+									sendSMS(phoneJeff, mMessage);
+									//sendSMS(phoneKatie, mMessage);
+									//sendSMS(phoneJared, mMessage);
+									sendSMS(phoneJeff, mMapURL);
+									//sendSMS(phoneKatie, mMapURL);
+									//sendSMS(phoneJared, mMapURL);	
+								}
+								finish();
+							}
+						});
+						builder1.setNegativeButton("No",
+								new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+						AlertDialog alert11 = builder1.create();
+						alert11.show();
 					}
 				} else {
 					Toast.makeText(getApplicationContext(),
 							"Please redraw the figure", 
 							Toast.LENGTH_LONG).show();
-				}
-				if(figure != null){
-					/* AlertDialog box for user confirmation */
-					AlertDialog.Builder builder1 = new AlertDialog.Builder(GestureConfirmation.this);
-					builder1.setMessage("Send emergency message?");
-					builder1.setCancelable(true);
-					builder1.setPositiveButton("Yes",
-							new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							/* Debugging purposes - Send to ourselves */
-							//String phoneNo = mContactNumber;
-							String phoneKatie = "12145976764";
-							String phoneJeff = "15129653085";
-							String phoneJared = "14693942157";
-
-							sendSMS(phoneJeff, mStrOptionalMessage);
-							//sendSMS(phoneKatie, mStrOptionalMessage);
-							//sendSMS(phoneJared, mStrOptionalMessage);
-
-							if (mMessage.length() > 160) {
-								int i = 0;
-								while (i < mMessage.length()) {
-									int endIdx = Math.min(mMessage.length(), i + 160);
-									sendSMS(phoneJeff, mMessage.substring(i, endIdx));
-									//sendSMS(phoneKatie, mMessage.substring(i, endIdx));
-									//sendSMS(phoneJared, mMessage.substring(i, endIdx));
-									i += 160;
-								}
-								sendSMS(phoneJeff, mMapURL);
-								//sendSMS(phoneKatie, mMapURL);
-								//sendSMS(phoneJared, mMapURL);
-							} 
-							//							else if (mMessage.length() + mMapURL.length() < 160) {
-							//								mMessage = mMessage + "\n" + mMapURL;
-							//								sendSMS(phoneJeff, mMessage);
-							//								//sendSMS(phoneKatie, mMessage);
-							//								//sendSMS(phoneJared, mMessage);
-							else {
-								sendSMS(phoneJeff, mMessage);
-								//sendSMS(phoneKatie, mMessage);
-								//sendSMS(phoneJared, mMessage);
-								sendSMS(phoneJeff, mMapURL);
-								//sendSMS(phoneKatie, mMapURL);
-								//sendSMS(phoneJared, mMapURL);	
-							}
-							finish();
-						}
-					});
-					builder1.setNegativeButton("No",
-							new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-						}
-					});
-					AlertDialog alert11 = builder1.create();
-					alert11.show();
 				}
 			}
 		}
