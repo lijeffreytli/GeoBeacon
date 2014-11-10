@@ -16,6 +16,8 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.provider.Contacts;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
@@ -42,8 +44,9 @@ public class ShareMyLocation extends ActionBarActivity {
 
 	private Button btnSendSMS;
 	private String mMessage;
-	private String mContactNumber;
-	private String mContactName;
+	//private String mContactNumber;
+	//private String mContactName;
+	private ArrayList<SeeconContact> mContacts;
 	private String mAddress;
 	private String mMapURL;
 	private double mLatitude;
@@ -53,7 +56,7 @@ public class ShareMyLocation extends ActionBarActivity {
 	private boolean mValidMessage = true;
 	private SharedPreferences mPrefs;
 	private TextView tvCharCount;
-	
+
 	// Sound
 	private SoundPool mSounds;	
 	private boolean mSoundOn;
@@ -69,15 +72,18 @@ public class ShareMyLocation extends ActionBarActivity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_share_my_location);
 		//setupUI(findViewById(R.id.parent));
-		
+
 
 		if (savedInstanceState != null) {
 			mMessage = savedInstanceState.getString("mMessage");
-			mContactNumber = savedInstanceState.getString("mContactNumber");
-			mContactName = savedInstanceState.getString("mContactName");
+			mContacts = savedInstanceState.getParcelableArrayList("mContacts");
+			//mContactNumber = savedInstanceState.getString("mContactNumber");
+			//mContactName = savedInstanceState.getString("mContactName");
 			mAddress = savedInstanceState.getString("mAddress");
 			mLongitude = savedInstanceState.getDouble("mLongitude");
 			mLatitude = savedInstanceState.getDouble("mLatitude");
+		} else {
+			mContacts = new ArrayList<SeeconContact>();
 		}
 
 		mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
@@ -96,8 +102,8 @@ public class ShareMyLocation extends ActionBarActivity {
 			mLatitude = Double.parseDouble(latStr);
 		}
 
-		Log.d(TAG, "In ShareMyLocation: Contact Name: " + mContactName);
-		Log.d(TAG, "In ShareMyLocation: Contact Number: " + mContactNumber);
+		//		Log.d(TAG, "In ShareMyLocation: Contact Name: " + mContactName);
+		//		Log.d(TAG, "In ShareMyLocation: Contact Number: " + mContactNumber);
 
 		/* Debugging Purposes */
 		if (mAddress != null){
@@ -143,7 +149,7 @@ public class ShareMyLocation extends ActionBarActivity {
 			{   
 				playSound(mSendSoundID);
 				/* Error handling for null contact */
-				if (mContactName == "" || mContactName == null || mContactName.length() == 0){
+				if (mContacts == null || mContacts.size() == 0){
 					/* AlertDialog box for user confirmation */
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(ShareMyLocation.this);
 					builder1.setMessage("Please select a contact");
@@ -174,21 +180,32 @@ public class ShareMyLocation extends ActionBarActivity {
 
 						/* AlertDialog box for user confirmation */
 						AlertDialog.Builder builder1 = new AlertDialog.Builder(ShareMyLocation.this);
-						builder1.setMessage("Send to " + mContactName + "?");
+
+						String contactNames = "";
+						for (SeeconContact contact: mContacts) {
+							contactNames += contact.mContactName + ", ";
+						}
+						// remove the trailing comma for the last one
+						contactNames = contactNames.substring(0, contactNames.length() - 2);
+
+						builder1.setMessage("Send to " + contactNames + "?");
 						builder1.setCancelable(true);
 						builder1.setPositiveButton("Yes",
 								new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 
-								String phoneNo = mContactNumber;
+								for (SeeconContact contact: mContacts) {
+									sendToContact(contact);
+								}
+							}
 
-								/* Send the optional message */
-								sendSMS(phoneNo, mStrOptionalMessage);
+							private void sendToContact(SeeconContact contact) {
+								String phoneNo = contact.mContactNumber;
 
-								mMessage = "My location: " + mMessage;
-								mMapURL = "Map coordinates: " + mMapURL;
+								mMessage = "My location: " + mMessage + " ";
+								mMapURL = "Map coordinates: " + mMapURL + " ";
 
-								if (phoneNo != null && phoneNo.length() > 0) { //Checks whether the number is not null      
+								if (phoneNo != null && phoneNo.length() > 0) {    
 									/* Send the user's location */
 									if (mMessage.length() > 160) {
 										int i = 0;
@@ -199,19 +216,22 @@ public class ShareMyLocation extends ActionBarActivity {
 										}
 										sendSMS(phoneNo, mMapURL);
 									} 
-									//									else if (mMessage.length() + mMapURL.length() < 160) {
-									//										mMessage = mMessage + "\n" + mMapURL;
-									//										sendSMS(phoneNo, mMessage); 
-									else {
+									else if (mMessage.length() + mMapURL.length() < 160) {
+										mMessage = mMessage + "\n" + mMapURL;
+										sendSMS(phoneNo, mMessage); 
+									} else {
 										sendSMS(phoneNo, mMessage);
 										sendSMS(phoneNo, mMapURL);
 									}
+									/* Send the optional message */
+									sendSMS(phoneNo, mStrOptionalMessage);
 
 									finish(); //After sending the message, return back to MainActivity
 								} else //Throw an exception if the number is invalid
 									Toast.makeText(getBaseContext(), 
 											"Please select a contact.", 
 											Toast.LENGTH_SHORT).show();
+
 							}
 						});
 						builder1.setNegativeButton("No",
@@ -405,8 +425,7 @@ public class ShareMyLocation extends ActionBarActivity {
 		super.onRestoreInstanceState(savedInstanceState);
 
 		mMessage = savedInstanceState.getString("mMessage");
-		mContactNumber = savedInstanceState.getString("mContactNumber");
-		mContactName = savedInstanceState.getString("mContactName");
+		mContacts = savedInstanceState.getParcelableArrayList("mContacts");
 		mAddress = savedInstanceState.getString("mAddress");
 		mLongitude = savedInstanceState.getDouble("mLongitude");
 		mLatitude = savedInstanceState.getDouble("mLatitude");
@@ -417,8 +436,9 @@ public class ShareMyLocation extends ActionBarActivity {
 		super.onSaveInstanceState(outState);
 
 		outState.putString("mMessage", mMessage);
-		outState.putString("mContactNumber", mContactNumber);
-		outState.putString("mContactName", mContactName);
+		outState.putParcelableArrayList("mContacts", mContacts);
+		//		outState.putString("mContactNumber", mContactNumber);
+		//		outState.putString("mContactName", mContactName);
 		outState.putString("mAddress", mAddress);
 		outState.putDouble("mLongitude", mLongitude);
 		outState.putDouble("mLatitude", mLatitude);
@@ -476,8 +496,8 @@ public class ShareMyLocation extends ActionBarActivity {
 				Cursor c =  managedQuery(contactData, null, null, null, null);
 
 				if (c.moveToFirst()) {
-					String id =c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
-					String hasPhone =c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+					String id = c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
+					String hasPhone = c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
 					if (hasPhone.equalsIgnoreCase("1")) {
 						//						Cursor phones = getContentResolver().query( 
 						//								ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null, 
@@ -487,13 +507,21 @@ public class ShareMyLocation extends ActionBarActivity {
 						if(phones.moveToFirst()){
 							//						String cNumber = phones.getString(phones.getColumnIndex("data1"));
 							String cNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-							mContactNumber = cNumber;
+							Log.d(TAG, "cNumber is  " + cNumber);
+							String cName = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+							Log.d(TAG, "cName is " + cName);
+							SeeconContact contact = new SeeconContact(cName, cNumber);
+							Log.d(TAG, "contact is " + contact);
+							if (!mContacts.contains(contact))
+								mContacts.add(contact);
 						}
 						//else?
 					}
-					mContactName = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-					Log.d(TAG, "Contact Name: " + mContactName);
-					Log.d(TAG, "Contact Number: " + mContactNumber);
+
+					for (SeeconContact contact: mContacts) {
+						Log.d(TAG, "Contact Name: " + contact.mContactName);
+						Log.d(TAG, "Contact Number: " + contact.mContactNumber);
+					}
 
 				}
 			}
@@ -503,10 +531,18 @@ public class ShareMyLocation extends ActionBarActivity {
 			mSoundOn = mPrefs.getBoolean("sound", true);
 			break;
 		}
-		TextView text = (TextView) findViewById(R.id.editPhoneNumber);
+		TextView text = (TextView) findViewById(R.id.selectedContacts);
 		text.setTextColor(getResources().getColor(R.color.white));
-		if (mContactNumber != null) {
-			text.setText(mContactName);
+		String contactNames = "";
+		for (SeeconContact contact: mContacts) {
+			contactNames += contact.mContactName + ", ";
+		}
+		// remove the trailing comma for the last one
+		contactNames = contactNames.substring(0, contactNames.length() - 2);
+		Log.d(TAG, "contactNames: " + contactNames);
+
+		if (contactNames != null && !contactNames.isEmpty()) {
+			text.setText(contactNames);
 		}
 	}
 
@@ -553,4 +589,46 @@ public class ShareMyLocation extends ActionBarActivity {
 	//			}
 	//		}
 	//	}
+	private class SeeconContact implements Parcelable {
+		private String mContactName;
+		private String mContactNumber;
+
+		public SeeconContact(String contactName, String contactNumber) {
+			mContactName = contactName;
+			mContactNumber = contactNumber;
+		}
+
+		public String getContactName() {
+			return mContactName;
+		}
+
+		public String getContactNumber() {
+			return mContactNumber;
+		}
+
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+
+		@Override
+		public void writeToParcel(Parcel dest, int flags) {
+			dest.writeString(mContactName);
+			dest.writeString(mContactNumber);
+		}
+		
+		public String toString() {
+			return "Contact Information:\nName: " + mContactName + "\nNumber: " + mContactNumber;
+		}
+		
+		public boolean equals(Object other) {
+			if (!(other instanceof SeeconContact))
+				return false;
+			
+			SeeconContact oth = (SeeconContact)(other);
+			return ((this.mContactName.equals(oth.mContactName)) && (this.mContactNumber.equals(oth.mContactNumber)));
+		}
+
+	}
 }
+

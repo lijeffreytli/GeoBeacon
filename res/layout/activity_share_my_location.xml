@@ -6,33 +6,46 @@
     android:layout_height="match_parent"
     android:orientation="horizontal" >
 
-    <Button
-        android:id="@+id/buttonSend"
-        android:layout_width="150dp"
-        android:layout_height="35dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/button_send"
-        android:onClick="sendMessage"
-        android:text="Send"
-        android:textColor="#FFFFFFFF"
-        android:textStyle="bold" />
-
     <TextView
         android:id="@+id/editCompleteMessage"
         android:layout_width="250dp"
-        android:layout_height="85dp"
+        android:layout_height="100dp"
         android:layout_alignLeft="@+id/tvOptionalMessage"
         android:layout_alignRight="@+id/tvOptionalMessage"
-        android:layout_below="@+id/buttonContacts"
         android:layout_marginBottom="5dp"
         android:ems="20"
-        android:hint="Complete Message"
+        android:hint="Current Address"
+        android:inputType="textMultiLine|textNoSuggestions|none"
+        android:maxHeight="140dp"
+        android:paddingBottom="4.5dp"
+        android:paddingLeft="4.5dp"
+        android:paddingRight="4.5dp"
+        android:scrollbars="vertical"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/buttonContacts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editCompleteMessage"
+        android:layout_alignRight="@+id/editCompleteMessage"
+        android:layout_below="@id/editCompleteMessage"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/button_default_style"
+        android:onClick="getContacts"
+        android:text="Select Contacts"
+        android:textColor="#FFFFFFFF" />
+
+    <TextView
+        android:id="@+id/selectedContacts"
+        android:layout_width="250dp"
+        android:layout_height="55dp"
+        android:layout_alignLeft="@+id/tvOptionalMessage"
+        android:layout_alignRight="@+id/tvOptionalMessage"
+        android:layout_below="@id/buttonContacts"
+        android:layout_marginBottom="5dp"
+        android:ems="20"
+        android:hint="No contacts selected"
         android:inputType="textMultiLine|textNoSuggestions|none"
         android:maxHeight="140dp"
         android:paddingBottom="4.5dp"
@@ -42,67 +55,15 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/editPhoneNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/buttonContacts"
-        android:layout_alignLeft="@+id/editCompleteMessage"
-        android:layout_alignTop="@+id/buttonContacts"
-        android:layout_toLeftOf="@+id/buttonContacts"
-        android:background="@drawable/text_border"
-        android:ems="20"
-        android:gravity="center"
-        android:hint="Select a Contact"
-        android:paddingBottom="5dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingTop="5dp"
-        android:singleLine="true"
-        android:textSize="17sp" >
-
-    </TextView>
-
-    <Button
-        android:id="@+id/buttonContacts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/editCompleteMessage"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/button_default_style"
-        android:onClick="getContacts"
-        android:text="Contacts"
-        android:textColor="#FFFFFFFF" />
-
-    <!--  
-    <Button
-        android:id="@+id/buttonAddOptionalMessage"
-        android:layout_width="150dp"
-        android:layout_height="35dp"
-        android:layout_alignLeft="@+id/editCompleteMessage"
-        android:layout_alignRight="@+id/editCompleteMessage"
-        android:layout_below="@+id/editCompleteMessage"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/button_send"
-        android:onClick="getAdditionalMessage"
-        android:text="Add Additional Message"
-        android:textColor="#FFFFFFFF"
-        android:textStyle="bold" />
-        -->
-
-    <TextView
         android:id="@+id/tvOptionalMessage"
         android:layout_width="250dp"
-        android:layout_height="85dp"
-        android:layout_above="@+id/buttonSend"
+        android:layout_height="190dp"
         android:layout_alignLeft="@+id/buttonSend"
         android:layout_alignRight="@+id/buttonSend"
-        android:layout_below="@+id/editCompleteMessage"
-        android:background="@drawable/text_border"
+        android:layout_below="@id/selectedContacts"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
+        android:background="@drawable/text_border"
         android:clickable="true"
         android:ems="20"
         android:hint="Click here to add an additional message"
@@ -114,5 +75,22 @@
         android:paddingTop="6dp"
         android:scrollbars="vertical"
         android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/buttonSend"
+        android:layout_width="150dp"
+        android:layout_height="35dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/tvOptionalMessage"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/button_send"
+        android:onClick="sendMessage"
+        android:text="Send"
+        android:textColor="#FFFFFFFF"
+        android:textStyle="bold" />
 
 </RelativeLayout>
