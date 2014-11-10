@@ -532,7 +532,8 @@ public class ShareMyLocation extends ActionBarActivity {
 			contactNames += contact.mContactName + ", ";
 		}
 		// remove the trailing comma for the last one
-		contactNames = contactNames.substring(0, contactNames.length() - 2);
+		if (contactNames.length() >= 2)
+			contactNames = contactNames.substring(0, contactNames.length() - 2);
 		Log.d(TAG, "contactNames: " + contactNames);
 
 		if (contactNames != null && !contactNames.isEmpty()) {

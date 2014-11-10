@@ -4,9 +4,15 @@
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="sound"
-        android:widgetLayout="@layout/custom_checkbox"
         android:summary="Turn the sound on or off"
-        android:title="Sound" />
+        android:title="Sound"
+        android:widgetLayout="@layout/custom_checkbox" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="showCoordinates"
+        android:summary="Show the latitude and longitude for your location"
+        android:title="Show Coordinates"
+        android:widgetLayout="@layout/custom_checkbox" />
 
     <!--
     NOTE: ListPreference's summary should be set to its value by the activity code. 
@@ -28,5 +34,6 @@
         android:key="mode_repeat"
         android:summary=""
         android:title="@string/edit_emergency_contacts" />
-	-->
+    -->
+
 </PreferenceScreen>

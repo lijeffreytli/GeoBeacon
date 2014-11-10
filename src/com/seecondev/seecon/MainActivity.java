@@ -62,6 +62,7 @@ public class MainActivity extends FragmentActivity{
 	private final static long MIN_TIME = 1000;
 	private final static float MIN_DIST = 3;
 	private static boolean mLocationEnabled;
+	private static boolean mShowCoordinates;
 
 	private SharedPreferences mPrefs;
 
@@ -82,6 +83,7 @@ public class MainActivity extends FragmentActivity{
 
 		mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
 		mSoundOn = mPrefs.getBoolean("sound", true);
+		mShowCoordinates = mPrefs.getBoolean("showCoordinates", false);
 		int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());		
 		if (resultCode == ConnectionResult.SUCCESS) {
 			mLocationEnabled = true;
@@ -228,6 +230,7 @@ public class MainActivity extends FragmentActivity{
 		if (requestCode == RESULT_CANCELED) {
 			// Apply potentially new settings
 			mSoundOn = mPrefs.getBoolean("sound", true);
+			mShowCoordinates = mPrefs.getBoolean("showCoordinates", false);
 		}
 	}
 
@@ -421,9 +424,11 @@ public class MainActivity extends FragmentActivity{
 				/* Set/Display the TextView on the Main Menu */
 				TextView textViewMain = (TextView)findViewById(R.id.text_view_title);
 				textViewMain.setMovementMethod(new ScrollingMovementMethod());
-				textViewMain.setText(mAddress + "\n(" + mLatitude + ", " + 
-						mLongitude + ")" + "\nAccuracy: +/-" + mAccuracy + 
-						" meters");
+				String text = mAddress + "\n";
+				if (mShowCoordinates)
+					text += "(" + mLatitude + ", " + mLongitude + ")\n";
+				text += "Accuracy: +/-" + mAccuracy + " meters";
+				textViewMain.setText(text);
 			}
 		}
 
