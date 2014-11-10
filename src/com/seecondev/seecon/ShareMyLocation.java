@@ -72,6 +72,7 @@ public class ShareMyLocation extends ActionBarActivity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_share_my_location);
 		//setupUI(findViewById(R.id.parent));
+		
 
 
 		if (savedInstanceState != null) {
@@ -250,6 +251,7 @@ public class ShareMyLocation extends ActionBarActivity {
 				}
 			}
 		});  
+		displaySelectedContacts();
 	}
 
 	//	public void checkSMSLength(EditText edt) throws NumberFormatException {
@@ -281,7 +283,10 @@ public class ShareMyLocation extends ActionBarActivity {
 
 
 
-
+	public void getContactList(View view){
+		Intent intent = new Intent(this, ShareLocationContacts.class);
+		startActivity(intent);
+	}
 
 	/* This method sends a text message to a specific phone number */
 	private void sendSMS(String phoneNumber, String message){
@@ -416,10 +421,10 @@ public class ShareMyLocation extends ActionBarActivity {
 		case R.id.menu_help:
 			showDialog(DIALOG_HELP_ID);
 			return true;
-		case R.id.menu_emergency_contacts:
-			Intent intent = new Intent(this, EmergencyContacts.class);
-			this.startActivity(intent);
-			break;
+//		case R.id.menu_emergency_contacts:
+//			Intent intent = new Intent(this, EmergencyContacts.class);
+//			this.startActivity(intent);
+//			break;
 		}
 		return false;
 	}
@@ -526,6 +531,7 @@ public class ShareMyLocation extends ActionBarActivity {
 			break;
 		}
 		TextView text = (TextView) findViewById(R.id.selectedContacts);
+		text.setMovementMethod(new ScrollingMovementMethod());
 		text.setTextColor(getResources().getColor(R.color.white));
 		String contactNames = "";
 		for (SeeconContact contact: mContacts) {
@@ -539,6 +545,26 @@ public class ShareMyLocation extends ActionBarActivity {
 		if (contactNames != null && !contactNames.isEmpty()) {
 			text.setText(contactNames);
 		}
+	}
+	
+	private void displaySelectedContacts(){
+		TextView text = (TextView) findViewById(R.id.selectedContacts);
+//		text.setMovementMethod(new ScrollingMovementMethod());
+		text.setTextColor(getResources().getColor(R.color.white));
+//		String contactNames = "";
+//		for (SeeconContact contact: mContacts) {
+//			contactNames += contact.mContactName + ", ";
+//		}
+//		// remove the trailing comma for the last one
+//		if (contactNames.length() >= 2)
+//			contactNames = contactNames.substring(0, contactNames.length() - 2);
+//		Log.d(TAG, "contactNames: " + contactNames);
+//
+//		if (contactNames != null && !contactNames.isEmpty()) {
+//			text.setText(contactNames);
+//		}
+		text.setMovementMethod(new ScrollingMovementMethod());
+		text.setText("Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, ");
 	}
 
 	private void createSoundPool() {

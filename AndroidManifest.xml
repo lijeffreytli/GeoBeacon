@@ -97,6 +97,10 @@
             android:name=".GestureConfirmation"
             android:label="@string/title_activity_gesture_confirmation" >
         </activity>
+        <activity
+            android:name=".ShareLocationContacts"
+            android:label="@string/title_activity_share_location_contacts" >
+        </activity>
     </application>
 
 </manifest>

@@ -275,14 +275,14 @@ public class MainActivity extends FragmentActivity{
 		case R.id.menu_help:
 			showDialog(DIALOG_HELP_ID);
 			return true;
-		case R.id.menu_emergency_contacts:
-			Intent intent = new Intent(this, EmergencyContacts.class);
-			this.startActivity(intent);
-			break;
-		case R.id.menu_gesture_confirmation:
-			Intent intent2 = new Intent(this, GestureConfirmation.class);
-			this.startActivity(intent2);
-			break;
+//		case R.id.menu_emergency_contacts:
+//			Intent intent = new Intent(this, EmergencyContacts.class);
+//			this.startActivity(intent);
+//			break;
+//		case R.id.menu_gesture_confirmation:
+//			Intent intent2 = new Intent(this, GestureConfirmation.class);
+//			this.startActivity(intent2);
+//			break;
 		}
 		return false;
 	}
