@@ -14,6 +14,11 @@
         android:title="Show Coordinates"
         android:widgetLayout="@layout/custom_checkbox" />
 
+    <Preference
+        android:key="emergencyContacts"
+        android:summary="Add or Remove Contacts from Emergency Contact List"
+        android:title="Edit Emergency Contacts" />
+
     <!--
     NOTE: ListPreference's summary should be set to its value by the activity code. 
     <ListPreference

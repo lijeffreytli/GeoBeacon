@@ -16,6 +16,15 @@ public class Preferences extends PreferenceActivity {
 		addPreferencesFromResource(R.xml.preferences);
 		final SharedPreferences prefs =
 				getSharedPreferences("ttt_prefs", MODE_PRIVATE);
+		Preference button = (Preference)findPreference("emergencyContacts");
+		button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+		                @Override
+		                public boolean onPreferenceClick(Preference arg0) { 
+		                	Intent intent = new Intent(Preferences.this, EmergencyContacts.class);
+		                	startActivity(intent);
+		                    return true;
+		                }
+		            });
 
 	}
 }
