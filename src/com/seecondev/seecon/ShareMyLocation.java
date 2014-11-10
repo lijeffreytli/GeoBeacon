@@ -75,13 +75,16 @@ public class ShareMyLocation extends ActionBarActivity {
 
 
 		if (savedInstanceState != null) {
+			Log.d(TAG, "in onCreate, savedInstanceState isn't null");
+			Log.d(TAG, "char sequence we stored for mOptionalMessage is " + 
+					savedInstanceState.getCharSequence("mOptionalMessage").toString());
 			mMessage = savedInstanceState.getString("mMessage");
 			mContacts = savedInstanceState.getParcelableArrayList("mContacts");
-			//mContactNumber = savedInstanceState.getString("mContactNumber");
-			//mContactName = savedInstanceState.getString("mContactName");
 			mAddress = savedInstanceState.getString("mAddress");
 			mLongitude = savedInstanceState.getDouble("mLongitude");
 			mLatitude = savedInstanceState.getDouble("mLatitude");
+			TextView tv = (TextView) findViewById(R.id.tvOptionalMessage);
+			tv.setText(savedInstanceState.getCharSequence("mOptionalMessage"));
 		} else {
 			mContacts = new ArrayList<SeeconContact>();
 		}
@@ -314,12 +317,14 @@ public class ShareMyLocation extends ActionBarActivity {
 		tv.setPadding(10, 10, 10, 10);
 		tv.setGravity(Gravity.CENTER);
 		tv.setTextSize(20);
-
+		
+		TextView currentMessage = (TextView) findViewById(R.id.tvOptionalMessage);
 		mOptionalMessage = new EditText(this);
+		mOptionalMessage.setText(currentMessage.getText());
+		mOptionalMessage.setSelection(mOptionalMessage.getText().length());
 		mOptionalMessage.setTextColor(Color.parseColor("#000000"));
-		String etStr = mOptionalMessage.getText().toString();
 		tvCharCount = new TextView(this);
-		tvCharCount.setText("0/160");
+		tvCharCount.setText(mOptionalMessage.getText().toString().length() + "/160");
 
 
 		//checkSMSLength(mOptionalMessage);
@@ -368,7 +373,6 @@ public class ShareMyLocation extends ActionBarActivity {
 
 		alertDialogBuilder.setView(layout);
 		alertDialogBuilder.setTitle("Title");
-		// alertDialogBuilder.setMessage("Input Student ID");
 		alertDialogBuilder.setCustomTitle(tv);
 
 
@@ -421,24 +425,14 @@ public class ShareMyLocation extends ActionBarActivity {
 	}
 
 	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		super.onRestoreInstanceState(savedInstanceState);
-
-		mMessage = savedInstanceState.getString("mMessage");
-		mContacts = savedInstanceState.getParcelableArrayList("mContacts");
-		mAddress = savedInstanceState.getString("mAddress");
-		mLongitude = savedInstanceState.getDouble("mLongitude");
-		mLatitude = savedInstanceState.getDouble("mLatitude");
-	}
-
-	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
 		outState.putString("mMessage", mMessage);
 		outState.putParcelableArrayList("mContacts", mContacts);
-		//		outState.putString("mContactNumber", mContactNumber);
-		//		outState.putString("mContactName", mContactName);
+		TextView tv = (TextView) findViewById(R.id.tvOptionalMessage);
+		Log.d(TAG, "tv.getText is " + tv.getText().toString());
+		outState.putCharSequence("mOptionalMessage", tv.getText());
 		outState.putString("mAddress", mAddress);
 		outState.putDouble("mLongitude", mLongitude);
 		outState.putDouble("mLatitude", mLatitude);
@@ -598,14 +592,6 @@ public class ShareMyLocation extends ActionBarActivity {
 			mContactNumber = contactNumber;
 		}
 
-		public String getContactName() {
-			return mContactName;
-		}
-
-		public String getContactNumber() {
-			return mContactNumber;
-		}
-
 		@Override
 		public int describeContents() {
 			return 0;
@@ -616,15 +602,15 @@ public class ShareMyLocation extends ActionBarActivity {
 			dest.writeString(mContactName);
 			dest.writeString(mContactNumber);
 		}
-		
+
 		public String toString() {
 			return "Contact Information:\nName: " + mContactName + "\nNumber: " + mContactNumber;
 		}
-		
+
 		public boolean equals(Object other) {
 			if (!(other instanceof SeeconContact))
 				return false;
-			
+
 			SeeconContact oth = (SeeconContact)(other);
 			return ((this.mContactName.equals(oth.mContactName)) && (this.mContactNumber.equals(oth.mContactNumber)));
 		}

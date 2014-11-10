@@ -75,6 +75,16 @@ public class Emergency extends ActionBarActivity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_emergency);
 //		setupUI(findViewById(R.id.parent));
+		
+		if (savedInstanceState != null) {
+			mMessage = savedInstanceState.getString("mMessage");
+			TextView tv = (TextView) findViewById(R.id.tvEmergencyOptionalMessage);
+			tv.setText(savedInstanceState.getCharSequence("mOptionalMessage"));	
+			mAddress = savedInstanceState.getString("mAddress");
+			mLongitude = savedInstanceState.getDouble("mLongitude");
+			mLatitude = savedInstanceState.getDouble("mLatitude");
+			mMapURL = savedInstanceState.getString("mMapURL");
+		}
 
 		mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
 		mSoundOn = mPrefs.getBoolean("sound", true);
@@ -139,10 +149,10 @@ public class Emergency extends ActionBarActivity {
 					/* Optional message */
 					//mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
 					if (mOptionalMessage == null || mOptionalMessage.getText().toString().isEmpty()){
-						Log.e(TAG, "No Optional Message");
+						Log.d(TAG, "No Optional Message");
 					} else {
 						mStrOptionalMessage = mOptionalMessage.getText().toString();
-						Log.e(TAG, "Optional Message" + mStrOptionalMessage);
+						Log.d(TAG, "Optional Message" + mStrOptionalMessage);
 					}
 
 					/* Obtain spinner spinner information */
@@ -268,10 +278,12 @@ public class Emergency extends ActionBarActivity {
 		tv.setTextSize(20);
 
 		mOptionalMessage = new EditText(this);
+		TextView currentMessage = (TextView) findViewById(R.id.tvEmergencyOptionalMessage);
+		mOptionalMessage.setText(currentMessage.getText());
+		mOptionalMessage.setSelection(mOptionalMessage.getText().length());
 		mOptionalMessage.setTextColor(Color.parseColor("#000000"));
-		String etStr = mOptionalMessage.getText().toString();
 		tvCharCount = new TextView(this);
-		tvCharCount.setText("0/160");
+		tvCharCount.setText(mOptionalMessage.getText().toString().length() + "/160");
 
 
 		//checkSMSLength(mOptionalMessage);
@@ -408,7 +420,6 @@ public class Emergency extends ActionBarActivity {
 
 
 	private Dialog createHelpDialog(Builder builder) {
-		// TODO Auto-generated method stub
 		Context context = getApplicationContext();
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
 		View layout = inflater.inflate(R.layout.help_dialog, null); 		
@@ -419,7 +430,6 @@ public class Emergency extends ActionBarActivity {
 
 
 	private Dialog createAboutDialog(Builder builder) {
-		// TODO Auto-generated method stub
 		Context context = getApplicationContext();
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
 		View layout = inflater.inflate(R.layout.about_dialog, null); 		
@@ -445,6 +455,19 @@ public class Emergency extends ActionBarActivity {
 	public void onResume() {
 		super.onResume();
 		createSoundPool();
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		outState.putString("mMessage", mMessage);
+		TextView tv = (TextView) findViewById(R.id.tvEmergencyOptionalMessage);
+		outState.putCharSequence("mOptionalMessage", tv.getText());
+		outState.putString("mAddress", mAddress);
+		outState.putDouble("mLongitude", mLongitude);
+		outState.putDouble("mLatitude", mLatitude);
+		outState.putString("mMapURL", mMapURL);
 	}
 
 //		/* http://stackoverflow.com/questions/4165414/how-to-hide-soft-keyboard-on-android-after-clicking-outside-edittext */
