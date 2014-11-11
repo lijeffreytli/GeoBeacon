@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -8,24 +8,43 @@
         android:id="@+id/meow"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:background="@drawable/text_border"
         android:gravity="center"
         android:padding="10dp"
-        android:text="Draw a Triangle or Circle"
+        android:text="Trace the circle"
         android:textColor="@color/cyan"
         android:textSize="25sp" />
 
     <android.gesture.GestureOverlayView
         android:id="@+id/gestures"
         android:layout_width="fill_parent"
-        android:layout_height="0dip"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/trace_warning"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_weight="1.0"
-        android:background="@drawable/text_border" />
+        android:background="@drawable/text_border" >
 
-</LinearLayout>
+        <View
+            android:layout_width="280dp"
+            android:layout_height="280dp"
+            android:layout_gravity="center"
+            android:background="@drawable/trace_the_circle" />
+    </android.gesture.GestureOverlayView>
+
+    <TextView
+        android:id="@+id/trace_warning"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/gestures"
+        android:layout_alignRight="@+id/gestures"
+        android:layout_below="@+id/meow"
+        android:gravity="center"
+        android:text="Start at the top of the circle"
+        android:textColor="@color/red"
+        android:textSize="15sp" />
+
+</RelativeLayout>

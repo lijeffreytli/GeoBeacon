@@ -70,7 +70,7 @@ public class GestureConfirmation extends Activity {
 				// We want at least some confidence in the result
 				if (prediction.score > 5.0) {
 					String name = prediction.name;
-					if(name.contains("triangle") || name.contains("circle")) {
+					if(name.contains("circle-clockwise") || name.contains("circle-counter-clockwise")) {
 						figure = prediction.name;
 						/* AlertDialog box for user confirmation */
 						AlertDialog.Builder builder1 = new AlertDialog.Builder(GestureConfirmation.this);
