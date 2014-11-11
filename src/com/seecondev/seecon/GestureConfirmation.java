@@ -38,10 +38,12 @@ public class GestureConfirmation extends Activity {
 		mMapURL = intent.getStringExtra(Emergency.MAP_URL);
 
 
-		//Testing purposes
-		Toast.makeText(getApplicationContext(),
-				"Sent message: " + mStrOptionalMessage, 
-				Toast.LENGTH_LONG).show();
+		if (mStrOptionalMessage != null){
+			//Testing purposes
+			Toast.makeText(getApplicationContext(),
+					"Message content: " + mStrOptionalMessage, 
+					Toast.LENGTH_LONG).show();
+		} 
 
 		mLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures);
 		if (!mLibrary.load()) {
@@ -68,7 +70,7 @@ public class GestureConfirmation extends Activity {
 				Log.d(TAG, "prediction score: " + prediction.score + ", name: " + prediction.name);
 				String figure = null;
 				// We want at least some confidence in the result
-				if (prediction.score > 5.0) {
+				if (prediction.score > 3.5) {
 					String name = prediction.name;
 					if(name.contains("circle-clockwise") || name.contains("circle-counter-clockwise")) {
 						figure = prediction.name;
