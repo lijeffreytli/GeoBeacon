@@ -160,10 +160,16 @@ public class MainActivity extends FragmentActivity{
 	}
 
 	public void updateLocation(Location newLocation) {
-		mLocation = newLocation;
-		mLatitude = mLocation.getLatitude();
-		mLongitude = mLocation.getLongitude();
-		mAccuracy = mLocation.getAccuracy();
+		if (newLocation == null){
+			Toast.makeText(getBaseContext(), 
+					"Please turn on WIFI and/or Location Services.", 
+					Toast.LENGTH_SHORT).show();
+		} else {
+			mLocation = newLocation;
+			mLatitude = mLocation.getLatitude();
+			mLongitude = mLocation.getLongitude();
+			mAccuracy = mLocation.getAccuracy();
+		}
 	}
 
 	private void createSoundPool() {
