@@ -29,6 +29,9 @@ public class ShareLocationContacts extends Activity {
 	MyCustomAdapter dataAdapter = null;
 	static ArrayList<Contact> contactList;
 	static ArrayList<Contact> selectedContactList;
+	
+
+
 
 	/* Debugging Purposes */
 	private static final String TAG = "SEECON_SHARE_LOCATION_CONTACTS";
@@ -44,7 +47,7 @@ public class ShareLocationContacts extends Activity {
 		displayListView();
 		checkButtonClick();
 	}
-	
+
 	private void displayListView(){
 		//Array list of contacts
 		contactList = new ArrayList<Contact>();
@@ -52,7 +55,7 @@ public class ShareLocationContacts extends Activity {
 		/* Debugging purposes */
 		//Contacts contact = new Contacts("15129653082234234234234234245", "AAAJeffrey asdfasdfasdfasdfasdfasdfasdfasdfasdfLi", false);
 		//contactList.add(contact);
-		
+
 		/* Iterate through phone and obtain all the contacts and store them into the ArrayList */
 		storeAllContacts();
 		/* Sort the list of contacts alphabetically */
@@ -88,15 +91,16 @@ public class ShareLocationContacts extends Activity {
 				if (Integer.parseInt(cur.getString(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
 					Cursor pCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, 
 							null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?", 
-									new String[]{id}, null);
+							new String[]{id}, null);
 					while (pCur.moveToNext()) {
 						int phoneType = pCur.getInt(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
 						String phoneNumber = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-						Log.d(TAG, name + ": " + phoneNumber);
-						phoneNumber = phoneNumber.replaceAll("\\D+", "");
-						phoneNumber = "+" + phoneNumber;
-						if (phoneNumber.length() > 12)
-							phoneNumber = "Invalid Number";
+//						String displayNumber = phoneNumber;
+//						Log.d(TAG, name + ": " + phoneNumber);
+//						displayNumber = phoneNumber.replaceAll("\\D+", "");
+//						displayNumber = "+" + displayNumber;
+//						if (displayNumber.length() > 12)
+//							displayNumber = "Invalid Number";
 						Contact contact = new Contact(phoneNumber, name, false);
 						contactList.add(contact);
 						//		                  switch (phoneType) {
@@ -180,8 +184,6 @@ public class ShareLocationContacts extends Activity {
 		}
 	}
 	private void checkButtonClick() {
-
-
 		Button myButton = (Button) findViewById(R.id.findSelected2);
 		myButton.setOnClickListener(new OnClickListener() {
 
@@ -209,28 +211,54 @@ public class ShareLocationContacts extends Activity {
 						if(contacts.isSelected()){
 							names[counter] = contacts.getName();
 							++counter;
-							selectedContactList.add(contacts);
+							//selectedContactList.add(contacts);
 						}
 					}
-			        AlertDialog.Builder alertDialog = new AlertDialog.Builder(ShareLocationContacts.this);
-			        LayoutInflater inflater = getLayoutInflater();
-			        View convertView = (View) inflater.inflate(R.layout.alert_share_location_contacts, null);
-			        alertDialog.setView(convertView);
-			        alertDialog.setTitle("Emergency Contacts");
-			        ListView lv = (ListView) convertView.findViewById(R.id.listView12);
-			        ArrayAdapter<String> adapter =new ArrayAdapter<String>(
-		                    ShareLocationContacts.this,
-		                    android.R.layout.simple_spinner_dropdown_item, names);
-			        lv.setAdapter(adapter);
-			        lv.setClickable(false);
-			        alertDialog.show();
+					AlertDialog.Builder alertDialog = new AlertDialog.Builder(ShareLocationContacts.this);
+					LayoutInflater inflater = getLayoutInflater();
+					View convertView = (View) inflater.inflate(R.layout.alert_share_location_contacts, null);
+					alertDialog.setView(convertView);
+					alertDialog.setTitle("Shared Contacts");
+					ListView lv = (ListView) convertView.findViewById(R.id.listView12);
+					ArrayAdapter<String> adapter =new ArrayAdapter<String>(
+							ShareLocationContacts.this,
+							android.R.layout.simple_spinner_dropdown_item, names);
+					lv.setAdapter(adapter);
+					lv.setClickable(false);
+					alertDialog.show();
 				}
 			}
 		});
 	}
 	public void goToShareMyLocation(View view){
+		addToSelectedList();
 		Intent intent = new Intent(this, ShareMyLocation.class);
-		//TODO: pass the arraylist of names to the ShareMyLocation class
+		//TODO: pass the arraylist of names to the ShareMyLocation 
+		intent.putExtra("CONTACTS", new Contact("Hi", "Hi", false));
+		//Output the number of contacts selected
+		Log.e(TAG, String.valueOf(selectedContactList.size()));
+		intent.putExtra("SELECTED_CONTACTS", selectedContactList);
 		startActivity(intent);
+	}
+
+	public void addToSelectedList(){
+		ArrayList<Contact> contactsList = dataAdapter.contactsList;
+		int selected_count = 0;
+		int counter = 0;
+		for (int i = 0; i < contactsList.size(); ++i){
+			Contact contacts = contactsList.get(i);
+			if (contacts.isSelected()){
+				++selected_count;
+			}
+		}
+		String names[] = new String[selected_count];
+		for(int i=0;i<contactsList.size();i++){
+			Contact contacts = contactsList.get(i);
+			if(contacts.isSelected()){
+				names[counter] = contacts.getName();
+				++counter;
+				selectedContactList.add(contacts);
+			}
+		}
 	}
 }

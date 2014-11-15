@@ -462,5 +462,9 @@ public class MainActivity extends FragmentActivity{
 
 		}
 	};
+	@Override
+	public void onBackPressed() {
+		//Quick fix, disable the back button
+	}
 }
 

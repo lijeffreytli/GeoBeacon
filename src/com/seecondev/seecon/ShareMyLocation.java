@@ -2,7 +2,6 @@ package com.seecondev.seecon;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -10,11 +9,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -46,7 +43,8 @@ public class ShareMyLocation extends ActionBarActivity {
 	private String mMessage;
 	//private String mContactNumber;
 	//private String mContactName;
-	private ArrayList<SeeconContact> mContacts;
+	private ArrayList<Contact> mSelectedContacts;
+
 	private String mAddress;
 	private String mMapURL;
 	private double mLatitude;
@@ -72,7 +70,7 @@ public class ShareMyLocation extends ActionBarActivity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_share_my_location);
 		//setupUI(findViewById(R.id.parent));
-		
+
 
 
 		if (savedInstanceState != null) {
@@ -80,14 +78,14 @@ public class ShareMyLocation extends ActionBarActivity {
 			Log.d(TAG, "char sequence we stored for mOptionalMessage is " + 
 					savedInstanceState.getCharSequence("mOptionalMessage").toString());
 			mMessage = savedInstanceState.getString("mMessage");
-			mContacts = savedInstanceState.getParcelableArrayList("mContacts");
+			mSelectedContacts = savedInstanceState.getParcelableArrayList("mSelectedContacts");
 			mAddress = savedInstanceState.getString("mAddress");
 			mLongitude = savedInstanceState.getDouble("mLongitude");
 			mLatitude = savedInstanceState.getDouble("mLatitude");
 			TextView tv = (TextView) findViewById(R.id.tvOptionalMessage);
 			tv.setText(savedInstanceState.getCharSequence("mOptionalMessage"));
 		} else {
-			mContacts = new ArrayList<SeeconContact>();
+			mSelectedContacts = new ArrayList<Contact>();
 		}
 
 		mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
@@ -98,6 +96,22 @@ public class ShareMyLocation extends ActionBarActivity {
 		mAddress = intent.getStringExtra(MainActivity.ADDRESS);
 		String latStr = intent.getStringExtra(MainActivity.LAT);
 		String longStr = intent.getStringExtra(MainActivity.LONG);
+
+		//get the selected contacts from "Select Contacts button"
+		Bundle data = getIntent().getExtras();
+		mSelectedContacts = data.getParcelableArrayList("SELECTED_CONTACTS");
+
+		/* DEBUGGING PURPOSES */
+		if (mSelectedContacts == null)
+			Toast.makeText(getBaseContext(), 
+					"No contacts selected.", 
+					Toast.LENGTH_LONG).show();
+		else {
+			Toast.makeText(getBaseContext(), 
+					String.valueOf(mSelectedContacts.size()) + " contact(s) selected.", 
+					Toast.LENGTH_LONG).show();
+		}
+
 
 		if (longStr != null) {
 			mLongitude = Double.parseDouble(longStr);	
@@ -153,7 +167,7 @@ public class ShareMyLocation extends ActionBarActivity {
 			{   
 				playSound(mSendSoundID);
 				/* Error handling for null contact */
-				if (mContacts == null || mContacts.size() == 0){
+				if (mSelectedContacts == null || mSelectedContacts.size() == 0){
 					/* AlertDialog box for user confirmation */
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(ShareMyLocation.this);
 					builder1.setMessage("Please select a contact");
@@ -186,9 +200,12 @@ public class ShareMyLocation extends ActionBarActivity {
 						AlertDialog.Builder builder1 = new AlertDialog.Builder(ShareMyLocation.this);
 
 						String contactNames = "";
-						for (SeeconContact contact: mContacts) {
-							contactNames += contact.mContactName + ", ";
+						for (Contact contact : mSelectedContacts){
+							contactNames += contact.getName() + ", ";
 						}
+//						for (SeeconContact contact: mContacts) {
+//							contactNames += contact.mContactName + ", ";
+//						}
 						// remove the trailing comma for the last one
 						contactNames = contactNames.substring(0, contactNames.length() - 2);
 
@@ -197,14 +214,24 @@ public class ShareMyLocation extends ActionBarActivity {
 						builder1.setPositiveButton("Yes",
 								new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
-
-								for (SeeconContact contact: mContacts) {
-									sendToContact(contact);
+								if (mSelectedContacts != null){
+									for (Contact contact: mSelectedContacts) {
+										sendToContact(contact);
+										Intent returnMain = new Intent(getApplicationContext(), MainActivity.class);
+										startActivity(returnMain);
+										//finish();
+									}
+								} else {
+									Toast.makeText(getBaseContext(), 
+											"Please select a contact.", 
+											Toast.LENGTH_SHORT).show();
 								}
+								
+								
 							}
 
-							private void sendToContact(SeeconContact contact) {
-								String phoneNo = contact.mContactNumber;
+							private void sendToContact(Contact contact) {
+								String phoneNo = contact.getPhoneNo();
 
 								mMessage = "My location: " + mMessage + " ";
 								mMapURL = "Map coordinates: " + mMapURL + " ";
@@ -231,10 +258,8 @@ public class ShareMyLocation extends ActionBarActivity {
 									sendSMS(phoneNo, mStrOptionalMessage);
 
 									finish(); //After sending the message, return back to MainActivity
-								} else //Throw an exception if the number is invalid
-									Toast.makeText(getBaseContext(), 
-											"Please select a contact.", 
-											Toast.LENGTH_SHORT).show();
+								} 
+									
 
 							}
 						});
@@ -322,7 +347,7 @@ public class ShareMyLocation extends ActionBarActivity {
 		tv.setPadding(10, 10, 10, 10);
 		tv.setGravity(Gravity.CENTER);
 		tv.setTextSize(20);
-		
+
 		TextView currentMessage = (TextView) findViewById(R.id.tvOptionalMessage);
 		mOptionalMessage = new EditText(this);
 		mOptionalMessage.setText(currentMessage.getText());
@@ -421,10 +446,6 @@ public class ShareMyLocation extends ActionBarActivity {
 		case R.id.menu_help:
 			showDialog(DIALOG_HELP_ID);
 			return true;
-//		case R.id.menu_emergency_contacts:
-//			Intent intent = new Intent(this, EmergencyContacts.class);
-//			this.startActivity(intent);
-//			break;
 		}
 		return false;
 	}
@@ -434,7 +455,7 @@ public class ShareMyLocation extends ActionBarActivity {
 		super.onSaveInstanceState(outState);
 
 		outState.putString("mMessage", mMessage);
-		outState.putParcelableArrayList("mContacts", mContacts);
+		outState.putParcelableArrayList("mSelectedContacts", mSelectedContacts);
 		TextView tv = (TextView) findViewById(R.id.tvOptionalMessage);
 		Log.d(TAG, "tv.getText is " + tv.getText().toString());
 		outState.putCharSequence("mOptionalMessage", tv.getText());
@@ -457,11 +478,6 @@ public class ShareMyLocation extends ActionBarActivity {
 			dialog = createHelpDialog(builder);
 			break;
 		}
-
-		//		if(dialog == null)
-		//			Log.d(TAG, "Uh oh! Dialog is null");
-		//		else
-		//			Log.d(TAG, "Dialog created: " + id + ", dialog: " + dialog);
 		return dialog;        
 	}
 
@@ -483,74 +499,56 @@ public class ShareMyLocation extends ActionBarActivity {
 		return builder.create();
 	}
 
-	/* Method obtains phone number from the contact Uri. */
-	@Override
-	public void onActivityResult(int reqCode, int resultCode, Intent data) {
-		super.onActivityResult(reqCode, resultCode, data);
-
-		switch (reqCode) {
-		case (PICK_CONTACT_REQUEST) :
-			if (resultCode == Activity.RESULT_OK) {
-				Uri contactData = data.getData();
-				Cursor c =  managedQuery(contactData, null, null, null, null);
-
-				if (c.moveToFirst()) {
-					String id = c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
-					String hasPhone = c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
-					if (hasPhone.equalsIgnoreCase("1")) {
-						//						Cursor phones = getContentResolver().query( 
-						//								ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null, 
-						//								ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+ id, 
-						//								null, null);
-						Cursor phones = getContentResolver().query(contactData, null, null, null, null);
-						if(phones.moveToFirst()){
-							//						String cNumber = phones.getString(phones.getColumnIndex("data1"));
-							String cNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-							Log.d(TAG, "cNumber is  " + cNumber);
-							String cName = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-							Log.d(TAG, "cName is " + cName);
-							SeeconContact contact = new SeeconContact(cName, cNumber);
-							Log.d(TAG, "contact is " + contact);
-							if (!mContacts.contains(contact))
-								mContacts.add(contact);
-						}
-						//else?
-					}
-
-					for (SeeconContact contact: mContacts) {
-						Log.d(TAG, "Contact Name: " + contact.mContactName);
-						Log.d(TAG, "Contact Number: " + contact.mContactNumber);
-					}
-
-				}
-			}
-		break;
-		case RESULT_CANCELED:
-			// Apply potentially new settings
-			mSoundOn = mPrefs.getBoolean("sound", true);
-			break;
-		}
-		TextView text = (TextView) findViewById(R.id.selectedContacts);
-		text.setMovementMethod(new ScrollingMovementMethod());
-		text.setTextColor(getResources().getColor(R.color.white));
-		String contactNames = "";
-		for (SeeconContact contact: mContacts) {
-			contactNames += contact.mContactName + ", ";
-		}
-		// remove the trailing comma for the last one
-		if (contactNames.length() >= 2)
-			contactNames = contactNames.substring(0, contactNames.length() - 2);
-		Log.d(TAG, "contactNames: " + contactNames);
-
-		if (contactNames != null && !contactNames.isEmpty()) {
-			text.setText(contactNames);
-		}
-	}
-	
-	private void displaySelectedContacts(){
-		TextView text = (TextView) findViewById(R.id.selectedContacts);
+//	/* Method obtains phone number from the contact Uri.  */
+//	@Override
+//	public void onActivityResult(int reqCode, int resultCode, Intent data) {
+//		super.onActivityResult(reqCode, resultCode, data);
+//
+//		switch (reqCode) {
+//		case (PICK_CONTACT_REQUEST) :
+//			if (resultCode == Activity.RESULT_OK) {
+//				Uri contactData = data.getData();
+//				Cursor c =  managedQuery(contactData, null, null, null, null);
+//
+//				if (c.moveToFirst()) {
+//					String id = c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
+//					String hasPhone = c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+//					if (hasPhone.equalsIgnoreCase("1")) {
+//						//						Cursor phones = getContentResolver().query( 
+//						//								ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null, 
+//						//								ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+ id, 
+//						//								null, null);
+//						Cursor phones = getContentResolver().query(contactData, null, null, null, null);
+//						if(phones.moveToFirst()){
+//							//						String cNumber = phones.getString(phones.getColumnIndex("data1"));
+//							String cNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+//							Log.d(TAG, "cNumber is  " + cNumber);
+//							String cName = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+//							Log.d(TAG, "cName is " + cName);
+//							SeeconContact contact = new SeeconContact(cName, cNumber);
+//							Log.d(TAG, "contact is " + contact);
+//							if (!mContacts.contains(contact))
+//								mContacts.add(contact);
+//						}
+//						//else?
+//					}
+//
+//					for (SeeconContact contact: mContacts) {
+//						Log.d(TAG, "Contact Name: " + contact.mContactName);
+//						Log.d(TAG, "Contact Number: " + contact.mContactNumber);
+//					}
+//
+//				}
+//			}
+//		break;
+//		case RESULT_CANCELED:
+//			// Apply potentially new settings
+//			mSoundOn = mPrefs.getBoolean("sound", true);
+//			break;
+//		}
+//		TextView text = (TextView) findViewById(R.id.selectedContacts);
 //		text.setMovementMethod(new ScrollingMovementMethod());
-		text.setTextColor(getResources().getColor(R.color.white));
+//		text.setTextColor(getResources().getColor(R.color.white));
 //		String contactNames = "";
 //		for (SeeconContact contact: mContacts) {
 //			contactNames += contact.mContactName + ", ";
@@ -563,8 +561,27 @@ public class ShareMyLocation extends ActionBarActivity {
 //		if (contactNames != null && !contactNames.isEmpty()) {
 //			text.setText(contactNames);
 //		}
+//	}
+	
+	private void displaySelectedContacts(){
+		TextView text = (TextView) findViewById(R.id.selectedContacts);
+		//		text.setMovementMethod(new ScrollingMovementMethod());
+		text.setTextColor(getResources().getColor(R.color.white));
 		text.setMovementMethod(new ScrollingMovementMethod());
-		text.setText("Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, Temp, ");
+		if (mSelectedContacts != null){
+			String output = "";
+			for (Contact contact: mSelectedContacts) {
+				Log.e(TAG, "contactNames: " + contact.getName());
+				Log.e(TAG, "contactPhoneNo: " + contact.getPhoneNo());
+				output += contact.getName() + ", ";
+			}
+			// remove the trailing comma for the last one
+			if (output.length() >= 2)
+				output = output.substring(0, output.length() - 2);
+			if (output != null && !output.isEmpty()){
+				text.setText(output);
+			}
+		}
 	}
 
 	private void createSoundPool() {
@@ -642,6 +659,11 @@ public class ShareMyLocation extends ActionBarActivity {
 			return ((this.mContactName.equals(oth.mContactName)) && (this.mContactNumber.equals(oth.mContactNumber)));
 		}
 
+	}
+	
+	@Override
+	public void onBackPressed() {
+		//Quick fix, disable the back button
 	}
 }
 
