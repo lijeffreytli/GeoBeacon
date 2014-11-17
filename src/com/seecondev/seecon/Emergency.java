@@ -123,94 +123,110 @@ public class Emergency extends ActionBarActivity {
 
 			public void onClick(View v) 
 			{   
+				mEmergencyContacts = getEmergencyContacts();
 				playSound(mSendSoundID);
-				if (mValidMessage == false){
-					Toast.makeText(getBaseContext(), 
-							"Message exceeds character limit.", 
-							Toast.LENGTH_SHORT).show();
+				if (mEmergencyContacts.size() == 0){
+					/* AlertDialog box for user confirmation */
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(Emergency.this);
+					builder1.setMessage("Please select emergency contacts in the Settings menu");
+					builder1.setCancelable(true);
+					builder1.setPositiveButton("Ok",
+							new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.cancel();
+						}
+					});
+					AlertDialog alert11 = builder1.create();
+					alert11.show();
 				} else {
-					/* Optional message */
-					//mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
-					if (mOptionalMessage == null || mOptionalMessage.getText().toString().isEmpty()){
-						mStrOptionalMessage = "";
-						Log.d(TAG, "No Optional Message");
+					if (mValidMessage == false){
+						Toast.makeText(getBaseContext(), 
+								"Message exceeds character limit.", 
+								Toast.LENGTH_SHORT).show();
 					} else {
-						mStrOptionalMessage = mOptionalMessage.getText().toString();
-						Log.d(TAG, "Optional Message" + mStrOptionalMessage);
-					}
+						/* Optional message */
+						//mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
+						if (mOptionalMessage == null || mOptionalMessage.getText().toString().isEmpty()){
+							mStrOptionalMessage = "";
+							Log.d(TAG, "No Optional Message");
+						} else {
+							mStrOptionalMessage = mOptionalMessage.getText().toString();
+							Log.d(TAG, "Optional Message" + mStrOptionalMessage);
+						}
 
-					/* Obtain spinner spinner information */
-					Spinner spinner = (Spinner)findViewById(R.id.spinnerEmergencyDialogs);
-					String spinnerText = spinner.getSelectedItem().toString();
+						/* Obtain spinner spinner information */
+						Spinner spinner = (Spinner)findViewById(R.id.spinnerEmergencyDialogs);
+						String spinnerText = spinner.getSelectedItem().toString();
 
-					Log.d(TAG, "In Emergency: text: " + spinnerText);
+						Log.d(TAG, "In Emergency: text: " + spinnerText);
 
-					mMapURL = "Map Coordinates: https://www.google.com/maps?z=18&t=m&q=loc:" + mLatitude + "+" + mLongitude;
+						mMapURL = "Map Coordinates: https://www.google.com/maps?z=18&t=m&q=loc:" + mLatitude + "+" + mLongitude;
 
-					/* This is the message that will be sent to emergency contacts */
-					mMessage += "Emergency: " + spinnerText + "\nMy Location: " + 
-							mAddress;
-					
-					Intent myIntent = new Intent(Emergency.this, GestureConfirmation.class);
-					myIntent.putExtra(OPTIONAL_MESSAGE, mStrOptionalMessage);
-					myIntent.putExtra(MESSAGE, mMessage);
-					myIntent.putExtra(MAP_URL, mMapURL);
-					Emergency.this.startActivity(myIntent);
+						/* This is the message that will be sent to emergency contacts */
+						mMessage += "Emergency: " + spinnerText + "\nMy Location: " + 
+								mAddress;
+						
+						Intent myIntent = new Intent(Emergency.this, GestureConfirmation.class);
+						myIntent.putExtra(OPTIONAL_MESSAGE, mStrOptionalMessage);
+						myIntent.putExtra(MESSAGE, mMessage);
+						myIntent.putExtra(MAP_URL, mMapURL);
+						Emergency.this.startActivity(myIntent);
 
-//					/* AlertDialog box for user confirmation */
-//					AlertDialog.Builder builder1 = new AlertDialog.Builder(Emergency.this);
-//					builder1.setMessage("Send emergency message?");
-//					builder1.setCancelable(true);
-//					builder1.setPositiveButton("Yes",
-//							new DialogInterface.OnClickListener() {
-//						public void onClick(DialogInterface dialog, int id) {
-//							/* Debugging purposes - Send to ourselves */
-//							//String phoneNo = mContactNumber;
-//							String phoneKatie = "12145976764";
-//							String phoneJeff = "15129653085";
-//							String phoneJared = "14693942157";
-//
-//							sendSMS(phoneJeff, mStrOptionalMessage);
-//							//sendSMS(phoneKatie, mStrOptionalMessage);
-//							//sendSMS(phoneJared, mStrOptionalMessage);
-//
-//							if (mMessage.length() > 160) {
-//								int i = 0;
-//								while (i < mMessage.length()) {
-//									int endIdx = Math.min(mMessage.length(), i + 160);
-//									sendSMS(phoneJeff, mMessage.substring(i, endIdx));
-//									//sendSMS(phoneKatie, mMessage.substring(i, endIdx));
-//									//sendSMS(phoneJared, mMessage.substring(i, endIdx));
-//									i += 160;
+//						/* AlertDialog box for user confirmation */
+//						AlertDialog.Builder builder1 = new AlertDialog.Builder(Emergency.this);
+//						builder1.setMessage("Send emergency message?");
+//						builder1.setCancelable(true);
+//						builder1.setPositiveButton("Yes",
+//								new DialogInterface.OnClickListener() {
+//							public void onClick(DialogInterface dialog, int id) {
+//								/* Debugging purposes - Send to ourselves */
+//								//String phoneNo = mContactNumber;
+//								String phoneKatie = "12145976764";
+//								String phoneJeff = "15129653085";
+//								String phoneJared = "14693942157";
+	//
+//								sendSMS(phoneJeff, mStrOptionalMessage);
+//								//sendSMS(phoneKatie, mStrOptionalMessage);
+//								//sendSMS(phoneJared, mStrOptionalMessage);
+	//
+//								if (mMessage.length() > 160) {
+//									int i = 0;
+//									while (i < mMessage.length()) {
+//										int endIdx = Math.min(mMessage.length(), i + 160);
+//										sendSMS(phoneJeff, mMessage.substring(i, endIdx));
+//										//sendSMS(phoneKatie, mMessage.substring(i, endIdx));
+//										//sendSMS(phoneJared, mMessage.substring(i, endIdx));
+//										i += 160;
+//									}
+//									sendSMS(phoneJeff, mMapURL);
+//									//sendSMS(phoneKatie, mMapURL);
+//									//sendSMS(phoneJared, mMapURL);
+//								} 
+//								//							else if (mMessage.length() + mMapURL.length() < 160) {
+//								//								mMessage = mMessage + "\n" + mMapURL;
+//								//								sendSMS(phoneJeff, mMessage);
+//								//								//sendSMS(phoneKatie, mMessage);
+//								//								//sendSMS(phoneJared, mMessage);
+//								else {
+//									sendSMS(phoneJeff, mMessage);
+//									//sendSMS(phoneKatie, mMessage);
+//									//sendSMS(phoneJared, mMessage);
+//									sendSMS(phoneJeff, mMapURL);
+//									//sendSMS(phoneKatie, mMapURL);
+//									//sendSMS(phoneJared, mMapURL);	
 //								}
-//								sendSMS(phoneJeff, mMapURL);
-//								//sendSMS(phoneKatie, mMapURL);
-//								//sendSMS(phoneJared, mMapURL);
-//							} 
-//							//							else if (mMessage.length() + mMapURL.length() < 160) {
-//							//								mMessage = mMessage + "\n" + mMapURL;
-//							//								sendSMS(phoneJeff, mMessage);
-//							//								//sendSMS(phoneKatie, mMessage);
-//							//								//sendSMS(phoneJared, mMessage);
-//							else {
-//								sendSMS(phoneJeff, mMessage);
-//								//sendSMS(phoneKatie, mMessage);
-//								//sendSMS(phoneJared, mMessage);
-//								sendSMS(phoneJeff, mMapURL);
-//								//sendSMS(phoneKatie, mMapURL);
-//								//sendSMS(phoneJared, mMapURL);	
+//								finish();
 //							}
-//							finish();
-//						}
-//					});
-//					builder1.setNegativeButton("No",
-//							new DialogInterface.OnClickListener() {
-//						public void onClick(DialogInterface dialog, int id) {
-//							dialog.cancel();
-//						}
-//					});
-//					AlertDialog alert11 = builder1.create();
-//					alert11.show();
+//						});
+//						builder1.setNegativeButton("No",
+//								new DialogInterface.OnClickListener() {
+//							public void onClick(DialogInterface dialog, int id) {
+//								dialog.cancel();
+//							}
+//						});
+//						AlertDialog alert11 = builder1.create();
+//						alert11.show();
+					}
 				}
 			}
 		});

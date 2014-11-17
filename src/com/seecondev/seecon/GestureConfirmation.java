@@ -2,10 +2,14 @@ package com.seecondev.seecon;
 
 import java.util.ArrayList;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.gesture.Gesture;
 import android.gesture.GestureLibraries;
 import android.gesture.GestureLibrary;
@@ -26,6 +30,10 @@ public class GestureConfirmation extends Activity {
 	private String mStrOptionalMessage;
 	private String mMapURL;
 	private String mMessage;
+	private SharedPreferences mPrefs;
+	
+	// Access Emergency Contact List
+	ArrayList<Contact> mEmergencyContacts;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +45,17 @@ public class GestureConfirmation extends Activity {
 		mMessage = intent.getStringExtra(Emergency.MESSAGE);
 		mMapURL = intent.getStringExtra(Emergency.MAP_URL);
 
-
-		if (mStrOptionalMessage != null){
+		if (mStrOptionalMessage == null || mStrOptionalMessage.isEmpty()){
+			//Testing purposes
+			Toast.makeText(getApplicationContext(),
+					"No additional message", 
+					Toast.LENGTH_LONG).show();
+		}  else {
 			//Testing purposes
 			Toast.makeText(getApplicationContext(),
 					"Message content: " + mStrOptionalMessage, 
 					Toast.LENGTH_LONG).show();
-		} 
+		}
 
 		mLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures);
 		if (!mLibrary.load()) {
@@ -52,6 +64,9 @@ public class GestureConfirmation extends Activity {
 
 		overlay = (GestureOverlayView) findViewById(R.id.gestures);
 		overlay.addOnGesturePerformedListener(mGestureListener);
+		
+		mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
+		mEmergencyContacts = getEmergencyContacts();
 	}
 
 	private GestureOverlayView.OnGesturePerformedListener mGestureListener 
@@ -81,43 +96,88 @@ public class GestureConfirmation extends Activity {
 						builder1.setPositiveButton("Yes",
 								new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
-								/* Debugging purposes - Send to ourselves */
-								//String phoneNo = mContactNumber;
-								String phoneKatie = "12145976764";
-								String phoneJeff = "15129653085";
-								String phoneJared = "14693942157";
-
-								sendSMS(phoneJeff, mStrOptionalMessage);
-								//sendSMS(phoneKatie, mStrOptionalMessage);
-								//sendSMS(phoneJared, mStrOptionalMessage);
-
-								if (mMessage.length() > 160) {
-									int i = 0;
-									while (i < mMessage.length()) {
-										int endIdx = Math.min(mMessage.length(), i + 160);
-										sendSMS(phoneJeff, mMessage.substring(i, endIdx));
-										//sendSMS(phoneKatie, mMessage.substring(i, endIdx));
-										//sendSMS(phoneJared, mMessage.substring(i, endIdx));
-										i += 160;
+								if (mEmergencyContacts != null){
+									for (Contact contact : mEmergencyContacts){
+										sendToContact(contact);
+										
 									}
-									sendSMS(phoneJeff, mMapURL);
-									//sendSMS(phoneKatie, mMapURL);
-									//sendSMS(phoneJared, mMapURL);
-								} 
-								//							else if (mMessage.length() + mMapURL.length() < 160) {
-								//								mMessage = mMessage + "\n" + mMapURL;
-								//								sendSMS(phoneJeff, mMessage);
-								//								//sendSMS(phoneKatie, mMessage);
-								//								//sendSMS(phoneJared, mMessage);
-								else {
-									sendSMS(phoneJeff, mMessage);
-									//sendSMS(phoneKatie, mMessage);
-									//sendSMS(phoneJared, mMessage);
-									sendSMS(phoneJeff, mMapURL);
-									//sendSMS(phoneKatie, mMapURL);
-									//sendSMS(phoneJared, mMapURL);	
+								} else {
+									Toast.makeText(getBaseContext(), 
+											"No emergency contacts selected.", 
+											Toast.LENGTH_SHORT).show();
 								}
-								finish();
+								
+								
+								
+//								/* Debugging purposes - Send to ourselves */
+//								//String phoneNo = mContactNumber;
+//								String phoneKatie = "12145976764";
+//								String phoneJeff = "15129653085";
+//								String phoneJared = "14693942157";
+//
+//								sendSMS(phoneJeff, mStrOptionalMessage);
+//								//sendSMS(phoneKatie, mStrOptionalMessage);
+//								//sendSMS(phoneJared, mStrOptionalMessage);
+//
+//								if (mMessage.length() > 160) {
+//									int i = 0;
+//									while (i < mMessage.length()) {
+//										int endIdx = Math.min(mMessage.length(), i + 160);
+//										sendSMS(phoneJeff, mMessage.substring(i, endIdx));
+//										//sendSMS(phoneKatie, mMessage.substring(i, endIdx));
+//										//sendSMS(phoneJared, mMessage.substring(i, endIdx));
+//										i += 160;
+//									}
+//									sendSMS(phoneJeff, mMapURL);
+//									//sendSMS(phoneKatie, mMapURL);
+//									//sendSMS(phoneJared, mMapURL);
+//								} 
+//								//							else if (mMessage.length() + mMapURL.length() < 160) {
+//								//								mMessage = mMessage + "\n" + mMapURL;
+//								//								sendSMS(phoneJeff, mMessage);
+//								//								//sendSMS(phoneKatie, mMessage);
+//								//								//sendSMS(phoneJared, mMessage);
+//								else {
+//									sendSMS(phoneJeff, mMessage);
+//									//sendSMS(phoneKatie, mMessage);
+//									//sendSMS(phoneJared, mMessage);
+//									sendSMS(phoneJeff, mMapURL);
+//									//sendSMS(phoneKatie, mMapURL);
+//									//sendSMS(phoneJared, mMapURL);	
+//								}
+//								finish();
+							}
+							private void sendToContact(Contact contact) {
+								String phoneNo = contact.getPhoneNo();
+
+								mMessage = mMessage + " ";
+								mMapURL = mMapURL + " ";
+
+								if (phoneNo != null && phoneNo.length() > 0) {    
+									/* Send the user's location */
+									if (mMessage.length() > 160) {
+										int i = 0;
+										while (i < mMessage.length()) {
+											int endIdx = Math.min(mMessage.length(), i + 160);
+											sendSMS(phoneNo, mMessage.substring(i, endIdx));
+											i += 160;
+										}
+										sendSMS(phoneNo, mMapURL);
+									} 
+									else if (mMessage.length() + mMapURL.length() < 160) {
+										mMessage = mMessage + "\n" + mMapURL;
+										sendSMS(phoneNo, mMessage); 
+									} else {
+										sendSMS(phoneNo, mMessage);
+										sendSMS(phoneNo, mMapURL);
+									}
+									/* Send the optional message */
+									sendSMS(phoneNo, mStrOptionalMessage);
+
+									finish(); //After sending the message, return back to MainActivity
+								} 
+
+
 							}
 						});
 						builder1.setNegativeButton("No",
@@ -147,5 +207,13 @@ public class GestureConfirmation extends Activity {
 		}
 		SmsManager sms = SmsManager.getDefault();
 		sms.sendTextMessage(phoneNumber, null, message, null, null);
+	}
+	
+	private ArrayList<Contact> getEmergencyContacts() {
+		Gson gson = new Gson();
+		String json = mPrefs.getString("emergencyContacts", "");
+		java.lang.reflect.Type listType = new TypeToken<ArrayList<Contact>>() {}.getType();
+		ArrayList<Contact> emergencyContacts = gson.fromJson(json, listType);
+		return emergencyContacts;
 	}
 }
