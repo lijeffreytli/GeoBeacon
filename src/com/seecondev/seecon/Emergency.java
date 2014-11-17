@@ -1,6 +1,10 @@
 package com.seecondev.seecon;
 
+
 import java.util.ArrayList;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -55,7 +59,7 @@ public class Emergency extends ActionBarActivity {
 	private int mSendSoundID;
 	
 	// Access Emergency Contact List
-	ArrayList<Contact> contactList = ContactList.selectedContactList;
+	ArrayList<Contact> mEmergencyContacts;
 
 	/* Debugging Purposes */
 	private static final String TAG = "SEECON_EMERGENCY";
@@ -87,6 +91,8 @@ public class Emergency extends ActionBarActivity {
 		mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
 		mSoundOn = mPrefs.getBoolean("sound", true);
 
+		mEmergencyContacts = getEmergencyContacts();
+		
 		// Get the location information from MainActivity
 		Intent intent2 = getIntent(); //is this necessary?
 		mAddress = intent2.getStringExtra(MainActivity.ADDRESS);
@@ -210,33 +216,13 @@ public class Emergency extends ActionBarActivity {
 		});
 	}
 
-	//	public void checkSMSLength(EditText edt) throws NumberFormatException {
-	//		int valid_len = 0;
-	//		TextView tvCharactersUsed = (TextView) findViewById(R.id.textCharactersUsedEmergency);
-	//		tvCharactersUsed.setTextColor(Color.parseColor("#F8F8F8"));
-	//		try {
-	//			if (edt.getText().toString().length() <= 0) {
-	//				edt.setError(null);
-	//				valid_len = 0;
-	//				tvCharactersUsed.setText("0/160");
-	//
-	//			} else if (edt.getText().toString().length() > 160){
-	//				mValidMessage = false;
-	//				edt.setError("Error: Character limit exceeded");
-	//				valid_len = 0;
-	//				tvCharactersUsed.setText("Error");
-	//				tvCharactersUsed.setTextColor(Color.parseColor("#D00000"));
-	//			} else {
-	//				edt.setError(null);
-	//				mValidMessage = true;
-	//				valid_len = edt.getText().toString().length();
-	//				tvCharactersUsed.setText(String.valueOf(valid_len) + "/" + 160);
-	//			}
-	//		} catch (Exception e) {
-	//			Log.e("error", "" + e);
-	//		}
-	//
-	//	}
+	private ArrayList<Contact> getEmergencyContacts() {
+		Gson gson = new Gson();
+		String json = mPrefs.getString("emergencyContacts", "");
+		java.lang.reflect.Type listType = new TypeToken<ArrayList<Contact>>() {}.getType();
+		ArrayList<Contact> emergencyContacts = gson.fromJson(json, listType);
+		return emergencyContacts;
+	}
 
 	public void getAdditionalMessage(View view) {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -367,10 +353,6 @@ public class Emergency extends ActionBarActivity {
 		case R.id.menu_help:
 			showDialog(DIALOG_HELP_ID);
 			return true;
-//		case R.id.menu_emergency_contacts:
-//			Intent intent = new Intent(this, EmergencyContacts.class);
-//			this.startActivity(intent);
-//			break;
 		}
 		return false;
 	}
