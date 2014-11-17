@@ -126,6 +126,7 @@ public class Emergency extends ActionBarActivity {
 					/* Optional message */
 					//mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
 					if (mOptionalMessage == null || mOptionalMessage.getText().toString().isEmpty()){
+						mStrOptionalMessage = "";
 						Log.d(TAG, "No Optional Message");
 					} else {
 						mStrOptionalMessage = mOptionalMessage.getText().toString();
