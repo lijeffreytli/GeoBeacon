@@ -60,7 +60,6 @@ public class Contact implements Comparable<Contact>, Parcelable{
 	
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
 		dest.writeString(contactName);
 		dest.writeString(phoneNo);
 	}

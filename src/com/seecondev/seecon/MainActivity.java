@@ -261,7 +261,7 @@ public class MainActivity extends FragmentActivity{
 	}
 	
 	public void getEmergencyContacts(View view){
-		Intent intent = new Intent(this, EmergencyContacts.class);
+		Intent intent = new Intent(this, ContactList.class);
 		startActivity(intent);
 	}
 

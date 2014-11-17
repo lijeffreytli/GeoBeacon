@@ -39,8 +39,6 @@ public class Emergency extends ActionBarActivity {
 
 	private Button btnSendSMS;
 	private String mMessage = "";
-	private String mContactNumber;
-	private String mContactName;
 	private String mAddress;
 	private double mLatitude;
 	private double mLongitude;
@@ -57,7 +55,7 @@ public class Emergency extends ActionBarActivity {
 	private int mSendSoundID;
 	
 	// Access Emergency Contact List
-	ArrayList<Contact> contactList = EmergencyContacts.selectedContactList;
+	ArrayList<Contact> contactList = ContactList.selectedContactList;
 
 	/* Debugging Purposes */
 	private static final String TAG = "SEECON_EMERGENCY";
@@ -110,27 +108,6 @@ public class Emergency extends ActionBarActivity {
 		currentAddress.setMovementMethod(new ScrollingMovementMethod());
 		currentAddress.setTextColor(getResources().getColor(R.color.cyan));
 		currentAddress.setText(mAddress);
-
-		//		mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
-		//		checkSMSLength(mOptionalMessage);
-		//		mOptionalMessage.addTextChangedListener(new TextWatcher() {
-		//
-		//			@Override
-		//			public void onTextChanged(CharSequence s, int start, int before, int count) {
-		//				// TODO Auto-generated method stub
-		//			}
-		//
-		//			@Override
-		//			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-		//				// TODO Auto-generated method stub
-		//			}
-		//
-		//			@Override
-		//			public void afterTextChanged(Editable s) {
-		//				// TODO Auto-generated method stub
-		//				checkSMSLength(mOptionalMessage); // pass your EditText Obj here.
-		//			}
-		//		});
 
 		/* Obtain the view of the 'Send Button' */
 		btnSendSMS = (Button) findViewById(R.id.buttonSendEmergency);
@@ -469,32 +446,6 @@ public class Emergency extends ActionBarActivity {
 		outState.putDouble("mLatitude", mLatitude);
 		outState.putString("mMapURL", mMapURL);
 	}
-
-//		/* http://stackoverflow.com/questions/4165414/how-to-hide-soft-keyboard-on-android-after-clicking-outside-edittext */
-//		public static void hideSoftKeyboard(Activity activity) {
-//			InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-//			inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
-//		}
-//		/* same source as above */
-//		public void setupUI(View view) {
-//			//Set up touch listener for non-text box views to hide keyboard.
-//			if(!(view instanceof EditText)) {
-//				view.setOnTouchListener(new OnTouchListener() {
-//					public boolean onTouch(View v, MotionEvent event) {
-//						hideSoftKeyboard(Emergency.this);
-//						return false;
-//					}
-//				});
-//			}
-//	
-//			//If a layout container, iterate over children and seed recursion.
-//			if (view instanceof ViewGroup) {
-//				for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-//					View innerView = ((ViewGroup) view).getChildAt(i);
-//					setupUI(innerView);
-//				}
-//			}
-//		}
 		
 	public void onActivityResult(int reqCode, int resultCode, Intent data) {
 		super.onActivityResult(reqCode, resultCode, data);

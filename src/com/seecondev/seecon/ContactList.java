@@ -7,10 +7,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,28 +25,31 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-//Courtesy: http://www.mysamplecode.com/2012/07/android-listview-checkbox-example.html
-public class EmergencyContacts extends Activity {
+public class ContactList extends Activity {
 	MyCustomAdapter dataAdapter = null;
 	static ArrayList<Contact> contactList;
 	static ArrayList<Contact> selectedContactList;
+	static ArrayList<Contact> prevSelectedContactList;
 
 	/* Debugging Purposes */
-	private static final String TAG = "SEECON_EMERGENCY_CONTACTS";
+	private static final String TAG = "SEECON_SHARE_LOCATION_CONTACTS";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_emergency_contacts);
+		setContentView(R.layout.contact_list_contacts);
 
 		getActionBar().setDisplayHomeAsUpEnabled(false);
+
+		/* Get the selected contacts from the caller */
+		Intent intent = getIntent(); 
+		prevSelectedContactList = intent.getParcelableArrayListExtra("SELECTED_CONTACTS");
 
 		//Generate list View from ArrayList
 		displayListView();
 		checkButtonClick();
 	}
-	
+
 	private void displayListView(){
 		//Array list of contacts
 		contactList = new ArrayList<Contact>();
@@ -54,7 +57,7 @@ public class EmergencyContacts extends Activity {
 		/* Debugging purposes */
 		//Contacts contact = new Contacts("15129653082234234234234234245", "AAAJeffrey asdfasdfasdfasdfasdfasdfasdfasdfasdfLi", false);
 		//contactList.add(contact);
-		
+
 		/* Iterate through phone and obtain all the contacts and store them into the ArrayList */
 		storeAllContacts();
 		/* Sort the list of contacts alphabetically */
@@ -63,7 +66,7 @@ public class EmergencyContacts extends Activity {
 		//create an ArrayAdaptar from the String Array
 		dataAdapter = new MyCustomAdapter(this,
 				R.layout.contact_info, contactList);
-		ListView listView = (ListView) findViewById(R.id.listView1);
+		ListView listView = (ListView) findViewById(R.id.listView12);
 		// Assign adapter to ListView
 		listView.setAdapter(dataAdapter);
 
@@ -81,7 +84,7 @@ public class EmergencyContacts extends Activity {
 
 	private void storeAllContacts(){
 		Log.d(TAG, "IN STORE ALL CONTACTS ");
-		ContentResolver cr = EmergencyContacts.this.getContentResolver();
+		ContentResolver cr = ContactList.this.getContentResolver();
 		Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
 		if (cur.getCount() > 0) {
 			while (cur.moveToNext()) {
@@ -90,16 +93,19 @@ public class EmergencyContacts extends Activity {
 				if (Integer.parseInt(cur.getString(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
 					Cursor pCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, 
 							null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?", 
-									new String[]{id}, null);
+							new String[]{id}, null);
 					while (pCur.moveToNext()) {
 						int phoneType = pCur.getInt(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
 						String phoneNumber = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-						Log.d(TAG, name + ": " + phoneNumber);
-						phoneNumber = phoneNumber.replaceAll("\\D+", "");
-						phoneNumber = "+" + phoneNumber;
-						if (phoneNumber.length() > 12)
-							phoneNumber = "Invalid Number";
+						//						String displayNumber = phoneNumber;
+						//						Log.d(TAG, name + ": " + phoneNumber);
+						//						displayNumber = phoneNumber.replaceAll("\\D+", "");
+						//						displayNumber = "+" + displayNumber;
+						//						if (displayNumber.length() > 12)
+						//							displayNumber = "Invalid Number";
 						Contact contact = new Contact(phoneNumber, name, false);
+						if (prevSelectedContactList != null && prevSelectedContactList.contains(contact))
+							contact.setSelected(true);
 						contactList.add(contact);
 						//		                  switch (phoneType) {
 						//		                        case Phone.TYPE_MOBILE:
@@ -154,7 +160,6 @@ public class EmergencyContacts extends Activity {
 					public void onClick(View v) {  
 						CheckBox cb = (CheckBox) v ;  
 						Contact contact = (Contact) cb.getTag();  
-						boolean checked;
 						String isChecked;
 						if (cb.isChecked() == true){
 							isChecked = "selected";
@@ -182,9 +187,7 @@ public class EmergencyContacts extends Activity {
 		}
 	}
 	private void checkButtonClick() {
-
-
-		Button myButton = (Button) findViewById(R.id.findSelected);
+		Button myButton = (Button) findViewById(R.id.findSelected2);
 		myButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -211,24 +214,51 @@ public class EmergencyContacts extends Activity {
 						if(contacts.isSelected()){
 							names[counter] = contacts.getName();
 							++counter;
-							selectedContactList.add(contacts);
+							//selectedContactList.add(contacts);
 						}
 					}
-			        AlertDialog.Builder alertDialog = new AlertDialog.Builder(EmergencyContacts.this);
-			        LayoutInflater inflater = getLayoutInflater();
-			        View convertView = (View) inflater.inflate(R.layout.alert_emergency_contacts, null);
-			        alertDialog.setView(convertView);
-			        alertDialog.setTitle("Emergency Contacts");
-			        ListView lv = (ListView) convertView.findViewById(R.id.listView1);
-			        ArrayAdapter<String> adapter =new ArrayAdapter<String>(
-		                    EmergencyContacts.this,
-		                    android.R.layout.simple_spinner_dropdown_item, names);
-			        lv.setAdapter(adapter);
-			        lv.setClickable(false);
-			        alertDialog.show();
+					AlertDialog.Builder alertDialog = new AlertDialog.Builder(ContactList.this);
+					LayoutInflater inflater = getLayoutInflater();
+					View convertView = (View) inflater.inflate(R.layout.alert_share_location_contacts, null);
+					alertDialog.setView(convertView);
+					alertDialog.setTitle("Shared Contacts");
+					ListView lv = (ListView) convertView.findViewById(R.id.listView12);
+					ArrayAdapter<String> adapter =new ArrayAdapter<String>(
+							ContactList.this,
+							android.R.layout.simple_spinner_dropdown_item, names);
+					lv.setAdapter(adapter);
+					lv.setClickable(false);
+					alertDialog.show();
 				}
 			}
 		});
 	}
-}
+	public void goToShareMyLocation(View view){
+		addToSelectedList();
+		Intent returnIntent = new Intent();
+		returnIntent.putExtra("SELECTED_CONTACTS", selectedContactList);
+		setResult(RESULT_OK, returnIntent);
+		finish();
+	}
 
+	public void addToSelectedList(){
+		ArrayList<Contact> contactsList = dataAdapter.contactsList;
+		int selected_count = 0;
+		int counter = 0;
+		for (int i = 0; i < contactsList.size(); ++i){
+			Contact contacts = contactsList.get(i);
+			if (contacts.isSelected()){
+				++selected_count;
+			}
+		}
+		String names[] = new String[selected_count];
+		for(int i=0;i<contactsList.size();i++){
+			Contact contacts = contactsList.get(i);
+			if(contacts.isSelected()){
+				names[counter] = contacts.getName();
+				++counter;
+				selectedContactList.add(contacts);
+			}
+		}
+	}
+}

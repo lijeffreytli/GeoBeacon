@@ -2,6 +2,7 @@ package com.seecondev.seecon;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -13,12 +14,8 @@ import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.provider.Contacts;
-import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
-import android.telephony.gsm.SmsManager;
+import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
@@ -41,8 +38,6 @@ public class ShareMyLocation extends ActionBarActivity {
 
 	private Button btnSendSMS;
 	private String mMessage;
-	//private String mContactNumber;
-	//private String mContactName;
 	private ArrayList<Contact> mSelectedContacts;
 
 	private String mAddress;
@@ -71,28 +66,34 @@ public class ShareMyLocation extends ActionBarActivity {
 		setContentView(R.layout.activity_share_my_location);
 		//setupUI(findViewById(R.id.parent));
 
-
+		Log.d(TAG, "in onCreate");
 
 		if (savedInstanceState != null) {
 			Log.d(TAG, "in onCreate, savedInstanceState isn't null");
 			Log.d(TAG, "char sequence we stored for mOptionalMessage is " + 
 					savedInstanceState.getCharSequence("mOptionalMessage").toString());
 			mMessage = savedInstanceState.getString("mMessage");
+			Log.d(TAG, "mMessage is " + mMessage);
 			mSelectedContacts = savedInstanceState.getParcelableArrayList("mSelectedContacts");
+			Log.d(TAG, "mSelectedContacts is " + mSelectedContacts);
 			mAddress = savedInstanceState.getString("mAddress");
+			Log.d(TAG, "mAddress is " + mAddress);
 			mLongitude = savedInstanceState.getDouble("mLongitude");
+			Log.d(TAG, "mLongitude is " + mLongitude);
 			mLatitude = savedInstanceState.getDouble("mLatitude");
+			Log.d(TAG, "mLatitude is " + mLatitude);
 			TextView tv = (TextView) findViewById(R.id.tvOptionalMessage);
 			tv.setText(savedInstanceState.getCharSequence("mOptionalMessage"));
 		} else {
-			mSelectedContacts = new ArrayList<Contact>();
+			if (mSelectedContacts == null)
+				mSelectedContacts = new ArrayList<Contact>();
 		}
 
 		mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
 		mSoundOn = mPrefs.getBoolean("sound", true);
 
 		/* Get the location information from MainActivity */
-		Intent intent = getIntent(); //is this necessary?
+		Intent intent = getIntent();
 		mAddress = intent.getStringExtra(MainActivity.ADDRESS);
 		String latStr = intent.getStringExtra(MainActivity.LAT);
 		String longStr = intent.getStringExtra(MainActivity.LONG);
@@ -137,25 +138,6 @@ public class ShareMyLocation extends ActionBarActivity {
 		currentAddress.setText(mMessage);
 		/* Add the googlemaps link for the sent message */
 		mMapURL = "https://www.google.com/maps?z=18&t=m&q=loc:" + mLatitude + "+" + mLongitude;
-		//		mOptionalMessage = (EditText)findViewById(R.id.editMessage);
-		//		checkSMSLength(mOptionalMessage);
-		//		mOptionalMessage.addTextChangedListener(new TextWatcher() {
-		//
-		//			@Override
-		//			public void onTextChanged(CharSequence s, int start, int before, int count) {
-		//			}
-		//
-		//			@Override
-		//			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-		//			}
-		//
-		//			@Override
-		//			public void afterTextChanged(Editable s) {
-		//				checkSMSLength(mOptionalMessage); // pass your EditText Obj here.
-		//			}
-		//		});
-
-
 
 		/* Obtain the view of the 'Send Button' */
 		btnSendSMS = (Button) findViewById(R.id.buttonSend);
@@ -169,16 +151,16 @@ public class ShareMyLocation extends ActionBarActivity {
 				/* Error handling for null contact */
 				if (mSelectedContacts == null || mSelectedContacts.size() == 0){
 					/* AlertDialog box for user confirmation */
-					AlertDialog.Builder builder1 = new AlertDialog.Builder(ShareMyLocation.this);
-					builder1.setMessage("Please select a contact");
-					builder1.setCancelable(true);
-					builder1.setPositiveButton("Ok",
+					AlertDialog.Builder builder = new AlertDialog.Builder(ShareMyLocation.this);
+					builder.setMessage("Please select a contact");
+					builder.setCancelable(true);
+					builder.setPositiveButton("Ok",
 							new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							dialog.cancel();
 						}
 					});
-					AlertDialog noContactAlert = builder1.create();
+					AlertDialog noContactAlert = builder.create();
 					noContactAlert.show();
 				} else {
 					/* Error handling */
@@ -197,21 +179,19 @@ public class ShareMyLocation extends ActionBarActivity {
 						}
 
 						/* AlertDialog box for user confirmation */
-						AlertDialog.Builder builder1 = new AlertDialog.Builder(ShareMyLocation.this);
+						AlertDialog.Builder builder = new AlertDialog.Builder(ShareMyLocation.this);
 
 						String contactNames = "";
 						for (Contact contact : mSelectedContacts){
 							contactNames += contact.getName() + ", ";
 						}
-//						for (SeeconContact contact: mContacts) {
-//							contactNames += contact.mContactName + ", ";
-//						}
 						// remove the trailing comma for the last one
-						contactNames = contactNames.substring(0, contactNames.length() - 2);
+						if (contactNames.length() > 2)
+							contactNames = contactNames.substring(0, contactNames.length() - 2);
 
-						builder1.setMessage("Send to " + contactNames + "?");
-						builder1.setCancelable(true);
-						builder1.setPositiveButton("Yes",
+						builder.setMessage("Send to " + contactNames + "?");
+						builder.setCancelable(true);
+						builder.setPositiveButton("Yes",
 								new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 								if (mSelectedContacts != null){
@@ -226,8 +206,8 @@ public class ShareMyLocation extends ActionBarActivity {
 											"Please select a contact.", 
 											Toast.LENGTH_SHORT).show();
 								}
-								
-								
+
+
 							}
 
 							private void sendToContact(Contact contact) {
@@ -259,19 +239,19 @@ public class ShareMyLocation extends ActionBarActivity {
 
 									finish(); //After sending the message, return back to MainActivity
 								} 
-									
+
 
 							}
 						});
-						builder1.setNegativeButton("No",
+						builder.setNegativeButton("No",
 								new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 								dialog.cancel();
 							}
 						});
 
-						AlertDialog alert11 = builder1.create();
-						alert11.show();
+						AlertDialog alert = builder.create();
+						alert.show();
 					}
 				}
 			}
@@ -279,38 +259,11 @@ public class ShareMyLocation extends ActionBarActivity {
 		displaySelectedContacts();
 	}
 
-	//	public void checkSMSLength(EditText edt) throws NumberFormatException {
-	//		int valid_len = 0;
-	//		TextView tvCharactersUsed = (TextView) findViewById(R.id.textCharactersUsed);
-	//		tvCharactersUsed.setTextColor(Color.parseColor("#F8F8F8"));
-	//		try {
-	//			if (edt.getText().toString().length() <= 0) {
-	//				edt.setError(null);
-	//				valid_len = 0;
-	//				tvCharactersUsed.setText("0/160");
-	//
-	//			} else if (edt.getText().toString().length() > 160){
-	//				mValidMessage = false;
-	//				edt.setError("Error: Character limit exceeded");
-	//				valid_len = 0;
-	//				tvCharactersUsed.setText("Error");
-	//				tvCharactersUsed.setTextColor(Color.parseColor("#D00000"));
-	//			} else {
-	//				mValidMessage = true;
-	//				edt.setError(null);
-	//				valid_len = edt.getText().toString().length();
-	//				tvCharactersUsed.setText(String.valueOf(valid_len) + "/" + 160);
-	//			}
-	//		} catch (Exception e) {
-	//			Log.e("error", "" + e);
-	//		}
-	//	}
-
-
 
 	public void getContactList(View view){
-		Intent intent = new Intent(this, ShareLocationContacts.class);
-		startActivity(intent);
+		Intent intent = new Intent(this, ContactList.class);
+		intent.putExtra("SELECTED_CONTACTS", mSelectedContacts);
+		startActivityForResult(intent, PICK_CONTACT_REQUEST);
 	}
 
 	/* This method sends a text message to a specific phone number */
@@ -323,12 +276,6 @@ public class ShareMyLocation extends ActionBarActivity {
 		}
 		SmsManager sms = SmsManager.getDefault();
 		sms.sendTextMessage(phoneNumber, null, message, null, null);
-	}
-
-	public void getContacts(View view) {
-		Intent intent = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
-		intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
-		startActivityForResult(intent, PICK_CONTACT_REQUEST);
 	}
 
 	public void getAdditionalMessage(View view) {
@@ -356,8 +303,6 @@ public class ShareMyLocation extends ActionBarActivity {
 		tvCharCount = new TextView(this);
 		tvCharCount.setText(mOptionalMessage.getText().toString().length() + "/160");
 
-
-		//checkSMSLength(mOptionalMessage);
 		mOptionalMessage.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -453,17 +398,26 @@ public class ShareMyLocation extends ActionBarActivity {
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-
 		outState.putString("mMessage", mMessage);
 		outState.putParcelableArrayList("mSelectedContacts", mSelectedContacts);
 		TextView tv = (TextView) findViewById(R.id.tvOptionalMessage);
-		Log.d(TAG, "tv.getText is " + tv.getText().toString());
 		outState.putCharSequence("mOptionalMessage", tv.getText());
 		outState.putString("mAddress", mAddress);
 		outState.putDouble("mLongitude", mLongitude);
 		outState.putDouble("mLatitude", mLatitude);
 	}
 
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		mMessage = savedInstanceState.getString("mMessage");
+		mSelectedContacts = savedInstanceState.getParcelableArrayList("mSelectedContacts");
+		mAddress = savedInstanceState.getString("mAddress");
+		mLongitude = savedInstanceState.getDouble("mLongitude");
+		mLatitude = savedInstanceState.getDouble("mLatitude");
+		TextView tv = (TextView) findViewById(R.id.tvOptionalMessage);
+		tv.setText(savedInstanceState.getCharSequence("mOptionalMessage"));
+	}
 
 	@Override
 	protected Dialog onCreateDialog(int id) {
@@ -499,88 +453,63 @@ public class ShareMyLocation extends ActionBarActivity {
 		return builder.create();
 	}
 
-//	/* Method obtains phone number from the contact Uri.  */
-//	@Override
-//	public void onActivityResult(int reqCode, int resultCode, Intent data) {
-//		super.onActivityResult(reqCode, resultCode, data);
-//
-//		switch (reqCode) {
-//		case (PICK_CONTACT_REQUEST) :
-//			if (resultCode == Activity.RESULT_OK) {
-//				Uri contactData = data.getData();
-//				Cursor c =  managedQuery(contactData, null, null, null, null);
-//
-//				if (c.moveToFirst()) {
-//					String id = c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
-//					String hasPhone = c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
-//					if (hasPhone.equalsIgnoreCase("1")) {
-//						//						Cursor phones = getContentResolver().query( 
-//						//								ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null, 
-//						//								ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+ id, 
-//						//								null, null);
-//						Cursor phones = getContentResolver().query(contactData, null, null, null, null);
-//						if(phones.moveToFirst()){
-//							//						String cNumber = phones.getString(phones.getColumnIndex("data1"));
-//							String cNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-//							Log.d(TAG, "cNumber is  " + cNumber);
-//							String cName = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-//							Log.d(TAG, "cName is " + cName);
-//							SeeconContact contact = new SeeconContact(cName, cNumber);
-//							Log.d(TAG, "contact is " + contact);
-//							if (!mContacts.contains(contact))
-//								mContacts.add(contact);
-//						}
-//						//else?
-//					}
-//
-//					for (SeeconContact contact: mContacts) {
-//						Log.d(TAG, "Contact Name: " + contact.mContactName);
-//						Log.d(TAG, "Contact Number: " + contact.mContactNumber);
-//					}
-//
-//				}
+	/* Method obtains phone number from the contact Uri.  */
+	@Override
+	public void onActivityResult(int reqCode, int resultCode, Intent data) {
+		super.onActivityResult(reqCode, resultCode, data);
+
+		switch (reqCode) {
+		case (PICK_CONTACT_REQUEST) :
+		if (resultCode == Activity.RESULT_OK) {
+			mSelectedContacts = data.getParcelableArrayListExtra("SELECTED_CONTACTS");
+//			ArrayList<Contact> newContacts = data.getParcelableArrayListExtra("SELECTED_CONTACTS");
+//			if (mSelectedContacts == null) {
+//				mSelectedContacts = new ArrayList<Contact>();
 //			}
-//		break;
-//		case RESULT_CANCELED:
-//			// Apply potentially new settings
-//			mSoundOn = mPrefs.getBoolean("sound", true);
-//			break;
-//		}
-//		TextView text = (TextView) findViewById(R.id.selectedContacts);
-//		text.setMovementMethod(new ScrollingMovementMethod());
-//		text.setTextColor(getResources().getColor(R.color.white));
-//		String contactNames = "";
-//		for (SeeconContact contact: mContacts) {
-//			contactNames += contact.mContactName + ", ";
-//		}
-//		// remove the trailing comma for the last one
-//		if (contactNames.length() >= 2)
-//			contactNames = contactNames.substring(0, contactNames.length() - 2);
-//		Log.d(TAG, "contactNames: " + contactNames);
-//
-//		if (contactNames != null && !contactNames.isEmpty()) {
-//			text.setText(contactNames);
-//		}
-//	}
+//			// basically need to get the intersection of the two sets
+//			
+//			// add any new contacts we didn't have
+//			for (Contact contact: newContacts) {
+//				if (!mSelectedContacts.contains(contact))
+//					mSelectedContacts.add(contact);
+//			}
+//			// remove any contacts that were unselected
+//			for (Contact oldContact: mSelectedContacts) {
+//				if (!newContacts.contains(oldContact))
+//					mSelectedContacts.remove(oldContact);
+//			}
+			displaySelectedContacts();
+		}
+		break;
+		case RESULT_CANCELED:
+			// Apply potentially new settings
+			mSoundOn = mPrefs.getBoolean("sound", true);
+			break;
+		}
+	}
+
+	private String getContactNames() {
+		String contactNames = "";
+		for (Contact contact: mSelectedContacts) {
+			contactNames += contact.contactName + ", ";
+		}
+		// remove the trailing comma for the last one
+		if (contactNames.length() >= 2)
+			contactNames = contactNames.substring(0, contactNames.length() - 2);
+		return contactNames;
+	}
 	
 	private void displaySelectedContacts(){
 		TextView text = (TextView) findViewById(R.id.selectedContacts);
-		//		text.setMovementMethod(new ScrollingMovementMethod());
 		text.setTextColor(getResources().getColor(R.color.white));
 		text.setMovementMethod(new ScrollingMovementMethod());
 		if (mSelectedContacts != null){
-			String output = "";
-			for (Contact contact: mSelectedContacts) {
-				Log.e(TAG, "contactNames: " + contact.getName());
-				Log.e(TAG, "contactPhoneNo: " + contact.getPhoneNo());
-				output += contact.getName() + ", ";
-			}
-			// remove the trailing comma for the last one
-			if (output.length() >= 2)
-				output = output.substring(0, output.length() - 2);
+			String output = getContactNames();
 			if (output != null && !output.isEmpty()){
 				text.setText(output);
 			}
+			else
+				text.setText("No contacts selected");
 		}
 	}
 
@@ -600,70 +529,9 @@ public class ShareMyLocation extends ActionBarActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
+		Log.d(TAG, "in on Resume");
 		createSoundPool();
 	}
-	//	/* http://stackoverflow.com/questions/4165414/how-to-hide-soft-keyboard-on-android-after-clicking-outside-edittext */
-	//	public static void hideSoftKeyboard(Activity activity) {
-	//		InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-	//		inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
-	//	}
-	//	/* same source as above */
-	//	public void setupUI(View view) {
-	//		//Set up touch listener for non-text box views to hide keyboard.
-	//		if(!(view instanceof EditText)) {
-	//			view.setOnTouchListener(new OnTouchListener() {
-	//				public boolean onTouch(View v, MotionEvent event) {
-	//					hideSoftKeyboard(ShareMyLocation.this);
-	//					return false;
-	//				}
-	//			});
-	//		}
-	//
-	//		//If a layout container, iterate over children and seed recursion.
-	//		if (view instanceof ViewGroup) {
-	//			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-	//				View innerView = ((ViewGroup) view).getChildAt(i);
-	//				setupUI(innerView);
-	//			}
-	//		}
-	//	}
-	private class SeeconContact implements Parcelable {
-		private String mContactName;
-		private String mContactNumber;
 
-		public SeeconContact(String contactName, String contactNumber) {
-			mContactName = contactName;
-			mContactNumber = contactNumber;
-		}
-
-		@Override
-		public int describeContents() {
-			return 0;
-		}
-
-		@Override
-		public void writeToParcel(Parcel dest, int flags) {
-			dest.writeString(mContactName);
-			dest.writeString(mContactNumber);
-		}
-
-		public String toString() {
-			return "Contact Information:\nName: " + mContactName + "\nNumber: " + mContactNumber;
-		}
-
-		public boolean equals(Object other) {
-			if (!(other instanceof SeeconContact))
-				return false;
-
-			SeeconContact oth = (SeeconContact)(other);
-			return ((this.mContactName.equals(oth.mContactName)) && (this.mContactNumber.equals(oth.mContactNumber)));
-		}
-
-	}
-	
-	@Override
-	public void onBackPressed() {
-		//Quick fix, disable the back button
-	}
 }
 

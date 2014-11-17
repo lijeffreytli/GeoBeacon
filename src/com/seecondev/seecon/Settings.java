@@ -64,17 +64,11 @@ public class Settings extends ActionBarActivity {
 				dialog = createHelpDialog(builder);
 				break;
 		}
-
-//		if(dialog == null)
-//			Log.d(TAG, "Uh oh! Dialog is null");
-//		else
-//			Log.d(TAG, "Dialog created: " + id + ", dialog: " + dialog);
 		return dialog;        
 	}
 
 
 	private Dialog createHelpDialog(Builder builder) {
-		// TODO Auto-generated method stub
 		Context context = getApplicationContext();
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
 		View layout = inflater.inflate(R.layout.help_dialog, null); 		
@@ -85,7 +79,6 @@ public class Settings extends ActionBarActivity {
 
 
 	private Dialog createAboutDialog(Builder builder) {
-		// TODO Auto-generated method stub
 		Context context = getApplicationContext();
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
 		View layout = inflater.inflate(R.layout.about_dialog, null); 		
