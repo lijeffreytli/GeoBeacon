@@ -79,6 +79,7 @@ public class MainActivity extends FragmentActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		Log.d(TAG, "in onCreate");
 
 		mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);

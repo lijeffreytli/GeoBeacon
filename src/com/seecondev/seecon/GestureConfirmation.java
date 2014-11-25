@@ -45,17 +45,18 @@ public class GestureConfirmation extends Activity {
 		mMessage = intent.getStringExtra(Emergency.MESSAGE);
 		mMapURL = intent.getStringExtra(Emergency.MAP_URL);
 
-		if (mStrOptionalMessage == null || mStrOptionalMessage.isEmpty()){
-			//Testing purposes
-			Toast.makeText(getApplicationContext(),
-					"No additional message", 
-					Toast.LENGTH_LONG).show();
-		}  else {
-			//Testing purposes
-			Toast.makeText(getApplicationContext(),
-					"Message content: " + mStrOptionalMessage, 
-					Toast.LENGTH_LONG).show();
-		}
+		/*DEBUGGING PURPOSES*/
+//		if (mStrOptionalMessage == null || mStrOptionalMessage.isEmpty()){
+//			//Testing purposes
+//			Toast.makeText(getApplicationContext(),
+//					"No additional message", 
+//					Toast.LENGTH_LONG).show();
+//		}  else {
+//			//Testing purposes
+//			Toast.makeText(getApplicationContext(),
+//					"Message content: " + mStrOptionalMessage, 
+//					Toast.LENGTH_LONG).show();
+//		}
 
 		mLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures);
 		if (!mLibrary.load()) {

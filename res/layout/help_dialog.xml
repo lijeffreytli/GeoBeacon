@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text=" • Select &apos;Share My Location&apos; to send your location information to a friend. At this time, users will only be able to send location information to a single contact.\n"
+            android:text=" • Select &apos;Share My Location&apos; to send your location information to one or more friends.\n"
             android:textColor="@color/cyan"
             android:textIsSelectable="true"
             android:textSize="20sp" />
@@ -36,7 +36,17 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text=" •Select the red emergency button to send a distress message to emergency responders and emergency contacts.\n"
+            android:text=" • Selecting the red emergency button opens a new page that allows you to specify and describe the emergency situation. "
+            android:textColor="@color/cyan"
+            android:textIsSelectable="true"
+            android:textSize="20sp" />
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="Note: The message will be sent to emergency personnel and emergency contacts and will require user confirmation\n"
             android:textColor="@color/cyan"
             android:textIsSelectable="true"
             android:textSize="20sp" />
@@ -46,7 +56,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text=" • You can add contacts to your emergency list via the app settings (currently not supported).\n"
+            android:text=" • You can add contacts to your emergency list via the in-app settings.\n"
             android:textColor="@color/cyan"
             android:textIsSelectable="true"
             android:textSize="20sp" />

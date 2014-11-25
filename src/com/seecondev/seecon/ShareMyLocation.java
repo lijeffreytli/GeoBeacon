@@ -103,15 +103,15 @@ public class ShareMyLocation extends ActionBarActivity {
 		mSelectedContacts = data.getParcelableArrayList("SELECTED_CONTACTS");
 
 		/* DEBUGGING PURPOSES */
-		if (mSelectedContacts == null)
-			Toast.makeText(getBaseContext(), 
-					"No contacts selected.", 
-					Toast.LENGTH_LONG).show();
-		else {
-			Toast.makeText(getBaseContext(), 
-					String.valueOf(mSelectedContacts.size()) + " contact(s) selected.", 
-					Toast.LENGTH_LONG).show();
-		}
+//		if (mSelectedContacts == null)
+//			Toast.makeText(getBaseContext(), 
+//					"No contacts selected.", 
+//					Toast.LENGTH_LONG).show();
+//		else {
+//			Toast.makeText(getBaseContext(), 
+//					String.valueOf(mSelectedContacts.size()) + " contact(s) selected.", 
+//					Toast.LENGTH_LONG).show();
+//		}
 
 
 		if (longStr != null) {

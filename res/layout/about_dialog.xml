@@ -98,7 +98,7 @@
             android:gravity="center"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="•Select a list of Emergency Contacts to send your distress text\n•Gesture confirmations to prevent accidental message sending\n•Message confirmation that notifies the success/failure of your output texts\n"
+            android:text="•Select a list of Emergency Contacts to send your distress text\n•Gesture confirmations to prevent accidental message sending\n•Message confirmation that notifies the success/failure of output texts\n"
             android:textColor="@color/white"
             android:textIsSelectable="true"
             android:textSize="15sp" />

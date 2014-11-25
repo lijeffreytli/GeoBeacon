@@ -38,6 +38,6 @@
     <string-array name="empty_array" />
 
     <string name="title_activity_gesture_confirmation">Gesture Confirmation</string>
-    <string name="title_activity_share_location_contacts">Pick Your Friends</string>
+    <string name="title_activity_share_location_contacts">Select Contacts</string>
 
 </resources>
