@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <Space
+        android:id="@+id/dummy"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/buttonSend"
+        android:layout_width="150dp"
+        android:layout_height="35dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/button_send"
+        android:onClick="sendMessage"
+        android:text="Send"
+        android:textColor="#FFFFFFFF"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvOptionalMessage"
+        android:layout_width="250dp"
+        android:layout_height="190dp"
+        android:layout_above="@+id/buttonSend"
+        android:layout_alignLeft="@+id/buttonSend"
+        android:layout_alignRight="@+id/buttonSend"
+        android:layout_below="@+id/selectedContacts"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/text_border"
+        android:clickable="true"
+        android:ems="20"
+        android:hint="Click here to add an additional message"
+        android:maxHeight="140dp"
+        android:onClick="getAdditionalMessage"
+        android:paddingBottom="6dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:paddingTop="6dp"
+        android:scrollbars="vertical"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/editCompleteMessage"
+        android:layout_width="125dp"
+        android:layout_height="100dp"
+        android:layout_alignBottom="@+id/selectedContacts"
+        android:layout_alignLeft="@+id/tvOptionalMessage"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/dummy"
+        android:ems="20"
+        android:hint="Finding location...Please return to front page"
+        android:inputType="textMultiLine|textNoSuggestions|none"
+        android:maxHeight="140dp"
+        android:paddingBottom="4.5dp"
+        android:paddingLeft="4.5dp"
+        android:paddingRight="4.5dp"
+        android:scrollbars="vertical"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/buttonContacts"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignLeft="@+id/dummy"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/selectedContacts"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:background="@drawable/button_default_style"
+        android:onClick="getContactList"
+        android:text="Select Contacts"
+        android:textColor="#FFFFFFFF"
+        android:textSize="20sp" />
+
+    <!--  -->
+
+    <TextView
+        android:id="@+id/selectedContacts"
+        android:layout_width="250dp"
+        android:layout_height="75dp"
+        android:layout_alignLeft="@+id/dummy"
+        android:layout_alignRight="@+id/tvOptionalMessage"
+        android:layout_below="@+id/buttonContacts"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:background="@drawable/text_border"
+        android:ems="20"
+        android:hint="No contacts selected"
+        android:inputType="textMultiLine|textNoSuggestions|none"
+        android:maxHeight="140dp"
+        android:paddingBottom="4.5dp"
+        android:paddingLeft="4.5dp"
+        android:paddingRight="4.5dp"
+        android:scrollbars="vertical"
+        android:textSize="20sp" />
+
+</RelativeLayout>
