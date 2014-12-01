@@ -113,6 +113,9 @@ from others
 
    Settings:
        code adapted from Tutorial 6
+       
+   Menu Action bar:
+       issue with icons not showing in action bar - http://stackoverflow.com/questions/23230939/items-not-showing-in-the-actionbar-with-showasaction-always
 
 6. A list of the classes and major chunks of code you completed yourself
 
