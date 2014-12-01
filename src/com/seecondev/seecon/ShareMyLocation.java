@@ -6,9 +6,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioManager;
@@ -34,8 +37,10 @@ import android.widget.Toast;
 
 public class ShareMyLocation extends ActionBarActivity {
 
-	static final int DIALOG_ABOUT_ID = 1;
-	static final int DIALOG_HELP_ID = 2;
+	private static final int DIALOG_ABOUT_ID = 1;
+	private static final int DIALOG_HELP_ID = 2;
+
+	private static final String DELIVERED_ACTION = "DELIVERED_SMS";
 
 	private Button btnSendSMS;
 	private String mMessage;
@@ -103,16 +108,20 @@ public class ShareMyLocation extends ActionBarActivity {
 		Bundle data = getIntent().getExtras();
 		mSelectedContacts = data.getParcelableArrayList("SELECTED_CONTACTS");
 
+		// deliverReceiver informed when message from our app delivered
+		registerReceiver(deliverReceiver, new IntentFilter(DELIVERED_ACTION));
+
+
 		/* DEBUGGING PURPOSES */
-//		if (mSelectedContacts == null)
-//			Toast.makeText(getBaseContext(), 
-//					"No contacts selected.", 
-//					Toast.LENGTH_LONG).show();
-//		else {
-//			Toast.makeText(getBaseContext(), 
-//					String.valueOf(mSelectedContacts.size()) + " contact(s) selected.", 
-//					Toast.LENGTH_LONG).show();
-//		}
+		//		if (mSelectedContacts == null)
+		//			Toast.makeText(getBaseContext(), 
+		//					"No contacts selected.", 
+		//					Toast.LENGTH_LONG).show();
+		//		else {
+		//			Toast.makeText(getBaseContext(), 
+		//					String.valueOf(mSelectedContacts.size()) + " contact(s) selected.", 
+		//					Toast.LENGTH_LONG).show();
+		//		}
 
 
 		if (longStr != null) {
@@ -260,6 +269,13 @@ public class ShareMyLocation extends ActionBarActivity {
 		displaySelectedContacts();
 	}
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		Log.d(TAG, "in onDestroy");
+		unregisterReceiver(deliverReceiver);
+	}
+
 
 	public void getContactList(View view){
 		Intent intent = new Intent(this, ContactList.class);
@@ -276,7 +292,12 @@ public class ShareMyLocation extends ActionBarActivity {
 			return;
 		}
 		SmsManager sms = SmsManager.getDefault();
-		sms.sendTextMessage(phoneNumber, null, message, null, null);
+		/* delivery confirmation code adapted from Mike's SMS 
+		 * automatic responder, ResponserService.java
+		 */
+		PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0,
+				new Intent(DELIVERED_ACTION), 0);
+		sms.sendTextMessage(phoneNumber, null, message, null, deliveredPI);
 	}
 
 	public void getAdditionalMessage(View view) {
@@ -372,12 +393,12 @@ public class ShareMyLocation extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.main, menu);
-	    return super.onCreateOptionsMenu(menu);
-	    
-//		// Inflate the menu; this adds items to the action bar if it is present.
-//		getMenuInflater().inflate(R.menu.main, menu);
-//		return true;
+		inflater.inflate(R.menu.main, menu);
+		return super.onCreateOptionsMenu(menu);
+
+		//		// Inflate the menu; this adds items to the action bar if it is present.
+		//		getMenuInflater().inflate(R.menu.main, menu);
+		//		return true;
 	}
 
 	@Override
@@ -465,26 +486,26 @@ public class ShareMyLocation extends ActionBarActivity {
 
 		switch (reqCode) {
 		case (PICK_CONTACT_REQUEST) :
-		if (resultCode == Activity.RESULT_OK) {
-			mSelectedContacts = data.getParcelableArrayListExtra("SELECTED_CONTACTS");
-//			ArrayList<Contact> newContacts = data.getParcelableArrayListExtra("SELECTED_CONTACTS");
-//			if (mSelectedContacts == null) {
-//				mSelectedContacts = new ArrayList<Contact>();
-//			}
-//			// basically need to get the intersection of the two sets
-//			
-//			// add any new contacts we didn't have
-//			for (Contact contact: newContacts) {
-//				if (!mSelectedContacts.contains(contact))
-//					mSelectedContacts.add(contact);
-//			}
-//			// remove any contacts that were unselected
-//			for (Contact oldContact: mSelectedContacts) {
-//				if (!newContacts.contains(oldContact))
-//					mSelectedContacts.remove(oldContact);
-//			}
-			displaySelectedContacts();
-		}
+			if (resultCode == Activity.RESULT_OK) {
+				mSelectedContacts = data.getParcelableArrayListExtra("SELECTED_CONTACTS");
+				//			ArrayList<Contact> newContacts = data.getParcelableArrayListExtra("SELECTED_CONTACTS");
+				//			if (mSelectedContacts == null) {
+				//				mSelectedContacts = new ArrayList<Contact>();
+				//			}
+				//			// basically need to get the intersection of the two sets
+				//			
+				//			// add any new contacts we didn't have
+				//			for (Contact contact: newContacts) {
+				//				if (!mSelectedContacts.contains(contact))
+				//					mSelectedContacts.add(contact);
+				//			}
+				//			// remove any contacts that were unselected
+				//			for (Contact oldContact: mSelectedContacts) {
+				//				if (!newContacts.contains(oldContact))
+				//					mSelectedContacts.remove(oldContact);
+				//			}
+				displaySelectedContacts();
+			}
 		break;
 		case RESULT_CANCELED:
 			// Apply potentially new settings
@@ -503,7 +524,7 @@ public class ShareMyLocation extends ActionBarActivity {
 			contactNames = contactNames.substring(0, contactNames.length() - 2);
 		return contactNames;
 	}
-	
+
 	private void displaySelectedContacts(){
 		TextView text = (TextView) findViewById(R.id.selectedContacts);
 		text.setTextColor(getResources().getColor(R.color.white));
@@ -536,6 +557,21 @@ public class ShareMyLocation extends ActionBarActivity {
 		super.onResume();
 		Log.d(TAG, "in on Resume");
 		createSoundPool();
+	}
+
+	private BroadcastReceiver deliverReceiver = new BroadcastReceiver() {
+		// this is never getting called
+
+		@Override public void onReceive(Context c, Intent in) {
+			//SMS delivered actions
+			Log.d(TAG, "in onReceive method of deliverReceiver");
+			smsDelivered();
+		}    
+	};
+
+	public void smsDelivered(){
+		Log.d(TAG, "in smsDelivered method");
+		Toast.makeText(this, "SMS delivered", Toast.LENGTH_LONG).show();
 	}
 
 }
