@@ -20,6 +20,14 @@
         android:showAsAction="never"
         app:showAsAction="never"/>
     
+    <item
+        android:id="@+id/menu_refresh"
+        android:title="Refresh"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_action_refresh"
+        app:showAsAction="always"/>
+    
+    
     <!--  
     <item 
         android:id="@+id/menu_emergency_contacts"

@@ -36,7 +36,42 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text=" • Sends your location information to one or more friends.\n"
+            android:text=" • Send your location information to one or more friends\n"
+            android:textColor="@color/white"
+            android:textIsSelectable="true"
+            android:textSize="19sp" />
+        
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <ImageView
+                android:id="@+id/myImageView2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="5dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/ic_action_refresh" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/myImageView2"
+                android:layout_marginLeft="5dp"
+                android:text="Refresh"
+                android:textColor="@color/cyan"
+                android:textSize="22sp" />
+
+        </RelativeLayout>
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text=" • Refresh your current location\n "
             android:textColor="@color/white"
             android:textIsSelectable="true"
             android:textSize="19sp" />
@@ -60,7 +95,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/myImageView"
                 android:layout_marginLeft="5dp"
-                android:text="Emergency Button"
+                android:text="Emergency"
                 android:textColor="@color/cyan"
                 android:textSize="22sp" />
 
@@ -71,7 +106,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text=" • Selecting the red emergency button opens a new page that allows you to specify and describe the emergency situation. "
+            android:text=" • Selecting the red emergency button opens a new page that allows optional description of the emergency situation "
             android:textColor="@color/white"
             android:textIsSelectable="true"
             android:textSize="19sp" />
@@ -101,10 +136,11 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text=" • You can add contacts to your emergency list via the in-app settings.\n"
+            android:text=" • Set your emergency contact list\n"
             android:textColor="@color/white"
             android:textIsSelectable="true"
             android:textSize="19sp" />
+        
 
         <TextView
             android:layout_width="wrap_content"
@@ -121,7 +157,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text=" • Location services/GPS/WIFI must be enabled in order to obtain your location. "
+            android:text=" • Location services/GPS/WIFI must be enabled for location updates "
             android:textColor="@color/white"
             android:textIsSelectable="true"
             android:textSize="19sp" />
@@ -131,7 +167,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text=" • The &apos;Accuracy&apos; is an estimation of the user&apos;s location based on GPS or network connectivity.\n"
+            android:text=" • The &apos;Accuracy&apos; is an estimation of the user&apos;s location based on GPS or network connectivity\n"
             android:textColor="@color/white"
             android:textIsSelectable="true"
             android:textSize="19sp" />
