@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -40,6 +41,13 @@ public class ContactList extends Activity {
 		setContentView(R.layout.contact_list_contacts);
 
 		getActionBar().setDisplayHomeAsUpEnabled(false);
+		
+//		ProgressDialog progress = new ProgressDialog(this);
+//		progress.setTitle("Loading");
+//		progress.setMessage("Wait while loading...");
+//		progress.show();
+//		// To dismiss the dialog
+//		progress.dismiss();
 
 		/* Get the selected contacts from the caller */
 		Intent intent = getIntent(); 
