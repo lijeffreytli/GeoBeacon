@@ -3,7 +3,7 @@
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.seecondev.seecon.Emergency" >
+    tools:context="com.geobeacondev.geobeacon.Emergency" >
 
     <Space
         android:id="@+id/dummy"

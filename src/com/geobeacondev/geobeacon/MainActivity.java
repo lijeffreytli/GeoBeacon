@@ -1,4 +1,4 @@
-package com.seecondev.seecon;
+package com.geobeacondev.geobeacon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +31,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.geobeacondev.geobeacon.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -43,10 +44,10 @@ public class MainActivity extends FragmentActivity{
 
 	static final int DIALOG_ABOUT_ID = 1;
 	static final int DIALOG_HELP_ID = 2;
-	private static final String TAG = "SEECON_DEBUG";
-	public final static String ADDRESS = "com.seecondev.seecon.ADDRESS";
-	public final static String LAT = "com.seecondev.seecon.LAT";
-	public final static String LONG = "com.seecondev.seecon.LONG";
+	private static final String TAG = "GEOBEACON_DEBUG";
+	public final static String ADDRESS = "com.geobeacondev.geobeacon.ADDRESS";
+	public final static String LAT = "com.geobeacondev.geobeacon.LAT";
+	public final static String LONG = "com.geobeacondev.geobeacon.LONG";
 	private final static long MIN_TIME = 1000;
 	private final static float MIN_DIST = 3;
 	

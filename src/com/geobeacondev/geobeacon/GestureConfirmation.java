@@ -1,7 +1,8 @@
-package com.seecondev.seecon;
+package com.geobeacondev.geobeacon;
 
 import java.util.ArrayList;
 
+import com.geobeacondev.geobeacon.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -22,7 +23,7 @@ import android.widget.Toast;
 
 public class GestureConfirmation extends Activity {
 
-	protected static final String TAG = "GESTUURE_CONFIRMATION";
+	protected static final String TAG = "GESTURE_CONFIRMATION";
 	// Gesture Confirmation
 	private GestureLibrary mLibrary;
 	private GestureOverlayView overlay;

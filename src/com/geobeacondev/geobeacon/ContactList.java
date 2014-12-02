@@ -1,7 +1,9 @@
-package com.seecondev.seecon;
+package com.geobeacondev.geobeacon;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
+import com.geobeacondev.geobeacon.R;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -33,7 +35,7 @@ public class ContactList extends Activity {
 	static ArrayList<Contact> prevSelectedContactList;
 
 	/* Debugging Purposes */
-	private static final String TAG = "SEECON_SHARE_LOCATION_CONTACTS";
+	private static final String TAG = "GEOBEACON_SHARE_LOCATION_CONTACTS";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

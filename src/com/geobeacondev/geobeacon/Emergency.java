@@ -1,10 +1,11 @@
-package com.seecondev.seecon;
+package com.geobeacondev.geobeacon;
 
 
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.geobeacondev.geobeacon.R;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -63,14 +64,14 @@ public class Emergency extends ActionBarActivity {
 	ArrayList<Contact> mEmergencyContacts;
 
 	/* Debugging Purposes */
-	private static final String TAG = "SEECON_EMERGENCY";
+	private static final String TAG = "GEOBEACON_EMERGENCY";
 
 	// Intent variables sent to Gesture Confirmation
-	public final static String OPTIONAL_MESSAGE = "com.seecondev.seecon.OPTIONAL_MESSAGE";
-	public final static String CONTACT_NAME = "com.seecondev.seecon.CONTACT_NAME";
-	public final static String MAP_URL = "com.seecondev.seecon.MAP_URL";
-	public final static String CONTACT_PHONE_NUMBER = "com.seecondev.seecon.CONTACT_PHONE_NUMBER";
-	public final static String MESSAGE = "com.seecondev.seecon.MESSAGE";
+	public final static String OPTIONAL_MESSAGE = "com.geobeacondev.geobeacon.OPTIONAL_MESSAGE";
+	public final static String CONTACT_NAME = "com.geobeacondev.geobeacon.CONTACT_NAME";
+	public final static String MAP_URL = "com.geobeacondev.geobeacon.MAP_URL";
+	public final static String CONTACT_PHONE_NUMBER = "com.geobeacondev.geobeacon.CONTACT_PHONE_NUMBER";
+	public final static String MESSAGE = "com.geobeacondev.geobeacon.MESSAGE";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

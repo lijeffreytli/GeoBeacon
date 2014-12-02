@@ -1,6 +1,8 @@
-package com.seecondev.seecon;
+package com.geobeacondev.geobeacon;
 
 import java.util.ArrayList;
+
+import com.geobeacondev.geobeacon.R;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -62,7 +64,7 @@ public class ShareMyLocation extends ActionBarActivity {
 	private int mSendSoundID;
 
 	/* Debugging Purposes */
-	private static final String TAG = "SEECON_SHAREMYLOCATION";
+	private static final String TAG = "GEOBEACON_SHAREMYLOCATION";
 	static final int PICK_CONTACT_REQUEST = 219;
 
 	@Override

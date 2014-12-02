@@ -1,4 +1,6 @@
-package com.seecondev.seecon;
+package com.geobeacondev.geobeacon;
+
+import com.geobeacondev.geobeacon.R;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

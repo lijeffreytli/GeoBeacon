@@ -1,4 +1,4 @@
-package com.seecondev.seecon;
+package com.geobeacondev.geobeacon;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.seecondev.seecon"
+    package="com.geobeacondev.geobeacon"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -43,7 +43,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name="com.geobeacondev.geobeacon.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -52,31 +52,31 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ShareMyLocation"
+            android:name="com.geobeacondev.geobeacon.ShareMyLocation"
             android:label="@string/title_activity_share_my_location"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName="com.geobeacondev.geobeacon.MainActivity" >
         </activity>
         <activity
-            android:name=".EmergencyContacts"
+            android:name="com.geobeacondev.geobeacon.EmergencyContacts"
             android:label="Select Emergency Contacts"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName="com.geobeacondev.geobeacon.MainActivity" >
         </activity>
         <activity
-            android:name=".Emergency"
+            android:name="com.geobeacondev.geobeacon.Emergency"
             android:label="@string/title_activity_emergency"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName="com.geobeacondev.geobeacon.MainActivity" >
         </activity>
         <activity
-            android:name=".Settings"
+            android:name="com.geobeacondev.geobeacon.Settings"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName="com.geobeacondev.geobeacon.MainActivity" >
         </activity>
 
         <!-- Google API Key -->
         <!-- Katie's Key -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCLH0c5u2sd4i-bU8MCsCHkljOlmx9J_Fg" />
+            android:value="AIzaSyC7BgXoxmLVPUEXuL4YY5KrA3yXu6g-uBQ" />
 
         <!--
         Jeff's Key 
@@ -89,16 +89,16 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".Preferences"
+            android:name="com.geobeacondev.geobeacon.Preferences"
             android:label="@string/title_activity_get_settings"
             android:theme="@style/settingsPreferenceTheme" >
         </activity>
         <activity
-            android:name=".GestureConfirmation"
+            android:name="com.geobeacondev.geobeacon.GestureConfirmation"
             android:label="@string/title_activity_gesture_confirmation" >
         </activity>
         <activity
-            android:name=".ContactList"
+            android:name="com.geobeacondev.geobeacon.ContactList"
             android:label="@string/title_activity_share_location_contacts" >
         </activity>
     </application>

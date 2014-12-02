@@ -1,7 +1,8 @@
-package com.seecondev.seecon;
+package com.geobeacondev.geobeacon;
 
 import java.util.ArrayList;
 
+import com.geobeacondev.geobeacon.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -17,7 +18,7 @@ import android.util.Log;
 import android.view.View;
 
 public class Preferences extends PreferenceActivity {
-	private static final String TAG = "SEECON_PREFERENCES";
+	private static final String TAG = "GEOBEACON_PREFERENCES";
 	static final int PICK_CONTACT_REQUEST = 219;
 	private ArrayList<Contact> mEmergencyContacts;
 	private SharedPreferences mPrefs;
