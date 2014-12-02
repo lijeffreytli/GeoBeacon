@@ -31,7 +31,7 @@ public class GestureConfirmation extends Activity {
 	private String mMapURL;
 	private String mMessage;
 	private SharedPreferences mPrefs;
-	
+
 	// Access Emergency Contact List
 	ArrayList<Contact> mEmergencyContacts;
 
@@ -46,17 +46,17 @@ public class GestureConfirmation extends Activity {
 		mMapURL = intent.getStringExtra(Emergency.MAP_URL);
 
 		/*DEBUGGING PURPOSES*/
-//		if (mStrOptionalMessage == null || mStrOptionalMessage.isEmpty()){
-//			//Testing purposes
-//			Toast.makeText(getApplicationContext(),
-//					"No additional message", 
-//					Toast.LENGTH_LONG).show();
-//		}  else {
-//			//Testing purposes
-//			Toast.makeText(getApplicationContext(),
-//					"Message content: " + mStrOptionalMessage, 
-//					Toast.LENGTH_LONG).show();
-//		}
+		//		if (mStrOptionalMessage == null || mStrOptionalMessage.isEmpty()){
+		//			//Testing purposes
+		//			Toast.makeText(getApplicationContext(),
+		//					"No additional message", 
+		//					Toast.LENGTH_LONG).show();
+		//		}  else {
+		//			//Testing purposes
+		//			Toast.makeText(getApplicationContext(),
+		//					"Message content: " + mStrOptionalMessage, 
+		//					Toast.LENGTH_LONG).show();
+		//		}
 
 		mLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures);
 		if (!mLibrary.load()) {
@@ -65,7 +65,7 @@ public class GestureConfirmation extends Activity {
 
 		overlay = (GestureOverlayView) findViewById(R.id.gestures);
 		overlay.addOnGesturePerformedListener(mGestureListener);
-		
+
 		mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
 		mEmergencyContacts = getEmergencyContacts();
 	}
@@ -99,58 +99,17 @@ public class GestureConfirmation extends Activity {
 							public void onClick(DialogInterface dialog, int id) {
 								if (mEmergencyContacts != null && mEmergencyContacts.size() != 0){
 									for (Contact contact : mEmergencyContacts){
-										sendToContact(contact);
-										
+										sendToContact(contact);	
 									}
-								} else {
-									Toast.makeText(getBaseContext(), 
-											"Message sent to emergency personnel.", 
-											Toast.LENGTH_LONG).show();
-									/* Send to emergency personnel */
-//									sendToContact(emergencyPersonnel); //currently not implemented
-									
-									finish();
-								}
-								
-								
-								
-//								/* Debugging purposes - Send to ourselves */
-//								//String phoneNo = mContactNumber;
-//								String phoneKatie = "12145976764";
-//								String phoneJeff = "15129653085";
-//								String phoneJared = "14693942157";
-//
-//								sendSMS(phoneJeff, mStrOptionalMessage);
-//								//sendSMS(phoneKatie, mStrOptionalMessage);
-//								//sendSMS(phoneJared, mStrOptionalMessage);
-//
-//								if (mMessage.length() > 160) {
-//									int i = 0;
-//									while (i < mMessage.length()) {
-//										int endIdx = Math.min(mMessage.length(), i + 160);
-//										sendSMS(phoneJeff, mMessage.substring(i, endIdx));
-//										//sendSMS(phoneKatie, mMessage.substring(i, endIdx));
-//										//sendSMS(phoneJared, mMessage.substring(i, endIdx));
-//										i += 160;
-//									}
-//									sendSMS(phoneJeff, mMapURL);
-//									//sendSMS(phoneKatie, mMapURL);
-//									//sendSMS(phoneJared, mMapURL);
-//								} 
-//								//							else if (mMessage.length() + mMapURL.length() < 160) {
-//								//								mMessage = mMessage + "\n" + mMapURL;
-//								//								sendSMS(phoneJeff, mMessage);
-//								//								//sendSMS(phoneKatie, mMessage);
-//								//								//sendSMS(phoneJared, mMessage);
-//								else {
-//									sendSMS(phoneJeff, mMessage);
-//									//sendSMS(phoneKatie, mMessage);
-//									//sendSMS(phoneJared, mMessage);
-//									sendSMS(phoneJeff, mMapURL);
-//									//sendSMS(phoneKatie, mMapURL);
-//									//sendSMS(phoneJared, mMapURL);	
-//								}
-//								finish();
+								} 
+								Toast.makeText(getBaseContext(), 
+										"Message sent to emergency personnel.", 
+										Toast.LENGTH_LONG).show();
+								/* Send to emergency personnel */
+								// sendToContact(emergencyPersonnel); //currently not implemented
+
+
+								finish(); // After sending the message(s), return back to MainActivity
 							}
 							private void sendToContact(Contact contact) {
 								String phoneNo = contact.getPhoneNo();
@@ -179,7 +138,6 @@ public class GestureConfirmation extends Activity {
 									/* Send the optional message */
 									sendSMS(phoneNo, mStrOptionalMessage);
 
-									finish(); //After sending the message, return back to MainActivity
 								} 
 
 
@@ -213,7 +171,7 @@ public class GestureConfirmation extends Activity {
 		SmsManager sms = SmsManager.getDefault();
 		sms.sendTextMessage(phoneNumber, null, message, null, null);
 	}
-	
+
 	private ArrayList<Contact> getEmergencyContacts() {
 		Gson gson = new Gson();
 		String json = mPrefs.getString("emergencyContacts", "");
