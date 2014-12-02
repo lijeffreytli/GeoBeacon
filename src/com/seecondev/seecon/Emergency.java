@@ -350,7 +350,7 @@ public class Emergency extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.main, menu);
+	    inflater.inflate(R.menu.emergency, menu);
 	    return super.onCreateOptionsMenu(menu);
 		
 //		// Inflate the menu; this adds items to the action bar if it is present.

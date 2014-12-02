@@ -18,7 +18,7 @@
             android:layout_gravity="center"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="seecon"
+            android:text="GeoBeacon"
             android:textColor="@color/cyan"
             android:textSize="30sp" />
 
@@ -28,7 +28,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:gravity="center"
-            android:text="the signal beacon\ndeveloped by Jeffrey Li, Jared Hettinger, and Katie Ensign"
+            android:text="developed by Jeffrey Li, Jared Hettinger, and Katie Ensign"
             android:textColor="@color/cyan"
             android:textSize="25sp" />
 
