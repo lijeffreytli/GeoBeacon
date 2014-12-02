@@ -58,13 +58,13 @@ public class Emergency extends ActionBarActivity {
 	private SoundPool mSounds;	
 	private boolean mSoundOn;
 	private int mSendSoundID;
-	
+
 	// Access Emergency Contact List
 	ArrayList<Contact> mEmergencyContacts;
 
 	/* Debugging Purposes */
 	private static final String TAG = "SEECON_EMERGENCY";
-	
+
 	// Intent variables sent to Gesture Confirmation
 	public final static String OPTIONAL_MESSAGE = "com.seecondev.seecon.OPTIONAL_MESSAGE";
 	public final static String CONTACT_NAME = "com.seecondev.seecon.CONTACT_NAME";
@@ -77,8 +77,8 @@ public class Emergency extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_emergency);
-//		setupUI(findViewById(R.id.parent));
-		
+		//		setupUI(findViewById(R.id.parent));
+
 		if (savedInstanceState != null) {
 			mMessage = savedInstanceState.getString("mMessage");
 			TextView tv = (TextView) findViewById(R.id.tvEmergencyOptionalMessage);
@@ -93,7 +93,7 @@ public class Emergency extends ActionBarActivity {
 		mSoundOn = mPrefs.getBoolean("sound", true);
 
 		mEmergencyContacts = getEmergencyContacts();
-		
+
 		// Get the location information from MainActivity
 		Intent intent2 = getIntent(); //is this necessary?
 		mAddress = intent2.getStringExtra(MainActivity.ADDRESS);
@@ -126,109 +126,95 @@ public class Emergency extends ActionBarActivity {
 			{   
 				mEmergencyContacts = getEmergencyContacts();
 				playSound(mSendSoundID);
-				if (mEmergencyContacts.size() == 0){
-					/* AlertDialog box for user confirmation */
-					AlertDialog.Builder builder1 = new AlertDialog.Builder(Emergency.this);
-					builder1.setMessage("Please select emergency contacts in the Settings menu");
-					builder1.setCancelable(true);
-					builder1.setPositiveButton("Ok",
-							new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-						}
-					});
-					AlertDialog alert11 = builder1.create();
-					alert11.show();
+				if (mValidMessage == false){
+					Toast.makeText(getBaseContext(), 
+							"Message exceeds character limit.", 
+							Toast.LENGTH_SHORT).show();
 				} else {
-					if (mValidMessage == false){
-						Toast.makeText(getBaseContext(), 
-								"Message exceeds character limit.", 
-								Toast.LENGTH_SHORT).show();
+					/* Optional message */
+					//mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
+					if (mOptionalMessage == null || mOptionalMessage.getText().toString().isEmpty()){
+						mStrOptionalMessage = "";
+						Log.d(TAG, "No Optional Message");
 					} else {
-						/* Optional message */
-						//mOptionalMessage = (EditText)findViewById(R.id.editMessageToEmergency);
-						if (mOptionalMessage == null || mOptionalMessage.getText().toString().isEmpty()){
-							mStrOptionalMessage = "";
-							Log.d(TAG, "No Optional Message");
-						} else {
-							mStrOptionalMessage = mOptionalMessage.getText().toString();
-							Log.d(TAG, "Optional Message" + mStrOptionalMessage);
-						}
-
-						/* Obtain spinner spinner information */
-						Spinner spinner = (Spinner)findViewById(R.id.spinnerEmergencyDialogs);
-						String spinnerText = spinner.getSelectedItem().toString();
-
-						Log.d(TAG, "In Emergency: text: " + spinnerText);
-
-						mMapURL = "Map Coordinates: https://www.google.com/maps?z=18&t=m&q=loc:" + mLatitude + "+" + mLongitude;
-
-						/* This is the message that will be sent to emergency contacts */
-						mMessage += "Emergency: " + spinnerText + "\nMy Location: " + 
-								mAddress;
-						
-						Intent myIntent = new Intent(Emergency.this, GestureConfirmation.class);
-						myIntent.putExtra(OPTIONAL_MESSAGE, mStrOptionalMessage);
-						myIntent.putExtra(MESSAGE, mMessage);
-						myIntent.putExtra(MAP_URL, mMapURL);
-						Emergency.this.startActivity(myIntent);
-
-//						/* AlertDialog box for user confirmation */
-//						AlertDialog.Builder builder1 = new AlertDialog.Builder(Emergency.this);
-//						builder1.setMessage("Send emergency message?");
-//						builder1.setCancelable(true);
-//						builder1.setPositiveButton("Yes",
-//								new DialogInterface.OnClickListener() {
-//							public void onClick(DialogInterface dialog, int id) {
-//								/* Debugging purposes - Send to ourselves */
-//								//String phoneNo = mContactNumber;
-//								String phoneKatie = "12145976764";
-//								String phoneJeff = "15129653085";
-//								String phoneJared = "14693942157";
-	//
-//								sendSMS(phoneJeff, mStrOptionalMessage);
-//								//sendSMS(phoneKatie, mStrOptionalMessage);
-//								//sendSMS(phoneJared, mStrOptionalMessage);
-	//
-//								if (mMessage.length() > 160) {
-//									int i = 0;
-//									while (i < mMessage.length()) {
-//										int endIdx = Math.min(mMessage.length(), i + 160);
-//										sendSMS(phoneJeff, mMessage.substring(i, endIdx));
-//										//sendSMS(phoneKatie, mMessage.substring(i, endIdx));
-//										//sendSMS(phoneJared, mMessage.substring(i, endIdx));
-//										i += 160;
-//									}
-//									sendSMS(phoneJeff, mMapURL);
-//									//sendSMS(phoneKatie, mMapURL);
-//									//sendSMS(phoneJared, mMapURL);
-//								} 
-//								//							else if (mMessage.length() + mMapURL.length() < 160) {
-//								//								mMessage = mMessage + "\n" + mMapURL;
-//								//								sendSMS(phoneJeff, mMessage);
-//								//								//sendSMS(phoneKatie, mMessage);
-//								//								//sendSMS(phoneJared, mMessage);
-//								else {
-//									sendSMS(phoneJeff, mMessage);
-//									//sendSMS(phoneKatie, mMessage);
-//									//sendSMS(phoneJared, mMessage);
-//									sendSMS(phoneJeff, mMapURL);
-//									//sendSMS(phoneKatie, mMapURL);
-//									//sendSMS(phoneJared, mMapURL);	
-//								}
-//								finish();
-//							}
-//						});
-//						builder1.setNegativeButton("No",
-//								new DialogInterface.OnClickListener() {
-//							public void onClick(DialogInterface dialog, int id) {
-//								dialog.cancel();
-//							}
-//						});
-//						AlertDialog alert11 = builder1.create();
-//						alert11.show();
+						mStrOptionalMessage = mOptionalMessage.getText().toString();
+						Log.d(TAG, "Optional Message" + mStrOptionalMessage);
 					}
+
+					/* Obtain spinner spinner information */
+					Spinner spinner = (Spinner)findViewById(R.id.spinnerEmergencyDialogs);
+					String spinnerText = spinner.getSelectedItem().toString();
+
+					Log.d(TAG, "In Emergency: text: " + spinnerText);
+
+					mMapURL = "Map Coordinates: https://www.google.com/maps?z=18&t=m&q=loc:" + mLatitude + "+" + mLongitude;
+
+					/* This is the message that will be sent to emergency contacts */
+					mMessage += "Emergency: " + spinnerText + "\nMy Location: " + 
+							mAddress;
+
+					Intent myIntent = new Intent(Emergency.this, GestureConfirmation.class);
+					myIntent.putExtra(OPTIONAL_MESSAGE, mStrOptionalMessage);
+					myIntent.putExtra(MESSAGE, mMessage);
+					myIntent.putExtra(MAP_URL, mMapURL);
+					Emergency.this.startActivity(myIntent);
+
+					//						/* AlertDialog box for user confirmation */
+					//						AlertDialog.Builder builder1 = new AlertDialog.Builder(Emergency.this);
+					//						builder1.setMessage("Send emergency message?");
+					//						builder1.setCancelable(true);
+					//						builder1.setPositiveButton("Yes",
+					//								new DialogInterface.OnClickListener() {
+					//							public void onClick(DialogInterface dialog, int id) {
+					//								/* Debugging purposes - Send to ourselves */
+					//								//String phoneNo = mContactNumber;
+					//								String phoneKatie = "12145976764";
+					//								String phoneJeff = "15129653085";
+					//								String phoneJared = "14693942157";
+					//
+					//								sendSMS(phoneJeff, mStrOptionalMessage);
+					//								//sendSMS(phoneKatie, mStrOptionalMessage);
+					//								//sendSMS(phoneJared, mStrOptionalMessage);
+					//
+					//								if (mMessage.length() > 160) {
+					//									int i = 0;
+					//									while (i < mMessage.length()) {
+					//										int endIdx = Math.min(mMessage.length(), i + 160);
+					//										sendSMS(phoneJeff, mMessage.substring(i, endIdx));
+					//										//sendSMS(phoneKatie, mMessage.substring(i, endIdx));
+					//										//sendSMS(phoneJared, mMessage.substring(i, endIdx));
+					//										i += 160;
+					//									}
+					//									sendSMS(phoneJeff, mMapURL);
+					//									//sendSMS(phoneKatie, mMapURL);
+					//									//sendSMS(phoneJared, mMapURL);
+					//								} 
+					//								//							else if (mMessage.length() + mMapURL.length() < 160) {
+					//								//								mMessage = mMessage + "\n" + mMapURL;
+					//								//								sendSMS(phoneJeff, mMessage);
+					//								//								//sendSMS(phoneKatie, mMessage);
+					//								//								//sendSMS(phoneJared, mMessage);
+					//								else {
+					//									sendSMS(phoneJeff, mMessage);
+					//									//sendSMS(phoneKatie, mMessage);
+					//									//sendSMS(phoneJared, mMessage);
+					//									sendSMS(phoneJeff, mMapURL);
+					//									//sendSMS(phoneKatie, mMapURL);
+					//									//sendSMS(phoneJared, mMapURL);	
+					//								}
+					//								finish();
+					//							}
+					//						});
+					//						builder1.setNegativeButton("No",
+					//								new DialogInterface.OnClickListener() {
+					//							public void onClick(DialogInterface dialog, int id) {
+					//								dialog.cancel();
+					//							}
+					//						});
+					//						AlertDialog alert11 = builder1.create();
+					//						alert11.show();
 				}
+
 			}
 		});
 	}
@@ -350,13 +336,13 @@ public class Emergency extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.emergency, menu);
-	    return super.onCreateOptionsMenu(menu);
-		
-//		// Inflate the menu; this adds items to the action bar if it is present.
-//		getMenuInflater().inflate(R.menu.main, menu);
-//		return true;
-		
+		inflater.inflate(R.menu.emergency, menu);
+		return super.onCreateOptionsMenu(menu);
+
+		//		// Inflate the menu; this adds items to the action bar if it is present.
+		//		getMenuInflater().inflate(R.menu.main, menu);
+		//		return true;
+
 	}
 
 	@Override
@@ -438,7 +424,7 @@ public class Emergency extends ActionBarActivity {
 		super.onResume();
 		createSoundPool();
 	}
-	
+
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
@@ -451,7 +437,7 @@ public class Emergency extends ActionBarActivity {
 		outState.putDouble("mLatitude", mLatitude);
 		outState.putString("mMapURL", mMapURL);
 	}
-		
+
 	public void onActivityResult(int reqCode, int resultCode, Intent data) {
 		super.onActivityResult(reqCode, resultCode, data);
 		if (resultCode ==  RESULT_CANCELED) {
