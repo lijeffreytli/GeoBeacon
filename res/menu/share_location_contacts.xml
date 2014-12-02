@@ -1,11 +1,44 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.seecondev.seecon.ShareLocationContacts" >
+    tools:context="com.seecondev.seecon.MainActivity" >
 
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        android:icon="@drawable/ic_action_settings"
+        android:showAsAction="always"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_help"
+        android:title="Help"
         android:showAsAction="never"
-        android:title="@string/action_settings"/>
-
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_about"
+        android:title="About"
+        android:showAsAction="never"
+        app:showAsAction="never"/>
+    
+    <item
+        android:id="@+id/menu_refresh"
+        android:title="Refresh"
+        android:showAsAction="never"
+        android:icon="@drawable/ic_action_refresh"
+        app:showAsAction="never"/>
+    
+    
+    <!--  
+    <item 
+        android:id="@+id/menu_emergency_contacts"
+        android:title="Emergency Contacts"
+        app:showAsAction="never" />
+        -->
+    
+    <!--  
+    <item
+        android:id="@+id/menu_gesture_confirmation"
+        android:title="Gesture Confirmation"
+        app:showAsAction="never" />-->
+        
 </menu>
