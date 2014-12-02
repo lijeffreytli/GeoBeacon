@@ -1,15 +1,19 @@
 package com.geobeacondev.geobeacon;
 
 import java.util.ArrayList;
+import android.app.ProgressDialog;
+
 
 import com.geobeacondev.geobeacon.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -33,21 +37,25 @@ public class Preferences extends PreferenceActivity {
 		mEmergencyContacts = getEmergencyContacts();
 		if (mEmergencyContacts == null)
 			mEmergencyContacts = new ArrayList<Contact>();
-		
+
 		Preference button = (Preference)findPreference("emergencyContacts");
 		button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 			@Override
 			public boolean onPreferenceClick(Preference arg0) { 
-				Intent intent = new Intent(Preferences.this, ContactList.class);
-				intent.putExtra("SELECTED_CONTACTS", mEmergencyContacts);
-				startActivityForResult(intent, PICK_CONTACT_REQUEST);
+				launchContactList();
 				return true;
 			}
 		});
 	}
 	
+	private void launchContactList() {
+		ProgressDialog progress = new ProgressDialog(this);
+		progress.setMessage("Loading...");
+		new MyTask(progress).execute();
+	}
+
 	// http://stackoverflow.com/questions/7145606/how-android-sharedpreferences-save-store-object
-	
+
 	@Override
 	public void onActivityResult(int reqCode, int resultCode, Intent data) {
 		super.onActivityResult(reqCode, resultCode, data);
@@ -65,7 +73,7 @@ public class Preferences extends PreferenceActivity {
 		break;
 		}
 	}
-	
+
 	private ArrayList<Contact> getEmergencyContacts() {
 		Gson gson = new Gson();
 		String json = mPrefs.getString("emergencyContacts", "");
@@ -73,5 +81,28 @@ public class Preferences extends PreferenceActivity {
 		ArrayList<Contact> emergencyContacts = gson.fromJson(json, listType);
 		return emergencyContacts;
 	}
-	
+
+	// http://stackoverflow.com/questions/5202158/how-to-display-progress-dialog-before-starting-an-activity-in-android
+	public class MyTask extends AsyncTask<Void, Void, Void> {
+		private ProgressDialog progress;
+
+		public MyTask(ProgressDialog progress) {
+			this.progress = progress;
+		}
+
+		public void onPreExecute() {
+			progress.show();
+		}
+
+		public Void doInBackground(Void... unused) {
+			Intent intent = new Intent(Preferences.this, ContactList.class);
+			intent.putExtra("SELECTED_CONTACTS", mEmergencyContacts);
+			startActivityForResult(intent, PICK_CONTACT_REQUEST);
+			return null;
+		}
+
+		public void onPostExecute(Void unused) {
+			progress.dismiss();
+		}
+	}
 }

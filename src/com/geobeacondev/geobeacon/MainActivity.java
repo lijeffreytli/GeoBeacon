@@ -453,46 +453,45 @@ public class MainActivity extends FragmentActivity{
 		@Override
 		protected void onPostExecute(Void result) {
 			Log.d(TAG, "in GeoCoder onPostExecute");
-			if (mAddress == null) {
-				Log.d(TAG, "address is null");
-				generateAlert("Error: unable to retrieve address", false);
-			} else {
-				/* Set/Display the TextView on the Main Menu */
-				TextView textViewMain = (TextView)findViewById(R.id.text_view_title);
-				textViewMain.setMovementMethod(new ScrollingMovementMethod());
-				String text = mAddress + "\n";
-				if (mShowCoordinates)
-					text += "(" + mLatitude + ", " + mLongitude + ")\n";
-				text += "Accuracy: +/-" + mAccuracy + " meters";
-				textViewMain.setText(text);
-			}
-		}
+			if (mAddress == null)
+				return;
 
+			/* Set/Display the TextView on the Main Menu */
+			TextView textViewMain = (TextView)findViewById(R.id.text_view_title);
+			textViewMain.setMovementMethod(new ScrollingMovementMethod());
+			String text = mAddress + "\n";
+			if (mShowCoordinates)
+				text += "(" + mLatitude + ", " + mLongitude + ")\n";
+			text += "Accuracy: +/-" + mAccuracy + " meters";
+			textViewMain.setText(text);
+		}
 	}
 
-	private final LocationListener seeconLocationListener =
-			new LocationListener(){
+}
 
-		@Override
-		public void onLocationChanged(Location loc) {
-			Log.d(TAG, "in onLocationChanged");
-			Log.d(TAG, "provider is " + loc.getProvider());
-			if (isBetterLocation(loc)) {
-				Log.d(TAG, "this location is better");
-				updateLocation(loc);
-			}
-			else
-				Log.d(TAG, "this location is NOT better");
-		}
-		public void onProviderDisabled(String provider) {
+private final LocationListener seeconLocationListener =
+new LocationListener(){
 
+	@Override
+	public void onLocationChanged(Location loc) {
+		Log.d(TAG, "in onLocationChanged");
+		Log.d(TAG, "provider is " + loc.getProvider());
+		if (isBetterLocation(loc)) {
+			Log.d(TAG, "this location is better");
+			updateLocation(loc);
 		}
-		public void onProviderEnabled(String provider) {
+		else
+			Log.d(TAG, "this location is NOT better");
+	}
+	public void onProviderDisabled(String provider) {
 
-		}
-		public void onStatusChanged(String provider, int status, Bundle extras) {
+	}
+	public void onProviderEnabled(String provider) {
 
-		}
-	};
+	}
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+
+	}
+};
 }
 
