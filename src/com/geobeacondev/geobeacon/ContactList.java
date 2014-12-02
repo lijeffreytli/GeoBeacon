@@ -2,8 +2,12 @@ package com.geobeacondev.geobeacon;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import com.geobeacondev.geobeacon.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,6 +15,8 @@ import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,10 +36,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ContactList extends Activity {
-	MyCustomAdapter dataAdapter = null;
-	static ArrayList<Contact> contactList;
-	static ArrayList<Contact> selectedContactList;
-	static ArrayList<Contact> prevSelectedContactList;
+	private MyCustomAdapter mDataAdapter = null;
+	private ArrayList<Contact> mContactList;
+	private ArrayList<Contact> mSelectedContactList;
+	private ArrayList<Contact> mPrevSelectedContactList;
+	private LinkedHashSet<Contact> mRecentContacts;
+	private SharedPreferences mPrefs;
 
 	/* Debugging Purposes */
 	private static final String TAG = "GEOBEACON_SHARE_LOCATION_CONTACTS";
@@ -44,27 +52,59 @@ public class ContactList extends Activity {
 		setContentView(R.layout.contact_list_contacts);
 
 		getActionBar().setDisplayHomeAsUpEnabled(false);
-		
-//		ProgressDialog progress = new ProgressDialog(this);
-//		progress.setTitle("Loading");
-//		progress.setMessage("Wait while loading...");
-//		progress.show();
-//		// To dismiss the dialog
-//		progress.dismiss();
+		mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
+		initializeRecentContacts();
 
 		/* Get the selected contacts from the caller */
 		Intent intent = getIntent(); 
-		prevSelectedContactList = intent.getParcelableArrayListExtra("SELECTED_CONTACTS");
+		mPrevSelectedContactList = intent.getParcelableArrayListExtra("SELECTED_CONTACTS");
 
 		//Generate list View from ArrayList
 		displayListView();
 		checkButtonClick();
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		saveRecentContacts();
+	}
+
+	private void clearRecentContacts() {
+		mRecentContacts.clear();
+		Gson gson = new Gson();
+		Editor prefsEditor = mPrefs.edit();
+		prefsEditor.remove("recentContacts");
+		prefsEditor.commit();
+	}
+	
+	private void initializeRecentContacts() {
+		Gson gson = new Gson();
+		String recentJson = mPrefs.getString("recentContacts", "");
+		java.lang.reflect.Type listType = new TypeToken<LinkedHashSet<Contact>>() {}.getType();
+		mRecentContacts = gson.fromJson(recentJson, listType);	
+		if (mRecentContacts == null)
+			mRecentContacts = new LinkedHashSet<Contact>();	
+		Log.d(TAG, "in initialize, recentContacts are " + mRecentContacts);
+	}
+
+	private void saveRecentContacts() {
+		for (Contact c: mSelectedContactList) {
+			c.setSelected(false);
+			mRecentContacts.add(c);
+		}
+		Log.d(TAG, "in save, recentContacts are " + mRecentContacts);
+		Gson gson = new Gson();
+		String recentContactsJSON = gson.toJson(mRecentContacts);
+		Editor prefsEditor = mPrefs.edit();
+		prefsEditor.putString("recentContacts", recentContactsJSON);
+		prefsEditor.commit();
+	}
+
 	private void displayListView(){
 		//Array list of contacts
-		contactList = new ArrayList<Contact>();
-		selectedContactList = new ArrayList<Contact>();
+		mContactList = new ArrayList<Contact>();
+		mSelectedContactList = new ArrayList<Contact>();
 		/* Debugging purposes */
 		//Contacts contact = new Contacts("15129653082234234234234234245", "AAAJeffrey asdfasdfasdfasdfasdfasdfasdfasdfasdfLi", false);
 		//contactList.add(contact);
@@ -72,14 +112,19 @@ public class ContactList extends Activity {
 		/* Iterate through phone and obtain all the contacts and store them into the ArrayList */
 		storeAllContacts();
 		/* Sort the list of contacts alphabetically */
-		Collections.sort(contactList);
+		Collections.sort(mContactList);
+		
+		for (Contact c: mRecentContacts) {
+			mContactList.remove(c);
+			mContactList.add(0, c);
+		}
 
 		//create an ArrayAdapter from the String Array
-		dataAdapter = new MyCustomAdapter(this,
-				R.layout.contact_info, contactList);
+		mDataAdapter = new MyCustomAdapter(this,
+				R.layout.contact_info, mContactList);
 		ListView listView = (ListView) findViewById(R.id.listView12);
 		// Assign adapter to ListView
-		listView.setAdapter(dataAdapter);
+		listView.setAdapter(mDataAdapter);
 	}
 
 	private void storeAllContacts(){
@@ -104,9 +149,9 @@ public class ContactList extends Activity {
 						//						if (displayNumber.length() > 12)
 						//							displayNumber = "Invalid Number";
 						Contact contact = new Contact(phoneNumber, name, false);
-						if (prevSelectedContactList != null && prevSelectedContactList.contains(contact))
+						if (mPrevSelectedContactList != null && mPrevSelectedContactList.contains(contact))
 							contact.setSelected(true);
-						contactList.add(contact);
+						mContactList.add(contact);
 						//		                  switch (phoneType) {
 						//		                        case Phone.TYPE_MOBILE:
 						//		                            Log.e(name + "(mobile number)", phoneNumber);
@@ -192,7 +237,7 @@ public class ContactList extends Activity {
 			public void onClick(View v) {
 				StringBuffer responseText = new StringBuffer();
 
-				ArrayList<Contact> contactsList = dataAdapter.contactsList;
+				ArrayList<Contact> contactsList = mDataAdapter.contactsList;
 				int selected_count = 0;
 				for (int i = 0; i < contactsList.size(); ++i){
 					Contact contacts = contactsList.get(i);
@@ -233,13 +278,13 @@ public class ContactList extends Activity {
 	public void goToShareMyLocation(View view){
 		addToSelectedList();
 		Intent returnIntent = new Intent();
-		returnIntent.putExtra("SELECTED_CONTACTS", selectedContactList);
+		returnIntent.putExtra("SELECTED_CONTACTS", mSelectedContactList);
 		setResult(RESULT_OK, returnIntent);
 		finish();
 	}
 
 	public void addToSelectedList(){
-		ArrayList<Contact> contactsList = dataAdapter.contactsList;
+		ArrayList<Contact> contactsList = mDataAdapter.contactsList;
 		int selected_count = 0;
 		int counter = 0;
 		for (int i = 0; i < contactsList.size(); ++i){
@@ -254,7 +299,7 @@ public class ContactList extends Activity {
 			if(contacts.isSelected()){
 				names[counter] = contacts.getName();
 				++counter;
-				selectedContactList.add(contacts);
+				mSelectedContactList.add(contacts);
 			}
 		}
 	}

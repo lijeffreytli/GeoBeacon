@@ -34,9 +34,7 @@ public class Preferences extends PreferenceActivity {
 		getPreferenceManager().setSharedPreferencesName("ttt_prefs");
 		addPreferencesFromResource(R.xml.preferences);
 		mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
-		mEmergencyContacts = getEmergencyContacts();
-		if (mEmergencyContacts == null)
-			mEmergencyContacts = new ArrayList<Contact>();
+		initializeContacts();
 
 		Preference button = (Preference)findPreference("emergencyContacts");
 		button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -55,7 +53,6 @@ public class Preferences extends PreferenceActivity {
 	}
 
 	// http://stackoverflow.com/questions/7145606/how-android-sharedpreferences-save-store-object
-
 	@Override
 	public void onActivityResult(int reqCode, int resultCode, Intent data) {
 		super.onActivityResult(reqCode, resultCode, data);
@@ -74,12 +71,13 @@ public class Preferences extends PreferenceActivity {
 		}
 	}
 
-	private ArrayList<Contact> getEmergencyContacts() {
+	private void initializeContacts() {
 		Gson gson = new Gson();
-		String json = mPrefs.getString("emergencyContacts", "");
+		String emergencyJson = mPrefs.getString("emergencyContacts", "");
 		java.lang.reflect.Type listType = new TypeToken<ArrayList<Contact>>() {}.getType();
-		ArrayList<Contact> emergencyContacts = gson.fromJson(json, listType);
-		return emergencyContacts;
+		mEmergencyContacts = gson.fromJson(emergencyJson, listType);	
+		if (mEmergencyContacts == null)
+			mEmergencyContacts = new ArrayList<Contact>();
 	}
 
 	// http://stackoverflow.com/questions/5202158/how-to-display-progress-dialog-before-starting-an-activity-in-android
