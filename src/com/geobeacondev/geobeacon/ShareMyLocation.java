@@ -42,7 +42,8 @@ public class ShareMyLocation extends ActionBarActivity {
 	private static final int DIALOG_ABOUT_ID = 1;
 	private static final int DIALOG_HELP_ID = 2;
 
-	private static final String DELIVERED_ACTION = "DELIVERED_SMS";
+	private static final String DELIVERED_ACTION = "SMS_DELIVERED";
+	private static final String SENT_ACTION = "SMS_SENT";
 
 	private Button btnSendSMS;
 	private String mMessage;
@@ -72,8 +73,6 @@ public class ShareMyLocation extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_share_my_location);
-		//setupUI(findViewById(R.id.parent));
-
 		Log.d(TAG, "in onCreate");
 
 		if (savedInstanceState != null) {
@@ -110,21 +109,8 @@ public class ShareMyLocation extends ActionBarActivity {
 		Bundle data = getIntent().getExtras();
 		mSelectedContacts = data.getParcelableArrayList("SELECTED_CONTACTS");
 
-		// deliverReceiver informed when message from our app delivered
+		registerReceiver(sentReceiver, new IntentFilter(SENT_ACTION));
 		registerReceiver(deliverReceiver, new IntentFilter(DELIVERED_ACTION));
-
-
-		/* DEBUGGING PURPOSES */
-		//		if (mSelectedContacts == null)
-		//			Toast.makeText(getBaseContext(), 
-		//					"No contacts selected.", 
-		//					Toast.LENGTH_LONG).show();
-		//		else {
-		//			Toast.makeText(getBaseContext(), 
-		//					String.valueOf(mSelectedContacts.size()) + " contact(s) selected.", 
-		//					Toast.LENGTH_LONG).show();
-		//		}
-
 
 		if (longStr != null) {
 			mLongitude = Double.parseDouble(longStr);	
@@ -132,9 +118,6 @@ public class ShareMyLocation extends ActionBarActivity {
 		if (latStr != null) {
 			mLatitude = Double.parseDouble(latStr);
 		}
-
-		//		Log.d(TAG, "In ShareMyLocation: Contact Name: " + mContactName);
-		//		Log.d(TAG, "In ShareMyLocation: Contact Number: " + mContactNumber);
 
 		/* Debugging Purposes */
 		if (mAddress != null){
@@ -166,7 +149,7 @@ public class ShareMyLocation extends ActionBarActivity {
 					AlertDialog.Builder builder = new AlertDialog.Builder(ShareMyLocation.this);
 					builder.setMessage("Please select a contact");
 					builder.setCancelable(true);
-					builder.setPositiveButton("Ok",
+					builder.setPositiveButton("OK",
 							new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							dialog.cancel();
@@ -184,10 +167,10 @@ public class ShareMyLocation extends ActionBarActivity {
 						/* Obtain the optional message if any */
 						// mOptionalMessage = (EditText)findViewById(R.id.editMessage);
 						if (mOptionalMessage == null || mOptionalMessage.getText().toString().isEmpty()){
-							Log.e(TAG, "No Optional Message");
+							Log.d(TAG, "No Optional Message");
 						} else {
 							mStrOptionalMessage = mOptionalMessage.getText().toString();
-							Log.e(TAG, "Optional Message" + mStrOptionalMessage);
+							Log.d(TAG, "Optional Message" + mStrOptionalMessage);
 						}
 
 						/* AlertDialog box for user confirmation */
@@ -209,9 +192,8 @@ public class ShareMyLocation extends ActionBarActivity {
 								if (mSelectedContacts != null){
 									for (Contact contact: mSelectedContacts) {
 										sendToContact(contact);
-										Intent returnMain = new Intent(getApplicationContext(), MainActivity.class);
-										startActivity(returnMain);
-										//finish();
+										//Intent returnMain = new Intent(getApplicationContext(), MainActivity.class);
+										//startActivity(returnMain);
 									}
 								} else {
 									Toast.makeText(getBaseContext(), 
@@ -249,7 +231,7 @@ public class ShareMyLocation extends ActionBarActivity {
 									/* Send the optional message */
 									sendSMS(phoneNo, mStrOptionalMessage);
 
-								//	finish(); //After sending the message, return back to MainActivity
+							//		finish(); //After sending the message, return back to MainActivity
 								} 
 
 
@@ -276,6 +258,7 @@ public class ShareMyLocation extends ActionBarActivity {
 		super.onDestroy();
 		Log.d(TAG, "in onDestroy");
 		unregisterReceiver(deliverReceiver);
+		unregisterReceiver(sentReceiver);
 	}
 
 
@@ -297,9 +280,11 @@ public class ShareMyLocation extends ActionBarActivity {
 		/* delivery confirmation code adapted from Mike's SMS 
 		 * automatic responder, ResponserService.java
 		 */
+		PendingIntent sentPI = PendingIntent.getBroadcast(this, 0,
+				new Intent(SENT_ACTION), PendingIntent.FLAG_UPDATE_CURRENT);
 		PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0,
-				new Intent(DELIVERED_ACTION), 0);
-		sms.sendTextMessage(phoneNumber, null, message, null, deliveredPI);
+				new Intent(DELIVERED_ACTION), PendingIntent.FLAG_UPDATE_CURRENT);
+		sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
 	}
 
 	public void getAdditionalMessage(View view) {
@@ -560,6 +545,32 @@ public class ShareMyLocation extends ActionBarActivity {
 		Log.d(TAG, "in on Resume");
 		createSoundPool();
 	}
+	
+    private BroadcastReceiver sentReceiver = new BroadcastReceiver() {
+        @Override public void onReceive(Context c, Intent in) {
+        	Log.d(TAG, "in onReceive method of sentReceiver");
+        	Log.d(TAG, "result code: " + getResultCode());
+        	Log.d(TAG, "result code equals Activity.RESULT_OK " + (getResultCode() == Activity.RESULT_OK));
+        	Log.d(TAG, "Context: " + c);
+        	Log.d(TAG, "Intent: " + in);
+        	if(getResultCode() == Activity.RESULT_OK && in.getAction().equals(SENT_ACTION)) {
+        	    Log.d(TAG, "Activity result ok");
+        	    smsSent();
+        	}
+        	else {
+        	    Log.d(TAG, "Activity result NOT ok");
+        	    smsFailed();
+        	}
+         }
+    };
+    
+    public void smsSent(){
+    	Toast.makeText(this, "SMS sent", Toast.LENGTH_SHORT).show();
+    }
+    
+    public void smsFailed(){
+    	Toast.makeText(this, "SMS failed to send", Toast.LENGTH_SHORT).show();
+    } 
 
 	private BroadcastReceiver deliverReceiver = new BroadcastReceiver() {
 		// this is never getting called
@@ -574,8 +585,6 @@ public class ShareMyLocation extends ActionBarActivity {
 	public void smsDelivered(){
 		Log.d(TAG, "in smsDelivered method");
 		Toast.makeText(this, "SMS delivered", Toast.LENGTH_LONG).show();
-		//finish(); //After sending the message, return back to MainActivity
 	}
-
 }
 

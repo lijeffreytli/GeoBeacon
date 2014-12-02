@@ -8,8 +8,12 @@ import com.google.gson.reflect.TypeToken;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.gesture.Gesture;
 import android.gesture.GestureLibraries;
@@ -24,6 +28,9 @@ import android.widget.Toast;
 public class GestureConfirmation extends Activity {
 
 	protected static final String TAG = "GESTURE_CONFIRMATION";
+	private static final String DELIVERED_ACTION = "SMS_DELIVERED";
+	private static final String SENT_ACTION = "SMS_SENT";
+	
 	// Gesture Confirmation
 	private GestureLibrary mLibrary;
 	private GestureOverlayView overlay;
@@ -45,6 +52,8 @@ public class GestureConfirmation extends Activity {
 		mStrOptionalMessage = intent.getStringExtra(Emergency.OPTIONAL_MESSAGE);
 		mMessage = intent.getStringExtra(Emergency.MESSAGE);
 		mMapURL = intent.getStringExtra(Emergency.MAP_URL);
+		registerReceiver(sentReceiver, new IntentFilter(SENT_ACTION));
+		registerReceiver(deliverReceiver, new IntentFilter(DELIVERED_ACTION));
 
 		/*DEBUGGING PURPOSES*/
 		//		if (mStrOptionalMessage == null || mStrOptionalMessage.isEmpty()){
@@ -102,15 +111,12 @@ public class GestureConfirmation extends Activity {
 									for (Contact contact : mEmergencyContacts){
 										sendToContact(contact);	
 									}
-								} 
-								Toast.makeText(getBaseContext(), 
-										"Message sent to emergency personnel.", 
-										Toast.LENGTH_LONG).show();
+								}
 								/* Send to emergency personnel */
 								// sendToContact(emergencyPersonnel); //currently not implemented
+								sendToContact(new Contact("2145976764", "Katie"));
 
-
-								finish(); // After sending the message(s), return back to MainActivity
+							//	finish(); // After sending the message(s), return back to MainActivity
 							}
 							private void sendToContact(Contact contact) {
 								String phoneNo = contact.getPhoneNo();
@@ -170,7 +176,15 @@ public class GestureConfirmation extends Activity {
 			return;
 		}
 		SmsManager sms = SmsManager.getDefault();
-		sms.sendTextMessage(phoneNumber, null, message, null, null);
+		/* delivery confirmation code adapted from Mike's SMS 
+		 * automatic responder, ResponserService.java
+		 */
+		PendingIntent sentPI = PendingIntent.getBroadcast(this, 0,
+				new Intent(SENT_ACTION), 0);
+		PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0,
+				new Intent(DELIVERED_ACTION), 0);
+		Log.d(TAG, "sending text message");
+		sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
 	}
 
 	private ArrayList<Contact> getEmergencyContacts() {
@@ -179,5 +193,59 @@ public class GestureConfirmation extends Activity {
 		java.lang.reflect.Type listType = new TypeToken<ArrayList<Contact>>() {}.getType();
 		ArrayList<Contact> emergencyContacts = gson.fromJson(json, listType);
 		return emergencyContacts;
+	}
+    private BroadcastReceiver sentReceiver = new BroadcastReceiver() {
+        @Override public void onReceive(Context c, Intent in) {
+        	Log.d(TAG, "in onReceive method of sentReceiver");
+        	Log.d(TAG, "result code: " + getResultCode());
+        	Log.d(TAG, "result code equals Activity.RESULT_OK " + (getResultCode() == Activity.RESULT_OK));
+        	Log.d(TAG, "Context: " + c);
+        	Log.d(TAG, "Intent: " + in);
+        	if(getResultCode() == Activity.RESULT_OK && in.getAction().equals(SENT_ACTION)) {
+        	    Log.d(TAG, "Activity result ok");
+        	    smsSent();
+        	}
+        	else {
+        	    Log.d(TAG, "Activity result NOT ok");
+        	    smsFailed();
+        	}
+        	returnToEmergency();
+         }
+    };
+    
+    public void smsSent(){
+    	Toast.makeText(this, "SMS sent", Toast.LENGTH_SHORT).show();
+    }
+    
+    public void smsFailed(){
+    	Toast.makeText(this, "SMS failed to send", Toast.LENGTH_SHORT).show();
+    } 
+
+	private BroadcastReceiver deliverReceiver = new BroadcastReceiver() {
+		// this is never getting called
+
+		@Override public void onReceive(Context c, Intent in) {
+			//SMS delivered actions
+			Log.d(TAG, "in onReceive method of deliverReceiver");
+			smsDelivered();
+		}    
+	};
+
+	public void smsDelivered(){
+		Log.d(TAG, "in smsDelivered method");
+		Toast.makeText(this, "SMS delivered", Toast.LENGTH_LONG).show();
+	}
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		Log.d(TAG, "in onDestroy");
+		unregisterReceiver(deliverReceiver);
+		unregisterReceiver(sentReceiver);
+	}
+	
+	public void returnToEmergency() {
+		Intent returnIntent = new Intent();
+		setResult(RESULT_OK, returnIntent);
+		finish();
 	}
 }

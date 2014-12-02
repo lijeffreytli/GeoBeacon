@@ -43,6 +43,8 @@ public class Emergency extends ActionBarActivity {
 	static final int DIALOG_ABOUT_ID = 1;
 	static final int DIALOG_HELP_ID = 2;
 
+	static final int GESTURE_CONFIRMATION_REQUEST = 219;
+
 	private Button btnSendSMS;
 	private String mMessage = "";
 	private String mAddress;
@@ -158,62 +160,7 @@ public class Emergency extends ActionBarActivity {
 					myIntent.putExtra(OPTIONAL_MESSAGE, mStrOptionalMessage);
 					myIntent.putExtra(MESSAGE, mMessage);
 					myIntent.putExtra(MAP_URL, mMapURL);
-					Emergency.this.startActivity(myIntent);
-
-					//						/* AlertDialog box for user confirmation */
-					//						AlertDialog.Builder builder1 = new AlertDialog.Builder(Emergency.this);
-					//						builder1.setMessage("Send emergency message?");
-					//						builder1.setCancelable(true);
-					//						builder1.setPositiveButton("Yes",
-					//								new DialogInterface.OnClickListener() {
-					//							public void onClick(DialogInterface dialog, int id) {
-					//								/* Debugging purposes - Send to ourselves */
-					//								//String phoneNo = mContactNumber;
-					//								String phoneKatie = "12145976764";
-					//								String phoneJeff = "15129653085";
-					//								String phoneJared = "14693942157";
-					//
-					//								sendSMS(phoneJeff, mStrOptionalMessage);
-					//								//sendSMS(phoneKatie, mStrOptionalMessage);
-					//								//sendSMS(phoneJared, mStrOptionalMessage);
-					//
-					//								if (mMessage.length() > 160) {
-					//									int i = 0;
-					//									while (i < mMessage.length()) {
-					//										int endIdx = Math.min(mMessage.length(), i + 160);
-					//										sendSMS(phoneJeff, mMessage.substring(i, endIdx));
-					//										//sendSMS(phoneKatie, mMessage.substring(i, endIdx));
-					//										//sendSMS(phoneJared, mMessage.substring(i, endIdx));
-					//										i += 160;
-					//									}
-					//									sendSMS(phoneJeff, mMapURL);
-					//									//sendSMS(phoneKatie, mMapURL);
-					//									//sendSMS(phoneJared, mMapURL);
-					//								} 
-					//								//							else if (mMessage.length() + mMapURL.length() < 160) {
-					//								//								mMessage = mMessage + "\n" + mMapURL;
-					//								//								sendSMS(phoneJeff, mMessage);
-					//								//								//sendSMS(phoneKatie, mMessage);
-					//								//								//sendSMS(phoneJared, mMessage);
-					//								else {
-					//									sendSMS(phoneJeff, mMessage);
-					//									//sendSMS(phoneKatie, mMessage);
-					//									//sendSMS(phoneJared, mMessage);
-					//									sendSMS(phoneJeff, mMapURL);
-					//									//sendSMS(phoneKatie, mMapURL);
-					//									//sendSMS(phoneJared, mMapURL);	
-					//								}
-					//								finish();
-					//							}
-					//						});
-					//						builder1.setNegativeButton("No",
-					//								new DialogInterface.OnClickListener() {
-					//							public void onClick(DialogInterface dialog, int id) {
-					//								dialog.cancel();
-					//							}
-					//						});
-					//						AlertDialog alert11 = builder1.create();
-					//						alert11.show();
+					Emergency.this.startActivityForResult(myIntent, GESTURE_CONFIRMATION_REQUEST);
 				}
 
 			}
@@ -354,7 +301,7 @@ public class Emergency extends ActionBarActivity {
 
 		switch (item.getItemId()){
 		case R.id.action_settings:
-			startActivityForResult(new Intent(this, Preferences.class),0);  
+			startActivityForResult(new Intent(this, Preferences.class), 0);  
 			return true;
 		case R.id.menu_about:
 			showDialog(DIALOG_ABOUT_ID);
@@ -441,6 +388,8 @@ public class Emergency extends ActionBarActivity {
 
 	public void onActivityResult(int reqCode, int resultCode, Intent data) {
 		super.onActivityResult(reqCode, resultCode, data);
+		if (reqCode == GESTURE_CONFIRMATION_REQUEST && resultCode == RESULT_OK)
+			finish();
 		if (resultCode ==  RESULT_CANCELED) {
 			// Apply potentially new settings
 			mSoundOn = mPrefs.getBoolean("sound", true);
