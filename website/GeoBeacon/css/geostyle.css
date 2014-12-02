@@ -1,3 +1,53 @@
-h1 {
+
+/* formatting classes */
+.center-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.center-text {
 	text-align: center;
+}
+
+.fit-parent {
+	width: 100%;
+}
+
+.spacer-sm {
+	height: 8px;
+}
+
+.spacer-m {
+	height: 16px;
+}
+
+.spacer-l {
+	height: 24px;
+}
+
+.spacer-xl {
+	height: 32px;
+}
+
+.footertext {
+	color: #fff;
+}
+
+/*  video div classes via 
+    http://benkaminski.com/2013/05/26/responsive-html5-css3-video-background-in-div-no-javascript/ */
+.header-unit {
+	border-right:none;
+	border-left: none;
+	position: relative;
+}
+#parallax-video {
+	top: 0%;
+	left: 0%;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+video.fillWidth {
+	width: 100%;
 }
