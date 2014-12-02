@@ -72,6 +72,9 @@ public class MainActivity extends FragmentActivity{
 	private boolean mSoundOn;
 	private int mClickSoundID;
 
+	
+	private boolean mContinuous;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -81,6 +84,7 @@ public class MainActivity extends FragmentActivity{
 
 		mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
 		mSoundOn = mPrefs.getBoolean("sound", true);
+		mContinuous = mPrefs.getBoolean("continuousUpdates", false);
 		mShowCoordinates = mPrefs.getBoolean("showCoordinates", false);
 		int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());		
 		if (resultCode == ConnectionResult.SUCCESS) {
@@ -130,6 +134,7 @@ public class MainActivity extends FragmentActivity{
 		if (mLocationManager == null) {
 			mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		} 
+		/*
 		// Start with better of two last known locations
 		if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			mLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -138,7 +143,7 @@ public class MainActivity extends FragmentActivity{
 		Location netLocation = null;
 		if (mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 			netLocation = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-			Log.d(TAG, "network last known location is " + mLocation);
+			Log.d(TAG, "network last known location is " + netLocation);
 		}
 		if (netLocation != null && isBetterLocation(netLocation)) {
 			mLocation = netLocation;
@@ -147,12 +152,10 @@ public class MainActivity extends FragmentActivity{
 		if (mLocation == null) {
 			generateAlert("Error: location information unavailable.", true);
 		}
+		
 		updateLocation(mLocation);
+*/
 
-		mGoogleMap.setMyLocationEnabled(true); 
-		mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
-		mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLatitude, mLongitude), 16));
-		new GetAddressTask().execute();
 		Log.d(TAG, "done with initialize map");
 
 	}
@@ -167,6 +170,10 @@ public class MainActivity extends FragmentActivity{
 			mLatitude = mLocation.getLatitude();
 			mLongitude = mLocation.getLongitude();
 			mAccuracy = mLocation.getAccuracy();
+			mGoogleMap.setMyLocationEnabled(true); 
+			mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
+			mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLatitude, mLongitude), 16));
+			new GetAddressTask().execute();
 		}
 	}
 
@@ -189,18 +196,24 @@ public class MainActivity extends FragmentActivity{
 				mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 			}
 			if (mLocationManager != null) {
-				Criteria criteria = new Criteria();
-				mProviders = mLocationManager.getProviders(true);
-
-				for (String provider: mProviders) {
-					Log.d(TAG, "requesting location updates from " + provider);
-					mLocationManager.requestLocationUpdates(provider, MIN_TIME, MIN_DIST, seeconLocationListener);
-				}
+				requestLocationUpdates();
 				initializeMap();
 			}
 		}
 	}
 
+	private void requestLocationUpdates() {
+		mProviders = mLocationManager.getProviders(true);
+
+		for (String provider: mProviders) {
+			Log.d(TAG, "requesting location updates from " + provider);
+			if (mContinuous)
+				mLocationManager.requestLocationUpdates(provider, MIN_TIME, MIN_DIST, seeconLocationListener);
+			else
+				mLocationManager.requestSingleUpdate(provider, seeconLocationListener, null);
+		}
+	}
+	
 
 	private void playSound(int soundID) {
 		if (mSoundOn)
@@ -218,7 +231,8 @@ public class MainActivity extends FragmentActivity{
 		if (mGoogleMap != null) {
 			Log.d(TAG, "removing location updates");
 			mGoogleMap.setMyLocationEnabled(false);
-			mLocationManager.removeUpdates(seeconLocationListener);
+			if (mContinuous) // should we always do this?
+				mLocationManager.removeUpdates(seeconLocationListener);
 		}
 	}
 
@@ -239,6 +253,7 @@ public class MainActivity extends FragmentActivity{
 			// Apply potentially new settings
 			mSoundOn = mPrefs.getBoolean("sound", true);
 			mShowCoordinates = mPrefs.getBoolean("showCoordinates", false);
+			mContinuous = mPrefs.getBoolean("continuousUpdates", false);
 		}
 	}
 
@@ -282,6 +297,10 @@ public class MainActivity extends FragmentActivity{
 			return true;
 		case R.id.menu_help:
 			showDialog(DIALOG_HELP_ID);
+			return true;
+			
+		case R.id.menu_refresh:
+			requestLocationUpdates();
 			return true;
 //		case R.id.menu_emergency_contacts:
 //			Intent intent = new Intent(this, EmergencyContacts.class);
@@ -345,15 +364,12 @@ public class MainActivity extends FragmentActivity{
 
 		// Check whether the new location fix is newer or older
 		long timeDelta = location.getTime() - mLocation.getTime();
-		boolean isSignificantlyNewer = timeDelta > 1000;
-		boolean isSignificantlyOlder = timeDelta < -1000;
+		boolean isSignificantlyNewer = timeDelta > 60000;
+		boolean isSignificantlyOlder = timeDelta < -60000;
 		boolean isNewer = timeDelta > 0;
 
-		// If it's been more than two minutes since the current location, use the new location
-		// because the user has likely moved
 		if (isSignificantlyNewer) {
 			return true;
-			// If the new location is more than two minutes older, it must be worse
 		} else if (isSignificantlyOlder) {
 			return false;
 		}
@@ -396,9 +412,11 @@ public class MainActivity extends FragmentActivity{
 
 			Geocoder gc = new Geocoder(getApplicationContext(), Locale.getDefault());   
 			try {
+				Log.d(TAG, "in doInBackground try");
 				List<Address> listAddresses = gc.getFromLocation(mLatitude, mLongitude, 1);
 				if (listAddresses != null && listAddresses.size() > 0) {
 					int maxAddressLine = listAddresses.get(0).getMaxAddressLineIndex();
+					Log.d(TAG, "max address line is " + maxAddressLine);
 					if (maxAddressLine < 2) {
 						mAddress = "Address unavailable";
 					} else {
@@ -406,6 +424,7 @@ public class MainActivity extends FragmentActivity{
 						// we are making assumptions here that the last line is always country which we don't want. hopefully that's okay
 						for (int i = 0; i < maxAddressLine; i++) {
 							String tmp = listAddresses.get(0).getAddressLine(i);
+							Log.v(TAG, "tmp is " + tmp);
 							if (tmp != null) {
 								if (i != 0)
 									mAddress += "\n";
@@ -448,11 +467,13 @@ public class MainActivity extends FragmentActivity{
 		@Override
 		public void onLocationChanged(Location loc) {
 			Log.d(TAG, "in onLocationChanged");
-
+			Log.d(TAG, "provider is " + loc.getProvider());
 			if (isBetterLocation(loc)) {
+				Log.d(TAG, "this location is better");
 				updateLocation(loc);
-				new GetAddressTask().execute();
 			}
+			else
+				Log.d(TAG, "this location is NOT better");
 		}
 		public void onProviderDisabled(String provider) {
 
@@ -464,9 +485,5 @@ public class MainActivity extends FragmentActivity{
 
 		}
 	};
-	@Override
-	public void onBackPressed() {
-		//Quick fix, disable the back button
-	}
 }
 

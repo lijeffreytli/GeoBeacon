@@ -247,7 +247,7 @@ public class ShareMyLocation extends ActionBarActivity {
 									/* Send the optional message */
 									sendSMS(phoneNo, mStrOptionalMessage);
 
-									finish(); //After sending the message, return back to MainActivity
+								//	finish(); //After sending the message, return back to MainActivity
 								} 
 
 
@@ -572,6 +572,7 @@ public class ShareMyLocation extends ActionBarActivity {
 	public void smsDelivered(){
 		Log.d(TAG, "in smsDelivered method");
 		Toast.makeText(this, "SMS delivered", Toast.LENGTH_LONG).show();
+		//finish(); //After sending the message, return back to MainActivity
 	}
 
 }

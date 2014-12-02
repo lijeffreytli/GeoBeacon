@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="continuousUpdates"
+        android:summary="Get continuous location updates"
+        android:title="Continuous Updates"
+        android:widgetLayout="@layout/custom_checkbox" />
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="sound"
