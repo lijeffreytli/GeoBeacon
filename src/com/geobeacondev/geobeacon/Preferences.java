@@ -49,7 +49,7 @@ public class Preferences extends PreferenceActivity {
 	private void launchContactList() {
 		ProgressDialog progress = new ProgressDialog(this);
 		progress.setMessage("Loading...");
-		new MyTask(progress).execute();
+		new LaunchContactsTask(progress).execute();
 	}
 
 	// http://stackoverflow.com/questions/7145606/how-android-sharedpreferences-save-store-object
@@ -81,10 +81,10 @@ public class Preferences extends PreferenceActivity {
 	}
 
 	// http://stackoverflow.com/questions/5202158/how-to-display-progress-dialog-before-starting-an-activity-in-android
-	public class MyTask extends AsyncTask<Void, Void, Void> {
+	public class LaunchContactsTask extends AsyncTask<Void, Void, Void> {
 		private ProgressDialog progress;
 
-		public MyTask(ProgressDialog progress) {
+		public LaunchContactsTask(ProgressDialog progress) {
 			this.progress = progress;
 		}
 

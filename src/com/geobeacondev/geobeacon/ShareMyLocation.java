@@ -3,9 +3,11 @@ package com.geobeacondev.geobeacon;
 import java.util.ArrayList;
 
 import com.geobeacondev.geobeacon.R;
+import com.geobeacondev.geobeacon.Preferences.LaunchContactsTask;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.app.PendingIntent;
@@ -18,6 +20,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.SmsManager;
@@ -263,9 +266,9 @@ public class ShareMyLocation extends ActionBarActivity {
 
 
 	public void getContactList(View view){
-		Intent intent = new Intent(this, ContactList.class);
-		intent.putExtra("SELECTED_CONTACTS", mSelectedContacts);
-		startActivityForResult(intent, PICK_CONTACT_REQUEST);
+		ProgressDialog progress = new ProgressDialog(this);
+		progress.setMessage("Loading...");
+		new LaunchContactsTask(progress).execute();
 	}
 
 	/* This method sends a text message to a specific phone number */
@@ -581,6 +584,30 @@ public class ShareMyLocation extends ActionBarActivity {
 	public void smsDelivered(){
 		Log.d(TAG, "in smsDelivered method");
 		Toast.makeText(this, "SMS delivered", Toast.LENGTH_LONG).show();
+	}
+	
+	// http://stackoverflow.com/questions/5202158/how-to-display-progress-dialog-before-starting-an-activity-in-android
+	public class LaunchContactsTask extends AsyncTask<Void, Void, Void> {
+		private ProgressDialog progress;
+
+		public LaunchContactsTask(ProgressDialog progress) {
+			this.progress = progress;
+		}
+
+		public void onPreExecute() {
+			progress.show();
+		}
+
+		public Void doInBackground(Void... unused) {
+			Intent intent = new Intent(ShareMyLocation.this, ContactList.class);
+			intent.putExtra("SELECTED_CONTACTS", mSelectedContacts);
+			startActivityForResult(intent, PICK_CONTACT_REQUEST);
+			return null;
+		}
+
+		public void onPostExecute(Void unused) {
+			progress.dismiss();
+		}
 	}
 }
 
