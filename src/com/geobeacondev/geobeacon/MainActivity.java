@@ -209,18 +209,18 @@ public class MainActivity extends FragmentActivity{
 				mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 			}
 			if (mLocationManager != null) {
-				requestLocationUpdates();
+				requestLocationUpdates(false);
 				initializeMap();
 			}
 		}
 	}
 
-	private void requestLocationUpdates() {
+	private void requestLocationUpdates(boolean isRefresh) {
 		List<String> providers = mLocationManager.getProviders(true);
 
 		for (String provider: providers) {
 			Log.d(TAG, "requesting location updates from " + provider);
-			if (mContinuous)
+			if (mContinuous && !isRefresh)
 				mLocationManager.requestLocationUpdates(provider, MIN_TIME, MIN_DIST, seeconLocationListener);
 			else
 				mLocationManager.requestSingleUpdate(provider, seeconLocationListener, null);
@@ -244,7 +244,7 @@ public class MainActivity extends FragmentActivity{
 		if (mGoogleMap != null) {
 			Log.d(TAG, "removing location updates");
 			mGoogleMap.setMyLocationEnabled(false);
-			if (mContinuous) // should we always do this?
+			if (mLocationManager != null)
 				mLocationManager.removeUpdates(seeconLocationListener);
 		}
 	}
@@ -311,9 +311,8 @@ public class MainActivity extends FragmentActivity{
 		case R.id.menu_help:
 			showDialog(DIALOG_HELP_ID);
 			return true;
-			
 		case R.id.menu_refresh:
-			requestLocationUpdates();
+			requestLocationUpdates(true);
 			return true;
 //		case R.id.menu_emergency_contacts:
 //			Intent intent = new Intent(this, EmergencyContacts.class);
