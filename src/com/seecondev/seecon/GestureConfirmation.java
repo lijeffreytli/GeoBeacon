@@ -97,15 +97,18 @@ public class GestureConfirmation extends Activity {
 						builder1.setPositiveButton("Yes",
 								new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
-								if (mEmergencyContacts != null){
+								if (mEmergencyContacts != null && mEmergencyContacts.size() != 0){
 									for (Contact contact : mEmergencyContacts){
 										sendToContact(contact);
 										
 									}
 								} else {
 									Toast.makeText(getBaseContext(), 
-											"No emergency contacts selected.", 
-											Toast.LENGTH_SHORT).show();
+											"Message sent to emergency personnel.", 
+											Toast.LENGTH_LONG).show();
+									/* Send to emergency personnel */
+//									sendToContact(emergencyPersonnel); //currently not implemented
+									finish();
 								}
 								
 								
