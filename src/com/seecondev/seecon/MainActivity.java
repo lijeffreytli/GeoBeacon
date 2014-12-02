@@ -1,5 +1,6 @@
 package com.seecondev.seecon;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -11,7 +12,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Address;
-import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
@@ -37,7 +37,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 
 
 public class MainActivity extends FragmentActivity{
@@ -45,35 +44,32 @@ public class MainActivity extends FragmentActivity{
 	static final int DIALOG_ABOUT_ID = 1;
 	static final int DIALOG_HELP_ID = 2;
 	private static final String TAG = "SEECON_DEBUG";
+	public final static String ADDRESS = "com.seecondev.seecon.ADDRESS";
+	public final static String LAT = "com.seecondev.seecon.LAT";
+	public final static String LONG = "com.seecondev.seecon.LONG";
+	private final static long MIN_TIME = 1000;
+	private final static float MIN_DIST = 3;
+	
 	private Location mLocation;
 	private String mAddress;
 	private double mLatitude;
 	private double mLongitude;
 	private float mAccuracy;
 	private LocationManager mLocationManager;
-	private List<String> mProviders;
 
-	public final static String ADDRESS = "com.seecondev.seecon.ADDRESS";
-	public final static String LAT = "com.seecondev.seecon.LAT";
-	public final static String LONG = "com.seecondev.seecon.LONG";
-	private final static long MIN_TIME = 1000;
-	private final static float MIN_DIST = 3;
-	private static boolean mLocationEnabled;
-	private static boolean mShowCoordinates;
-
+	// Preferences
 	private SharedPreferences mPrefs;
+	private boolean mLocationEnabled;
+	private boolean mShowCoordinates;
+	private boolean mContinuous;
 
 	// Google Map
 	private GoogleMap mGoogleMap;
-	private Marker mMarker;
 
 	// Sound
 	private SoundPool mSounds;	
 	private boolean mSoundOn;
 	private int mClickSoundID;
-
-	
-	private boolean mContinuous;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -89,14 +85,6 @@ public class MainActivity extends FragmentActivity{
 		int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());		
 		if (resultCode == ConnectionResult.SUCCESS) {
 			mLocationEnabled = true;
-			/* Load Google Maps */
-			try {
-				// Loading map
-				initializeMap();
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
 		else {
 			mLocationEnabled = false;
@@ -105,6 +93,30 @@ public class MainActivity extends FragmentActivity{
 		}
 	}
 
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		Log.d(TAG, "in onRestoreInstanceState");
+		super.onRestoreInstanceState(savedInstanceState);
+		mLocation = savedInstanceState.getParcelable("mLocation");
+		mAddress = savedInstanceState.getString("mAddress");
+		mLatitude = savedInstanceState.getDouble("mLatitude");
+		mLongitude = savedInstanceState.getDouble("mLongitude");
+		mAccuracy = savedInstanceState.getFloat("mAccuracy");
+		mLocationManager = savedInstanceState.getParcelable("mLocationManager");
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		Log.d(TAG, "in onSaveInstanceState");
+		super.onSaveInstanceState(outState);
+		outState.putParcelable("mLocation", mLocation);
+		outState.putString("mAddress", mAddress);
+		outState.putDouble("mLongitude", mLongitude);
+		outState.putDouble("mLatitude", mLatitude);
+		outState.putFloat("mAccuracy", mAccuracy);
+	}
+	
+	
 	public void generateAlert(String message, final boolean isFatal) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 		builder.setMessage(message);
@@ -203,9 +215,9 @@ public class MainActivity extends FragmentActivity{
 	}
 
 	private void requestLocationUpdates() {
-		mProviders = mLocationManager.getProviders(true);
+		List<String> providers = mLocationManager.getProviders(true);
 
-		for (String provider: mProviders) {
+		for (String provider: providers) {
 			Log.d(TAG, "requesting location updates from " + provider);
 			if (mContinuous)
 				mLocationManager.requestLocationUpdates(provider, MIN_TIME, MIN_DIST, seeconLocationListener);

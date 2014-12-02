@@ -373,7 +373,7 @@ public class ShareMyLocation extends ActionBarActivity {
 		alertDialogBuilder.setCustomTitle(tv);
 
 
-		alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+		alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				TextView mtvOptionalMessage = (TextView) findViewById(R.id.tvOptionalMessage);
 				mtvOptionalMessage.setText(mOptionalMessage.getText().toString());
