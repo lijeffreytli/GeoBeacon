@@ -147,7 +147,7 @@ public class MainActivity extends FragmentActivity{
 		if (mLocationManager == null) {
 			mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		} 
-		/*
+		
 		// Start with better of two last known locations
 		if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			mLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -167,7 +167,7 @@ public class MainActivity extends FragmentActivity{
 		}
 		
 		updateLocation(mLocation);
-*/
+
 
 		Log.d(TAG, "done with initialize map");
 
