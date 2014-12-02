@@ -108,6 +108,7 @@ public class GestureConfirmation extends Activity {
 											Toast.LENGTH_LONG).show();
 									/* Send to emergency personnel */
 //									sendToContact(emergencyPersonnel); //currently not implemented
+									
 									finish();
 								}
 								
