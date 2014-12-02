@@ -120,7 +120,7 @@ public class MainActivity extends FragmentActivity{
 		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 		builder.setMessage(message);
 		builder.setCancelable(true);
-		builder.setNegativeButton("Ok",
+		builder.setNegativeButton("OK",
 				new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
@@ -444,6 +444,7 @@ public class MainActivity extends FragmentActivity{
 				}
 				Log.d(TAG, "mAddress is " + mAddress);
 			} catch (Exception e) {
+				Log.d(TAG, "in the catch");
 				e.printStackTrace();
 			}
 			return null;
@@ -453,6 +454,7 @@ public class MainActivity extends FragmentActivity{
 		protected void onPostExecute(Void result) {
 			Log.d(TAG, "in GeoCoder onPostExecute");
 			if (mAddress == null) {
+				Log.d(TAG, "address is null");
 				generateAlert("Error: unable to retrieve address", false);
 			} else {
 				/* Set/Display the TextView on the Main Menu */

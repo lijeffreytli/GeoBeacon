@@ -73,23 +73,12 @@ public class ContactList extends Activity {
 		/* Sort the list of contacts alphabetically */
 		Collections.sort(contactList);
 
-		//create an ArrayAdaptar from the String Array
+		//create an ArrayAdapter from the String Array
 		dataAdapter = new MyCustomAdapter(this,
 				R.layout.contact_info, contactList);
 		ListView listView = (ListView) findViewById(R.id.listView12);
 		// Assign adapter to ListView
 		listView.setAdapter(dataAdapter);
-
-		listView.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				// When clicked, show a toast with the TextView text
-				Contact contact = (Contact) parent.getItemAtPosition(position);
-				Toast.makeText(getApplicationContext(),
-						"Clicked on Row: " + contact.getName(), 
-						Toast.LENGTH_LONG).show();
-			}
-		});
 	}
 
 	private void storeAllContacts(){
@@ -140,7 +129,7 @@ public class ContactList extends Activity {
 		}
 	}
 
-	private class MyCustomAdapter extends ArrayAdapter<Contact>{
+	public class MyCustomAdapter extends ArrayAdapter<Contact>{
 		private ArrayList<Contact> contactsList;
 
 		public MyCustomAdapter(Context context, int textViewResourceId, ArrayList<Contact> contactsList){
@@ -148,41 +137,39 @@ public class ContactList extends Activity {
 			this.contactsList = new ArrayList<Contact>();
 			this.contactsList.addAll(contactsList);
 		}
-		private class ViewHolder {
+		public class ViewHolder {
 			TextView phoneNo;
 			CheckBox name;
 		}
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			ViewHolder holder = null;
+			ViewHolder holder = new ViewHolder();
 			if (convertView == null){
 				LayoutInflater vi = (LayoutInflater)getSystemService(
 						Context.LAYOUT_INFLATER_SERVICE);
 				convertView = vi.inflate(R.layout.contact_info, null);
 
-				holder = new ViewHolder();
 				holder.phoneNo = (TextView) convertView.findViewById(R.id.code);
 				holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
+				final CheckBox fcb = holder.name;
 				convertView.setTag(holder);
 
-				holder.name.setOnClickListener( new View.OnClickListener() {  
+				holder.name.setOnClickListener(new View.OnClickListener() {  
 					public void onClick(View v) {  
-						CheckBox cb = (CheckBox) v ;  
+						CheckBox cb = (CheckBox)(v);  
 						Contact contact = (Contact) cb.getTag();  
-						String isChecked;
-						if (cb.isChecked() == true){
-							isChecked = "selected";
-						} else {
-							isChecked = "deselected";
-						}
-						Toast.makeText(getApplicationContext(),
-								cb.getText() +
-								" is " + isChecked, 
-								Toast.LENGTH_LONG).show();
 						contact.setSelected(cb.isChecked());
 					}  
 				});  
+				holder.phoneNo.setOnClickListener(new View.OnClickListener() {  
+					public void onClick(View v) {  
+						CheckBox cb = fcb; 
+						Contact contact = (Contact) cb.getTag();  
+						cb.setChecked(!cb.isChecked());
+						contact.setSelected(cb.isChecked());
+					}  
+				});
 			} 
 			else {
 				holder = (ViewHolder) convertView.getTag();
@@ -262,7 +249,7 @@ public class ContactList extends Activity {
 			}
 		}
 		String names[] = new String[selected_count];
-		for(int i=0;i<contactsList.size();i++){
+		for(int i = 0; i < contactsList.size(); i++){
 			Contact contacts = contactsList.get(i);
 			if(contacts.isSelected()){
 				names[counter] = contacts.getName();
