@@ -207,31 +207,31 @@ public class ShareMyLocation extends ActionBarActivity {
 							private void sendToContact(Contact contact) {
 								String phoneNo = contact.getPhoneNo();
 
-								mMessage = "My location: " + mMessage + " ";
-								mMapURL = "Map coordinates: " + mMapURL + " ";
+								String message = "My location: " + mMessage + " ";
+								String mapURL = "Map coordinates: " + mMapURL + " ";
 
 								if (phoneNo != null && phoneNo.length() > 0) {    
 									/* Send the user's location */
-									if (mMessage.length() > 160) {
+									if (message.length() > 160) {
 										int i = 0;
-										while (i < mMessage.length()) {
-											int endIdx = Math.min(mMessage.length(), i + 160);
-											sendSMS(phoneNo, mMessage.substring(i, endIdx));
+										while (i < message.length()) {
+											int endIdx = Math.min(message.length(), i + 160);
+											sendSMS(phoneNo, message.substring(i, endIdx));
 											i += 160;
 										}
-										sendSMS(phoneNo, mMapURL);
+										sendSMS(phoneNo, mapURL);
 									} 
-									else if (mMessage.length() + mMapURL.length() < 160) {
-										mMessage = mMessage + "\n" + mMapURL;
-										sendSMS(phoneNo, mMessage); 
+									else if (message.length() + mapURL.length() < 160) {
+										message = message + "\n" + mapURL;
+										sendSMS(phoneNo, message); 
 									} else {
-										sendSMS(phoneNo, mMessage);
-										sendSMS(phoneNo, mMapURL);
+										sendSMS(phoneNo, message);
+										sendSMS(phoneNo, mapURL);
 									}
 									/* Send the optional message */
 									sendSMS(phoneNo, mStrOptionalMessage);
 
-							//		finish(); //After sending the message, return back to MainActivity
+									finish(); //After sending the message, return back to MainActivity
 								} 
 
 
