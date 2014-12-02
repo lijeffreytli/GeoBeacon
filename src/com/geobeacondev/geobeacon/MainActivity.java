@@ -467,31 +467,30 @@ public class MainActivity extends FragmentActivity{
 		}
 	}
 
-}
 
-private final LocationListener seeconLocationListener =
-new LocationListener(){
+	private final LocationListener seeconLocationListener =
+			new LocationListener(){
 
-	@Override
-	public void onLocationChanged(Location loc) {
-		Log.d(TAG, "in onLocationChanged");
-		Log.d(TAG, "provider is " + loc.getProvider());
-		if (isBetterLocation(loc)) {
-			Log.d(TAG, "this location is better");
-			updateLocation(loc);
+		@Override
+		public void onLocationChanged(Location loc) {
+			Log.d(TAG, "in onLocationChanged");
+			Log.d(TAG, "provider is " + loc.getProvider());
+			if (isBetterLocation(loc)) {
+				Log.d(TAG, "this location is better");
+				updateLocation(loc);
+			}
+			else
+				Log.d(TAG, "this location is NOT better");
 		}
-		else
-			Log.d(TAG, "this location is NOT better");
-	}
-	public void onProviderDisabled(String provider) {
+		public void onProviderDisabled(String provider) {
 
-	}
-	public void onProviderEnabled(String provider) {
+		}
+		public void onProviderEnabled(String provider) {
 
-	}
-	public void onStatusChanged(String provider, int status, Bundle extras) {
+		}
+		public void onStatusChanged(String provider, int status, Bundle extras) {
 
-	}
-};
+		}
+	};
 }
 
