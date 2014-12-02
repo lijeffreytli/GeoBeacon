@@ -206,12 +206,11 @@ public class ContactList extends Activity {
 				} else {
 					String names[] = new String[selected_count];
 					int counter = 0;
-					for(int i=0;i<contactsList.size();i++){
+					for(int i = 0; i < contactsList.size(); i++){
 						Contact contacts = contactsList.get(i);
 						if(contacts.isSelected()){
 							names[counter] = contacts.getName();
 							++counter;
-							//selectedContactList.add(contacts);
 						}
 					}
 					AlertDialog.Builder alertDialog = new AlertDialog.Builder(ContactList.this);
