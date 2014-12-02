@@ -50,13 +50,12 @@ public class MainActivity extends FragmentActivity{
 	public final static String LONG = "com.geobeacondev.geobeacon.LONG";
 	private final static long MIN_TIME = 1000;
 	private final static float MIN_DIST = 3;
-	
+
 	private Location mLocation;
 	private String mAddress;
 	private double mLatitude;
 	private double mLongitude;
 	private float mAccuracy;
-	private LocationManager mLocationManager;
 
 	// Preferences
 	private SharedPreferences mPrefs;
@@ -71,7 +70,7 @@ public class MainActivity extends FragmentActivity{
 	private SoundPool mSounds;	
 	private boolean mSoundOn;
 	private int mClickSoundID;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -103,9 +102,8 @@ public class MainActivity extends FragmentActivity{
 		mLatitude = savedInstanceState.getDouble("mLatitude");
 		mLongitude = savedInstanceState.getDouble("mLongitude");
 		mAccuracy = savedInstanceState.getFloat("mAccuracy");
-		mLocationManager = savedInstanceState.getParcelable("mLocationManager");
 	}
-	
+
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		Log.d(TAG, "in onSaveInstanceState");
@@ -116,8 +114,8 @@ public class MainActivity extends FragmentActivity{
 		outState.putDouble("mLatitude", mLatitude);
 		outState.putFloat("mAccuracy", mAccuracy);
 	}
-	
-	
+
+
 	public void generateAlert(String message, final boolean isFatal) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 		builder.setMessage(message);
@@ -144,31 +142,28 @@ public class MainActivity extends FragmentActivity{
 			mGoogleMap = ((MapFragment) getFragmentManager().findFragmentById(
 					R.id.map)).getMap();
 		}
-		if (mLocationManager == null) {
-			mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		} 
-		
-		// Start with better of two last known locations
-		if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			mLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-			Log.d(TAG, "gps last known location is " + mLocation);
-		}
-		Location netLocation = null;
-		if (mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-			netLocation = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-			Log.d(TAG, "network last known location is " + netLocation);
-		}
-		if (netLocation != null && isBetterLocation(netLocation)) {
-			mLocation = netLocation;
-		}
-		Log.d(TAG, "we chose the following best location: " + mLocation);
 		if (mLocation == null) {
-			generateAlert("Error: location information unavailable.", true);
+			LocationManager locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+			// Start with better of two last known locations
+			if (locMgr.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+				mLocation = locMgr.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+				Log.d(TAG, "gps last known location is " + mLocation);
+			}
+			Location netLocation = null;
+			if (locMgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+				netLocation = locMgr.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+				Log.d(TAG, "network last known location is " + netLocation);
+			}
+			if (netLocation != null && isBetterLocation(netLocation)) {
+				mLocation = netLocation;
+			}
+			Log.d(TAG, "we chose the following best location: " + mLocation);
+			if (mLocation == null) {
+				generateAlert("Error: location information unavailable.", true);
+			}
 		}
-		
 		updateLocation(mLocation);
-
-
 		Log.d(TAG, "done with initialize map");
 
 	}
@@ -204,29 +199,29 @@ public class MainActivity extends FragmentActivity{
 		Log.d(TAG, "in onResume");
 		if (mLocationEnabled) {
 			createSoundPool();
-
-			if (mLocationManager == null) {
-				mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-			}
-			if (mLocationManager != null) {
-				requestLocationUpdates(false);
-				initializeMap();
-			}
 		}
+		requestLocationUpdates(false);
+		initializeMap();
 	}
 
 	private void requestLocationUpdates(boolean isRefresh) {
-		List<String> providers = mLocationManager.getProviders(true);
+
+		LocationManager locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
+		List<String> providers = locMgr.getProviders(true);
 
 		for (String provider: providers) {
 			Log.d(TAG, "requesting location updates from " + provider);
-			if (mContinuous && !isRefresh)
-				mLocationManager.requestLocationUpdates(provider, MIN_TIME, MIN_DIST, seeconLocationListener);
-			else
-				mLocationManager.requestSingleUpdate(provider, seeconLocationListener, null);
+			if (mContinuous && !isRefresh) {
+				locMgr.requestLocationUpdates(provider, MIN_TIME, MIN_DIST, seeconLocationListener);
+				Log.d(TAG, "requesting continuous location updates from " + provider);
+			}
+			if ((!mContinuous && !isRefresh && mAddress == null) || (!mContinuous && isRefresh)) {
+				Log.d(TAG, "requesting single location update from " + provider);
+				locMgr.requestSingleUpdate(provider, seeconLocationListener, null);
+			}
 		}
 	}
-	
+
 
 	private void playSound(int soundID) {
 		if (mSoundOn)
@@ -244,20 +239,20 @@ public class MainActivity extends FragmentActivity{
 		if (mGoogleMap != null) {
 			Log.d(TAG, "removing location updates");
 			mGoogleMap.setMyLocationEnabled(false);
-			if (mLocationManager != null)
-				mLocationManager.removeUpdates(seeconLocationListener);
+			LocationManager locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
+			locMgr.removeUpdates(seeconLocationListener);
 		}
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.main, menu);
-	    return super.onCreateOptionsMenu(menu);
-//
-//		// Inflate the menu; this adds items to the action bar if it is present.
-//		getMenuInflater().inflate(R.menu.main, menu);
-//		return true;
+		inflater.inflate(R.menu.main, menu);
+		return super.onCreateOptionsMenu(menu);
+		//
+		//		// Inflate the menu; this adds items to the action bar if it is present.
+		//		getMenuInflater().inflate(R.menu.main, menu);
+		//		return true;
 	}
 
 	@Override
@@ -289,7 +284,7 @@ public class MainActivity extends FragmentActivity{
 		intent.putExtra(LAT, Double.valueOf(mLatitude).toString());
 		startActivity(intent);
 	}
-	
+
 	public void getEmergencyContacts(View view){
 		Intent intent = new Intent(this, ContactList.class);
 		startActivity(intent);
@@ -314,14 +309,14 @@ public class MainActivity extends FragmentActivity{
 		case R.id.menu_refresh:
 			requestLocationUpdates(true);
 			return true;
-//		case R.id.menu_emergency_contacts:
-//			Intent intent = new Intent(this, EmergencyContacts.class);
-//			this.startActivity(intent);
-//			break;
-//		case R.id.menu_gesture_confirmation:
-//			Intent intent2 = new Intent(this, GestureConfirmation.class);
-//			this.startActivity(intent2);
-//			break;
+			//		case R.id.menu_emergency_contacts:
+			//			Intent intent = new Intent(this, EmergencyContacts.class);
+			//			this.startActivity(intent);
+			//			break;
+			//		case R.id.menu_gesture_confirmation:
+			//			Intent intent2 = new Intent(this, GestureConfirmation.class);
+			//			this.startActivity(intent2);
+			//			break;
 		}
 		return false;
 	}

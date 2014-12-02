@@ -382,10 +382,6 @@ public class ShareMyLocation extends ActionBarActivity {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.share_my_location, menu);
 		return super.onCreateOptionsMenu(menu);
-
-		//		// Inflate the menu; this adds items to the action bar if it is present.
-		//		getMenuInflater().inflate(R.menu.main, menu);
-		//		return true;
 	}
 
 	@Override

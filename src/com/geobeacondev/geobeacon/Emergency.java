@@ -78,9 +78,7 @@ public class Emergency extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_emergency);
-		//		setupUI(findViewById(R.id.parent));
 
 		if (savedInstanceState != null) {
 			mMessage = savedInstanceState.getString("mMessage");
