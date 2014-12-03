@@ -44,6 +44,7 @@ public class ShareMyLocation extends ActionBarActivity {
 
 	private static final int DIALOG_ABOUT_ID = 1;
 	private static final int DIALOG_HELP_ID = 2;
+	static final int DIALOG_GETTING_STARTED_ID = 3;
 
 	private static final String DELIVERED_ACTION = "SMS_DELIVERED";
 	private static final String SENT_ACTION = "SMS_SENT";
@@ -403,6 +404,9 @@ public class ShareMyLocation extends ActionBarActivity {
 		case R.id.menu_help:
 			showDialog(DIALOG_HELP_ID);
 			return true;
+		case R.id.menu_getting_started:
+			showDialog(DIALOG_GETTING_STARTED_ID);
+			return true;
 		}
 		return false;
 	}
@@ -443,6 +447,10 @@ public class ShareMyLocation extends ActionBarActivity {
 		case DIALOG_HELP_ID:
 			dialog = createHelpDialog(builder);
 			break;
+		case DIALOG_GETTING_STARTED_ID:
+			dialog = createGettingStartedDialog(builder);
+			break;
+		
 		}
 		return dialog;        
 	}
@@ -460,6 +468,15 @@ public class ShareMyLocation extends ActionBarActivity {
 		Context context = getApplicationContext();
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
 		View layout = inflater.inflate(R.layout.about_dialog, null); 		
+		builder.setView(layout);
+		builder.setPositiveButton("OK", null);
+		return builder.create();
+	}
+	
+	private Dialog createGettingStartedDialog(Builder builder) {
+		Context context = getApplicationContext();
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+		View layout = inflater.inflate(R.layout.getting_started_dialog, null); 		
 		builder.setView(layout);
 		builder.setPositiveButton("OK", null);
 		return builder.create();

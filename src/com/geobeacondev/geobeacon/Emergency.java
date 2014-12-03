@@ -42,6 +42,7 @@ public class Emergency extends ActionBarActivity {
 	// Dialog Menu
 	static final int DIALOG_ABOUT_ID = 1;
 	static final int DIALOG_HELP_ID = 2;
+	static final int DIALOG_GETTING_STARTED_ID = 3;
 
 	static final int GESTURE_CONFIRMATION_REQUEST = 219;
 
@@ -307,6 +308,9 @@ public class Emergency extends ActionBarActivity {
 		case R.id.menu_help:
 			showDialog(DIALOG_HELP_ID);
 			return true;
+		case R.id.menu_getting_started:
+			showDialog(DIALOG_GETTING_STARTED_ID);
+			return true;
 		}
 		return false;
 	}
@@ -322,6 +326,9 @@ public class Emergency extends ActionBarActivity {
 			break;
 		case DIALOG_HELP_ID:
 			dialog = createHelpDialog(builder);
+			break;
+		case DIALOG_GETTING_STARTED_ID:
+			dialog = createGettingStartedDialog(builder);
 			break;
 		}
 
@@ -347,6 +354,15 @@ public class Emergency extends ActionBarActivity {
 		Context context = getApplicationContext();
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
 		View layout = inflater.inflate(R.layout.about_dialog, null); 		
+		builder.setView(layout);
+		builder.setPositiveButton("OK", null);
+		return builder.create();
+	}
+
+	private Dialog createGettingStartedDialog(Builder builder) {
+		Context context = getApplicationContext();
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+		View layout = inflater.inflate(R.layout.getting_started_dialog, null); 		
 		builder.setView(layout);
 		builder.setPositiveButton("OK", null);
 		return builder.create();
