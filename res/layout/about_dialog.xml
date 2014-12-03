@@ -21,6 +21,8 @@
             android:text="GeoBeacon"
             android:textColor="@color/cyan"
             android:textSize="30sp" />
+        
+        
 
         <TextView
             android:layout_width="wrap_content"

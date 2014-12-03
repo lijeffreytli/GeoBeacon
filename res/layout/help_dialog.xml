@@ -20,6 +20,16 @@
             android:text="help"
             android:textColor="@color/cyan"
             android:textSize="30sp" />
+        
+        <ImageView
+                android:id="@+id/myImageView6"
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/divider" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -45,25 +55,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
-            <ImageView
-                android:id="@+id/myImageView2"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="5dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:src="@drawable/ic_action_refresh" />
-
             <TextView
+                android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/myImageView2"
                 android:layout_marginLeft="5dp"
                 android:text="Refresh"
                 android:textColor="@color/cyan"
                 android:textSize="22sp" />
 
+            <ImageView
+                android:id="@+id/myImageView2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/textView1"
+                android:src="@drawable/ic_action_refresh" />
         </RelativeLayout>
         
         <TextView
@@ -80,25 +89,25 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
-            <ImageView
-                android:id="@+id/myImageView"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="5dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:src="@drawable/emergency" />
-
             <TextView
+                android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/myImageView"
                 android:layout_marginLeft="5dp"
                 android:text="Emergency"
                 android:textColor="@color/cyan"
                 android:textSize="22sp" />
 
+            <ImageView
+                android:id="@+id/myImageView"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/textView2"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/emergency" />
         </RelativeLayout>
 
         <TextView
