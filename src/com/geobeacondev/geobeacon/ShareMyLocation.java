@@ -2,15 +2,12 @@ package com.geobeacondev.geobeacon;
 
 import java.util.ArrayList;
 
-import com.geobeacondev.geobeacon.R;
-import com.geobeacondev.geobeacon.Preferences.LaunchContactsTask;
-
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,8 +22,11 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.SmsManager;
 import android.text.Editable;
+import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -268,7 +268,14 @@ public class ShareMyLocation extends ActionBarActivity {
 
 	public void getContactList(View view){
 		ProgressDialog progress = new ProgressDialog(this);
-		progress.setMessage("Loading...");
+		String message = "Loading Contact List...";
+        SpannableString ss1=  new SpannableString(message);
+        ss1.setSpan(new RelativeSizeSpan(1.3f), 0, ss1.length(), 0);  
+        ss1.setSpan(new ForegroundColorSpan(Color.BLACK), 0, ss1.length(), 0); 
+		progress.setMessage(ss1);
+//		progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//		progress.setMessage(message);
+		progress.setTitle("Please wait");
 		new LaunchContactsTask(progress).execute();
 	}
 

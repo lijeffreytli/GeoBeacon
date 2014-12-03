@@ -4,16 +4,34 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    
+    <View
+        android:id="@+id/strut"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/findSelected2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="2.5dp"
+        android:layout_toLeftOf="@+id/strut"
+        android:background="@drawable/button_send"
+        android:text="Check selected"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnClearRecent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="2.5dp"
         android:layout_marginRight="5dp"
+        android:layout_toRightOf="@+id/strut"
         android:background="@drawable/button_send"
-        android:text="Check which contacts are selected"
+        android:text="Clear recent"
         android:textColor="#FFFFFF"
         android:textStyle="bold" />
 
@@ -22,13 +40,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/button_send"
-        android:text="OK"
         android:onClick="goToShareMyLocation"
+        android:text="OK"
         android:textColor="#FFFFFF"
         android:textStyle="bold" />
 
@@ -39,7 +57,6 @@
         android:layout_above="@+id/btnOk"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/findSelected2" >
-
     </ListView>
 
 </RelativeLayout>
