@@ -44,6 +44,7 @@ public class MainActivity extends FragmentActivity{
 
 	static final int DIALOG_ABOUT_ID = 1;
 	static final int DIALOG_HELP_ID = 2;
+	static final int DIALOG_GETTING_STARTED_ID = 3;
 	private static final String TAG = "GEOBEACON_DEBUG";
 	public final static String ADDRESS = "com.geobeacondev.geobeacon.ADDRESS";
 	public final static String LAT = "com.geobeacondev.geobeacon.LAT";
@@ -309,6 +310,9 @@ public class MainActivity extends FragmentActivity{
 		case R.id.menu_refresh:
 			requestLocationUpdates(true);
 			return true;
+		case R.id.menu_getting_started:
+			showDialog(DIALOG_GETTING_STARTED_ID);
+			return true;
 			//		case R.id.menu_emergency_contacts:
 			//			Intent intent = new Intent(this, EmergencyContacts.class);
 			//			this.startActivity(intent);
@@ -333,6 +337,9 @@ public class MainActivity extends FragmentActivity{
 		case DIALOG_HELP_ID:
 			dialog = createHelpDialog(builder);
 			break;
+		case DIALOG_GETTING_STARTED_ID:
+			dialog = createGettingStartedDialog(builder);
+			break;
 		}
 		return dialog;        
 	}
@@ -351,6 +358,15 @@ public class MainActivity extends FragmentActivity{
 		Context context = getApplicationContext();
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
 		View layout = inflater.inflate(R.layout.about_dialog, null); 		
+		builder.setView(layout);
+		builder.setPositiveButton("OK", null);
+		return builder.create();
+	}
+	
+	private Dialog createGettingStartedDialog(Builder builder) {
+		Context context = getApplicationContext();
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+		View layout = inflater.inflate(R.layout.getting_started_dialog, null); 		
 		builder.setView(layout);
 		builder.setPositiveButton("OK", null);
 		return builder.create();

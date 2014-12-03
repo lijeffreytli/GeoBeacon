@@ -9,6 +9,13 @@
         android:icon="@drawable/ic_action_settings"
         android:showAsAction="always"
         app:showAsAction="always"/>
+    
+    <item
+        android:id="@+id/menu_getting_started"
+        android:title="Getting Started"
+        android:showAsAction="never"
+        app:showAsAction="never"/>
+    
     <item
         android:id="@+id/menu_help"
         android:title="Help"
@@ -19,6 +26,7 @@
         android:title="About"
         android:showAsAction="never"
         app:showAsAction="never"/>
+    
     
     <item
         android:id="@+id/menu_refresh"

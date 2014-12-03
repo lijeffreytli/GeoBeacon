@@ -34,10 +34,10 @@
 
         <ImageView
             android:id="@+id/imageView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_gravity="center"
-            android:src="@drawable/seecon_icon" />
+            android:src="@drawable/geo_icon" />
 
         <TextView
             android:layout_width="wrap_content"
