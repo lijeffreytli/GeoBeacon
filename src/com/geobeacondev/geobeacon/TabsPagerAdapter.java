@@ -15,9 +15,9 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
  
         switch (index) {
         case 0:
-            return new RecentContactsFragment();
+        	return new AllContactsFragment();
         case 1:
-            return new AllContactsFragment();
+            return new RecentContactsFragment();
         }
         return null;
     }

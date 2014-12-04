@@ -43,7 +43,7 @@ ActionBar.TabListener {
 	private TabsPagerAdapter mAdapter;
 	private ActionBar actionBar;
 	// Tab titles
-	private String[] tabs = { "Recent", "All" };
+	private String[] tabs = { "All", "Recent" };
 
 	private ArrayList<Contact> mContactList;
 	private ArrayList<Contact> mSelectedContactList;
