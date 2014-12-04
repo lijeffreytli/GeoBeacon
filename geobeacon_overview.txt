@@ -1,0 +1,153 @@
+1. Team members' names and uteids:
+Jeffrey Li: jl47232
+Katie Ensign: krh524 
+Jared Hettinger: jah3735
+
+2. A list of features/use cases you completed
+
+   Main menu: the main menu of the app shows the user’s location in Google 
+   Maps along with buttons that implement the other app’s features. The main 
+   menu obtains the user’s location and displays it in an easy-to-read font. 
+   Everything that is displayed on the main menu (the Google Map, coordinates, 
+   and street address) are constantly being refreshed and updated for real-time 
+   use.
+
+   Button 1 (Share My Location): This feature allows the user to text a 
+   specific or multiple selected contact their location via SMS services. 
+   The text includes a link to a google map with a pin on the user's exact location. 
+   This allows anyone with internet access to receive the location, 
+   regardless of whether or not the have the app.
+
+   Button 2 ('Help!' Emergency): This feature allows the user to send a distress 
+   text to emergency personnel (911) as well as emergency contacts. Since
+   Travis County has not yet implemented text-to-911, this feature will initially
+   send to contacts on the user's emergency contact list.
+
+   The user has the ability to select from a list of pre-existing, generic 
+   emergency messages that correlates with a particular situation. If the 
+   message is not specific enough, the user has the option to add additional 
+   information about the situation.
+
+   When sending the message, the user is required to confirm the message with 
+   touch gestures. After correctly tracing the shape (circle), the user is able
+   to send the message. This feature ultimately prevents accidental messages
+   from being sent. In our prototype, we indicated that we wanted the user to
+   be able to draw a triangle or any other shape. But after researching the 
+   implementation of the GestureBuilder, it was determined that it was difficult
+   in gauging the exact orientation and position that the user starts drawing the
+   shape. Thus, the shape of a circle is used for simplification in development
+   respects as well as real-time usage.
+
+   Message confirmation:
+   When sending messages to friend or emergency contacts, an SMS listener 
+   is created that displays a toast in the success/failure of an SMS message.
+   
+   Menu options: About, Help, Getting Started
+   Displays a Dialog with text for these three menu options.
+
+   Menu options: Settings
+   The user has the option of editing the emergency contact list. This option
+   also provides the user with the option of toggling on/off the display
+   of the exact location coordinates on the main menu. This was included due
+   to the fact that most of the times, this information is useless to the
+   average users. We added sound, which is persistent, when clicking the Share
+   My Location and Emergency buttons as well as when sending a text message.
+
+3. A list of features/use cases form your application prototype that you did not complete
+
+   Alpha features:
+   In the prototype, we discussed how we wanted to implement a feature that 
+   allowed the user to also enter a number manually instead of selecting a
+   contact. However, we decided that this feature seemed impractical and 
+   would rarely (if ever) be used, especially in an emergency. Therefore we 
+   have not included this feature in either our alpha release or our beta 
+   release.
+   
+   All other alpha and beta features were implemented.
+
+
+4. a list of features/use cases you added that were not part of the application
+prototype
+
+   Word-count limit:
+   For sending standard SMS text messages through the Android SMSManager,
+   text messages that exceed the max length of 160 characters can not be sent.
+   In order to prevent this issue, a character count is displayed/updated with 
+   each new character input and displays an error message when the character count
+   has exceeded its max capacity.
+
+   Landscape-mode Support:
+   Through peer evaluations, it was noted that for smaller devices and screen
+   sizes, the orientation and the auto-adjustment of the display made some aspects
+   of the app harder to use. In order to faciliate the potential end-use of 
+   landscape mode, each activity is designed with an easy-to-use and pleasant 
+   landscape design.
+   
+   Sharing with Friend Contact List:
+   We implemented a list that allows the users to select one or more contacts 
+   to send location information. This was due to feedback from peer evaluators.
+   
+   Sharing with Emergency Contact List:
+   We implemented a new dynamic list that the user can select emergency contact list
+   members. In the case of a real-time emergency, the message will automatically be
+   sent to both emergency contacts as well as emergency personnel.
+   
+   Automatic/On-Demand Location Updates:
+   We became aware that Google Map's API is difficult to work with in the sense
+   of accessing and refreshing location updates. Through our initial implementation,
+   the app was continuously refreshing and grabbing new location coordinates, which
+   seemed inefficient and wasteful (battery-life) in the case of real-time use. 
+   Therefore, we implemented a Setting that allows the user to refresh coordinates
+   on-demand by clicking the Refresh button.
+   
+
+5. A list of the classes and major chunks you obtained from other 
+   sources/include a reference. (URL and title okay)
+
+from others
+   General:
+       all sound code - CS371M Tutorial 6
+       creating help and about dialogs - CS371M Tutorial 3
+       create an alert dialog - code adapted from http://stackoverflow.com/questions/2115758/how-to-display-alert-dialog-in-android
+
+   Main Activity:
+       isBetterLocation() and isSameProvider() - determines whether or not a
+           location update is better than the current location.
+           Adapted from android developer guide for location services:
+           http://developer.android.com/guide/topics/location/strategies.html
+       GetAddressTask class - class to implement async task for geocoding 
+           addresses. Adapted from stackoverflow post:
+           http://stackoverflow.com/questions/10198614/asynctask-geocoder-sometimes-crashes
+       note - we also were influenced by these tutorials: 
+           http://www.androidhive.info/2013/08/android-working-with-google-maps-v2/
+	       http://wptrafficanalyzer.in/blog/showing-current-location-in-google-maps-with-gps-and-locationmanager-in-android/
+
+   ShareMyLocation/Emergency: 
+       using intents - influenced by CS371M Tutorial 1
+       saving instance state - influenced by CS371M Tutorial 5
+       live updates of text length - code adapted from http://stackoverflow.com/questions/20736874/how-to-add-character-counter-to-sms-app
+       get a contact's phone number - code adapted from http://stackoverflow.com/questions/11218845/how-to-get-contacts-phone-number-in-android and http://stackoverflow.com/questions/9496350/pick-a-number-and-name-from-contacts-list-in-android-app
+       hide soft keyboard - code adapted from http://stackoverflow.com/questions/4165414/how-to-hide-soft-keyboard-on-android-after-clicking-outside-edittext
+       passing objects between activities - code adapted from http://stackoverflow.com/questions/13601883/how-to-pass-arraylist-of-objects-from-one-to-another-activity-using-intent-in-an
+       selecting multiple contacts and displaying within ArrayAdapter - code influenced and adapted from http://www.mysamplecode.com/2012/07/android-listview-custom-layout-filter.html
+
+   Settings:
+       code adapted from Tutorial 6
+       
+   Menu Action bar:
+       issue with icons not showing in action bar - http://stackoverflow.com/questions/23230939/items-not-showing-in-the-actionbar-with-showasaction-always
+
+6. A list of the classes and major chunks of code you completed yourself
+
+   All of the UI and design code (landscape mode, styling, button/icon design, etc)
+
+   Main Activity:
+       location setup - initializeMap() and updateLocation()
+       LocationListener
+       standard android code for onCreate(), onResume(), onPause(), etc.
+
+   ShareMyLocation/Emergency:
+        onCreate(), onCreateOptionsMenu(), onOptionsItemSelected(),
+        onCreateDialog()
+
+   Everything else, except what's mentioned in 6.

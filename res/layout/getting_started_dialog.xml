@@ -92,10 +92,30 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="(Selecting either of the buttons will require user-confirmation)\n"
+            android:text="\nImportant Information"
+            android:textColor="@color/katiewhite"
+            android:textIsSelectable="true"
+            android:textSize="22sp" />
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text=" • Selecting either of the buttons will require user-confirmation"
             android:textColor="@color/werkwhite"
             android:textIsSelectable="true"
             android:textSize="19sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text=" • For best results, use outdoors"
+            android:textColor="@color/werkwhite"
+            android:textIsSelectable="true"
+            android:textSize="19sp" />
+        
     </LinearLayout>
 
 </ScrollView>

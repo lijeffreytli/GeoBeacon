@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="Share My Location"
+            android:text="\nMissing Location Coordinates"
             android:textColor="@color/katiewhite"
             android:textIsSelectable="true"
             android:textSize="22sp" />
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text=" • Send your location information to one or more friends\n"
+            android:text=" • If the app is showing missing location coordinates, please turn on Network/WIFI or location/GPS services\n"
             android:textColor="@color/werkwhite"
             android:textIsSelectable="true"
             android:textSize="19sp" />
@@ -44,25 +44,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
-
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:text="Refresh"
-                android:textColor="@color/katiewhite"
-                android:textSize="22sp" />
-
-            <ImageView
-                android:id="@+id/myImageView2"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/textView1"
-                android:src="@drawable/ic_action_refresh" />
         </RelativeLayout>
         
         <TextView
@@ -70,76 +51,20 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text=" • Refresh your current location\n "
-            android:textColor="@color/white"
-            android:textIsSelectable="true"
-            android:textSize="19sp" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:text="Emergency"
-                android:textColor="@color/katiewhite"
-                android:textSize="22sp" />
-
-            <ImageView
-                android:id="@+id/myImageView"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/textView2"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/emergency" />
-        </RelativeLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text=" • Selecting the red emergency button opens a new page that allows optional description of the emergency situation "
-            android:textColor="@color/white"
-            android:textIsSelectable="true"
-            android:textSize="19sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="Note: The message will be sent to emergency personnel and emergency contacts and will require user confirmation\n"
-            android:textColor="@color/white"
-            android:textIsSelectable="true"
-            android:textSize="19sp" />
-        
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="Settings"
+            android:text="Sending Emergency Messages"
             android:textColor="@color/katiewhite"
             android:textIsSelectable="true"
             android:textSize="22sp" />
-
+        
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text=" • Set your emergency contact list\n"
-            android:textColor="@color/white"
+            android:text=" • In order to start sending emergency messages, you must first select your emergency contact list. This can be accessed in the Settings menu\n"
+            android:textColor="@color/werkwhite"
             android:textIsSelectable="true"
             android:textSize="19sp" />
-        
 
         <TextView
             android:layout_width="wrap_content"
