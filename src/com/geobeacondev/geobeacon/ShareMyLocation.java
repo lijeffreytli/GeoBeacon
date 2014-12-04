@@ -319,7 +319,7 @@ public class ShareMyLocation extends ActionBarActivity {
 		mOptionalMessage = new EditText(this);
 		mOptionalMessage.setText(currentMessage.getText());
 		mOptionalMessage.setSelection(mOptionalMessage.getText().length());
-		mOptionalMessage.setTextColor(Color.parseColor("#000000"));
+		mOptionalMessage.setTextColor(Color.parseColor("#F2AE72"));
 		tvCharCount = new TextView(this);
 		tvCharCount.setText(mOptionalMessage.getText().toString().length() + "/160");
 
@@ -375,7 +375,7 @@ public class ShareMyLocation extends ActionBarActivity {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				TextView mtvOptionalMessage = (TextView) findViewById(R.id.tvOptionalMessage);
 				mtvOptionalMessage.setText(mOptionalMessage.getText().toString());
-				mtvOptionalMessage.setTextColor(Color.parseColor("#FFFFFF"));
+				mtvOptionalMessage.setTextColor(Color.parseColor("#F2AE72"));
 			}
 		});
 
@@ -537,7 +537,7 @@ public class ShareMyLocation extends ActionBarActivity {
 
 	private void displaySelectedContacts(){
 		TextView text = (TextView) findViewById(R.id.selectedContacts);
-		text.setTextColor(getResources().getColor(R.color.white));
+		text.setTextColor(getResources().getColor(R.color.werkorange));
 		text.setMovementMethod(new ScrollingMovementMethod());
 		if (mSelectedContacts != null){
 			String output = getContactNames();
