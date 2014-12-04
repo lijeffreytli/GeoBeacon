@@ -17,6 +17,16 @@
     <item name="pitch_black" type="color">#FF000000</item>
  	<item name="transparent" type="color">#00000000</item>
  	<item name="grey" type="color">#444444</item>
+ 	
+ 	
+ 	<item name="werkteal" type="color">#4AAAA5</item>
+ 	<item name="werkwhite" type="color">#F3F3F3</item>
+ 	<item name="werkred" type="color">#E45F56</item>
+ 	<item name="werkgreen" type="color">#A3D39C</item>
+ 	<item name="werklightblue" type="color">#7ACCC8</item>
+ 	<item name="werknavy" type="color">#35404F</item>
+ 	<item name="werkorange" type="color">#F2AE72</item>
+ 	
     
     <integer-array name="androidcolors">
         <item>@color/blue</item>

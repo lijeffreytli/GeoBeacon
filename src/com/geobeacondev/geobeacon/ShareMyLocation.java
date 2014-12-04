@@ -133,7 +133,7 @@ public class ShareMyLocation extends ActionBarActivity {
 		mMessage = mAddress;
 		TextView currentAddress = (TextView)findViewById(R.id.editCompleteMessage);
 		currentAddress.setMovementMethod(new ScrollingMovementMethod());
-		currentAddress.setTextColor(getResources().getColor(R.color.cyan));
+		currentAddress.setTextColor(getResources().getColor(R.color.werkorange));
 		currentAddress.setText(mMessage);
 		/* Add the googlemaps link for the sent message */
 		mMapURL = "https://www.google.com/maps?z=18&t=m&q=loc:" + mLatitude + "+" + mLongitude;

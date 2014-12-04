@@ -115,7 +115,7 @@ public class Emergency extends ActionBarActivity {
 
 		TextView currentAddress = (TextView)findViewById(R.id.editEmergencyAddress);
 		currentAddress.setMovementMethod(new ScrollingMovementMethod());
-		currentAddress.setTextColor(getResources().getColor(R.color.cyan));
+		currentAddress.setTextColor(getResources().getColor(R.color.werkred));
 		currentAddress.setText(mAddress);
 
 		/* Obtain the view of the 'Send Button' */
@@ -195,7 +195,7 @@ public class Emergency extends ActionBarActivity {
 		TextView currentMessage = (TextView) findViewById(R.id.tvEmergencyOptionalMessage);
 		mOptionalMessage.setText(currentMessage.getText());
 		mOptionalMessage.setSelection(mOptionalMessage.getText().length());
-		mOptionalMessage.setTextColor(Color.parseColor("#000000"));
+		mOptionalMessage.setTextColor(Color.parseColor("#E45F56"));
 		tvCharCount = new TextView(this);
 		tvCharCount.setText(mOptionalMessage.getText().toString().length() + "/160");
 
@@ -254,7 +254,7 @@ public class Emergency extends ActionBarActivity {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				TextView mtvOptionalMessage = (TextView) findViewById(R.id.tvEmergencyOptionalMessage);
 				mtvOptionalMessage.setText(mOptionalMessage.getText().toString());
-				mtvOptionalMessage.setTextColor(Color.parseColor("#FFFFFF"));
+				mtvOptionalMessage.setTextColor(Color.parseColor("#E45F56"));
 			}
 		});
 
