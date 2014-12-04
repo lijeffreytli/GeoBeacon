@@ -13,11 +13,15 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.renderscript.Type;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.View;
 
@@ -48,7 +52,14 @@ public class Preferences extends PreferenceActivity {
 	
 	private void launchContactList() {
 		ProgressDialog progress = new ProgressDialog(this);
-		progress.setMessage("Loading...");
+		String message = "Loading Contact List...";
+        SpannableString ss1=  new SpannableString(message);
+        ss1.setSpan(new RelativeSizeSpan(1.3f), 0, ss1.length(), 0);  
+        ss1.setSpan(new ForegroundColorSpan(Color.BLACK), 0, ss1.length(), 0); 
+		progress.setMessage(ss1);
+//		progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//		progress.setMessage(message);
+		progress.setTitle("Please wait");
 		new LaunchContactsTask(progress).execute();
 	}
 
