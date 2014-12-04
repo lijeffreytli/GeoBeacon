@@ -60,15 +60,11 @@
             android:parentActivityName="com.geobeacondev.geobeacon.MainActivity" >
         </activity>
         <activity
-            android:name="com.geobeacondev.geobeacon.EmergencyContacts"
-            android:label="Select Emergency Contacts"
-            android:parentActivityName="com.geobeacondev.geobeacon.MainActivity" >
-        </activity>
-        <activity
             android:theme="@style/EmergencyTheme"
             android:name="com.geobeacondev.geobeacon.Emergency"
             android:label="@string/title_activity_emergency"
-            android:parentActivityName="com.geobeacondev.geobeacon.MainActivity" >
+            android:parentActivityName="com.geobeacondev.geobeacon.MainActivity"
+            android:launchMode="singleTop">
         </activity>
         <activity
             android:name="com.geobeacondev.geobeacon.Settings"
@@ -99,7 +95,8 @@
         </activity>
         <activity
             android:name="com.geobeacondev.geobeacon.GestureConfirmation"
-            android:label="@string/title_activity_gesture_confirmation" >
+            android:label="@string/title_activity_gesture_confirmation"
+            android:parentActivityName="com.geobeacondev.geobeacon.Emergency" >
         </activity>
         <activity
             android:name="com.geobeacondev.geobeacon.ContactList"

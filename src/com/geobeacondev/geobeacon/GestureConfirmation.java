@@ -47,7 +47,7 @@ public class GestureConfirmation extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_gesture_confirmation);
-
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		Intent intent = getIntent();
 		mStrOptionalMessage = intent.getStringExtra(Emergency.OPTIONAL_MESSAGE);
 		mMessage = intent.getStringExtra(Emergency.MESSAGE);

@@ -1,9 +1,8 @@
 package com.geobeacondev.geobeacon;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Locale;
-
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -30,8 +29,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.geobeacondev.geobeacon.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -249,10 +246,6 @@ public class MainActivity extends FragmentActivity{
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main, menu);
 		return super.onCreateOptionsMenu(menu);
-		//
-		//		// Inflate the menu; this adds items to the action bar if it is present.
-		//		getMenuInflater().inflate(R.menu.main, menu);
-		//		return true;
 	}
 
 	@Override
@@ -312,14 +305,6 @@ public class MainActivity extends FragmentActivity{
 		case R.id.menu_getting_started:
 			showDialog(DIALOG_GETTING_STARTED_ID);
 			return true;
-			//		case R.id.menu_emergency_contacts:
-			//			Intent intent = new Intent(this, EmergencyContacts.class);
-			//			this.startActivity(intent);
-			//			break;
-			//		case R.id.menu_gesture_confirmation:
-			//			Intent intent2 = new Intent(this, GestureConfirmation.class);
-			//			this.startActivity(intent2);
-			//			break;
 		}
 		return false;
 	}
@@ -352,7 +337,6 @@ public class MainActivity extends FragmentActivity{
 		return builder.create();
 	}
 
-
 	private Dialog createAboutDialog(Builder builder) {
 		Context context = getApplicationContext();
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -361,7 +345,7 @@ public class MainActivity extends FragmentActivity{
 		builder.setPositiveButton("OK", null);
 		return builder.create();
 	}
-	
+
 	private Dialog createGettingStartedDialog(Builder builder) {
 		Context context = getApplicationContext();
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
