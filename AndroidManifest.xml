@@ -96,10 +96,12 @@
         <activity
             android:name="com.geobeacondev.geobeacon.GestureConfirmation"
             android:label="@string/title_activity_gesture_confirmation"
+            android:theme="@style/EmergencyTheme"
             android:parentActivityName="com.geobeacondev.geobeacon.Emergency" >
         </activity>
         <activity
             android:name="com.geobeacondev.geobeacon.ContactList"
+            android:theme="@style/ContactListTheme"
             android:label="@string/title_activity_share_location_contacts" >
         </activity>
     </application>

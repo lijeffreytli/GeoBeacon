@@ -20,7 +20,7 @@
         android:background="@drawable/button_send_share_location"
         android:onClick="sendMessage"
         android:text="Send"
-        android:textColor="@color/katienavy"
+        android:textColor="#000000"
         android:textStyle="bold" />
 
     <TextView
@@ -65,8 +65,8 @@
 
     <Button
         android:id="@+id/buttonContacts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="35dp"
         android:layout_alignLeft="@+id/selectedContacts"
         android:layout_alignRight="@+id/selectedContacts"
         android:layout_below="@+id/editCompleteMessage"
@@ -74,7 +74,7 @@
         android:background="@drawable/button_send_share_location"
         android:onClick="getContactList"
         android:text="Select Contacts"
-        android:textColor="@color/katienavy"
+        android:textColor="#000000"
         android:textSize="20sp"
         android:textStyle="bold" />
 
