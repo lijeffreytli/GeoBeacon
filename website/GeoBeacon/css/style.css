@@ -44,10 +44,7 @@ section.module.parallax-1 {
   background-image: url("../img/scroll_images/austin_skyline.png");
 }
 section.module.parallax-2 {
-  background-image: url("../img/scroll_images/capitol2.png");
-}
-section.module.parallax-3 {
-  background-image: url("../img/demo/_small/3.jpg");
+  background-image: url("../img/scroll_images/austin_city_limits.jpg");
 }
 
 @media all and (min-width: 600px) {
