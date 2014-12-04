@@ -14,8 +14,8 @@
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:scrollHorizontally="true"
-        android:text="CheckBox"
-        android:textColor="@color/cyan"
+        android:text="Contact Info"
+        android:textColor="@color/katiewhite"
         android:textSize="16dp" />
 
     <TextView
@@ -27,7 +27,7 @@
         android:layout_alignParentRight="true"
         android:text="TextView"
         android:gravity="right"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/werkwhite"
         android:textSize="15dp" />
 
 </RelativeLayout>

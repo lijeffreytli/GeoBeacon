@@ -15,7 +15,6 @@
     <item name="cyan" type="color">#E600E2FF</item>
     <item name="white_opaque" type="color">#FFFFFFFF</item>
     <item name="pitch_black" type="color">#FF000000</item>
- 	<item name="transparent" type="color">#00000000</item>
  	<item name="grey" type="color">#444444</item>
  	
  	
@@ -35,6 +34,10 @@
  	<item name="katienavy" type="color">#192740</item>
  	<!-- old katie's red: D96459 -->
     <!--  -->
+    
+    
+    <color name="transparent">#00000000</color>
+    <color name="tab_highlight">#ff9ecfbf</color>
  	
     <integer-array name="androidcolors">
         <item>@color/blue</item>

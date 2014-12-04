@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fa6a6a"
+    android:background="@color/katieteal"
     android:orientation="vertical" >
 
     <View
@@ -23,7 +23,7 @@
         android:background="@drawable/button_send"
         android:onClick="exitActivity"
         android:text="OK"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/katieteal"
         android:textStyle="bold" />
 
     <ListView
