@@ -221,7 +221,7 @@ public class MainActivity extends FragmentActivity{
 
 
 	private void playSound(int soundID) {
-		if (mSoundOn)
+		if (mSoundOn && mSounds != null)
 			mSounds.play(soundID, 1, 1, 1, 0, 1);
 	}
 

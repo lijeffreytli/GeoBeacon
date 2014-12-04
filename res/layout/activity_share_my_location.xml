@@ -14,9 +14,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/button_send_share_location"
         android:onClick="sendMessage"
         android:text="Send"
@@ -72,14 +72,14 @@
         android:layout_below="@+id/editCompleteMessage"
         android:layout_marginBottom="5dp"
         android:background="@drawable/button_send_share_location"
-        
         android:onClick="getContactList"
         android:text="Select Contacts"
-        android:textStyle="bold" 
+        android:textColor="@color/katienavy"
         android:textSize="20sp"
-        android:textColor="@color/katienavy" />
+        android:textStyle="bold" />
 
     <!--  -->
+
     <TextView
         android:id="@+id/selectedContacts"
         android:layout_width="250dp"

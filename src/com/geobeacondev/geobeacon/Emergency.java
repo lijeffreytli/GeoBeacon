@@ -401,6 +401,16 @@ public class Emergency extends ActionBarActivity {
 		super.onResume();
 		createSoundPool();
 	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		Log.d(TAG, "in onPause");
+		if(mSounds != null) {
+			mSounds.release();
+			mSounds = null;
+		}	
+	}
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {

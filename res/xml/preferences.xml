@@ -9,6 +9,7 @@
         android:title="Continuous Updates"
         android:widgetLayout="@layout/custom_checkbox" />
     <CheckBoxPreference
+        android:id="@+id/soundCB"
         android:defaultValue="true"
         android:key="sound"
         android:summary="Turn the sound on or off"

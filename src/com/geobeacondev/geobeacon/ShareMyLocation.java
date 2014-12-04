@@ -101,7 +101,6 @@ public class ShareMyLocation extends ActionBarActivity {
 		}
 
 		mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
-		mSoundOn = mPrefs.getBoolean("sound", true);
 
 		/* Get the location information from MainActivity */
 		Intent intent = getIntent();
@@ -196,8 +195,6 @@ public class ShareMyLocation extends ActionBarActivity {
 								if (mSelectedContacts != null){
 									for (Contact contact: mSelectedContacts) {
 										sendToContact(contact);
-										//Intent returnMain = new Intent(getApplicationContext(), MainActivity.class);
-										//startActivity(returnMain);
 									}
 								} else {
 									Toast.makeText(getBaseContext(), 
@@ -267,6 +264,7 @@ public class ShareMyLocation extends ActionBarActivity {
 
 
 	public void getContactList(View view){
+		playSound(mSendSoundID);
 		ProgressDialog progress = new ProgressDialog(this);
 		String message = "Loading Contact List...";
         SpannableString ss1=  new SpannableString(message);
@@ -498,22 +496,6 @@ public class ShareMyLocation extends ActionBarActivity {
 		case (PICK_CONTACT_REQUEST) :
 			if (resultCode == Activity.RESULT_OK) {
 				mSelectedContacts = data.getParcelableArrayListExtra("SELECTED_CONTACTS");
-				//			ArrayList<Contact> newContacts = data.getParcelableArrayListExtra("SELECTED_CONTACTS");
-				//			if (mSelectedContacts == null) {
-				//				mSelectedContacts = new ArrayList<Contact>();
-				//			}
-				//			// basically need to get the intersection of the two sets
-				//			
-				//			// add any new contacts we didn't have
-				//			for (Contact contact: newContacts) {
-				//				if (!mSelectedContacts.contains(contact))
-				//					mSelectedContacts.add(contact);
-				//			}
-				//			// remove any contacts that were unselected
-				//			for (Contact oldContact: mSelectedContacts) {
-				//				if (!newContacts.contains(oldContact))
-				//					mSelectedContacts.remove(oldContact);
-				//			}
 				displaySelectedContacts();
 			}
 		break;
@@ -558,7 +540,7 @@ public class ShareMyLocation extends ActionBarActivity {
 	}
 
 	private void playSound(int soundID) {
-		if (mSoundOn)
+		if (mSoundOn && mSounds != null)
 			mSounds.play(soundID, 1, 1, 1, 0, 1);
 	}
 
@@ -566,7 +548,18 @@ public class ShareMyLocation extends ActionBarActivity {
 	public void onResume() {
 		super.onResume();
 		Log.d(TAG, "in on Resume");
+		mSoundOn = mPrefs.getBoolean("sound", true);
 		createSoundPool();
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		Log.d(TAG, "in onPause");
+		if(mSounds != null) {
+			mSounds.release();
+			mSounds = null;
+		}	
 	}
 	
     private BroadcastReceiver sentReceiver = new BroadcastReceiver() {

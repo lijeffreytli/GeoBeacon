@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import android.app.ActionBar;
-import android.app.ProgressDialog;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
 import android.content.ContentResolver;
@@ -16,11 +15,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
-import android.os.AsyncTask;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -57,6 +56,11 @@ ActionBar.TabListener {
 	
 	private ListView allLV;
 	private ListView recentLV;
+	
+	// Sound
+	private SoundPool mSounds;	
+	private boolean mSoundOn;
+	private int mClickSoundID;
 
 	private static final String TAG = "GEOBEACON_CONTACT_LIST";
 
@@ -120,6 +124,36 @@ ActionBar.TabListener {
 		recentLV.setAdapter(mRecentDataAdapter);
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		Log.d(TAG, "in on Resume");
+		createSoundPool();
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		Log.d(TAG, "in onPause");
+		if(mSounds != null) {
+			mSounds.release();
+			mSounds = null;
+		}	
+	}
+	
+	private void createSoundPool() {
+		mSoundOn = mPrefs.getBoolean("sound", true);
+		mSounds = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+		// 2 = maximum sounds to play at the same time,
+		// AudioManager.STREAM_MUSIC is the stream type typically used for games
+		// 0 is the "the sample-rate converter quality. Currently has no effect. Use 0 for the default."
+		mClickSoundID = mSounds.load(this, R.raw.click, 1);
+	}
+	
+	private void playSound(int soundID) {
+		if (mSoundOn && mSounds != null)
+			mSounds.play(soundID, 1, 1, 1, 0, 1);
+	}
 
 	@Override
 	public void onDestroy() {
@@ -145,6 +179,7 @@ ActionBar.TabListener {
 
 	public void exitActivity(View v) {
 		Log.d(TAG, "exitActivity");
+		playSound(mClickSoundID);
 		updateSelectedContacts();
 		saveRecentContacts();
 
