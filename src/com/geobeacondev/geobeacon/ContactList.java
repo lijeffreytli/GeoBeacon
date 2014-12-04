@@ -317,12 +317,13 @@ ActionBar.TabListener {
 				holder.name.setOnClickListener(new View.OnClickListener() {  
 					public void onClick(View v) {  
 						CheckBox cb = (CheckBox)(v);  
-						Contact contact = (Contact) cb.getTag();  
-						contact.setSelected(cb.isChecked());
+						Contact contact = (Contact) cb.getTag();
+						boolean value = cb.isChecked();
+						contact.setSelected(value);
 						int i = mContactList.indexOf(contact);
 						if (i != -1) {
-							Log.d(TAG, "setting allcontacts[" + i + "] to " + cb.isChecked());
-							mContactList.get(i).setSelected(cb.isChecked());
+							Log.d(TAG, "setting allcontacts[" + i + "] to " + value);
+							mContactList.get(i).setSelected(value);
 							mAllDataAdapter = new AllContactsAdapter(a, R.layout.contact_info, mContactList);
 							allLV.setAdapter(mAllDataAdapter);
 							//new ReloadAllTask().execute();
@@ -336,11 +337,12 @@ ActionBar.TabListener {
 						CheckBox cb = fcb; 
 						Contact contact = (Contact) cb.getTag();  
 						cb.setChecked(!cb.isChecked());
-						contact.setSelected(cb.isChecked());
+						boolean value = cb.isChecked();
+						contact.setSelected(value);
 						int i = mContactList.indexOf(contact);
 						if (i != -1) {
-							Log.d(TAG, "setting allcontacts[" + i + "] to " + cb.isChecked());
-							mContactList.get(i).setSelected(cb.isChecked());
+							Log.d(TAG, "setting allcontacts[" + i + "] to " + value);
+							mContactList.get(i).setSelected(value);
 							mAllDataAdapter = new AllContactsAdapter(a, R.layout.contact_info, mContactList);
 							allLV.setAdapter(mAllDataAdapter);
 							//new ReloadAllTask().execute();
