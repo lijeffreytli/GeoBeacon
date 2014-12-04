@@ -27,7 +27,13 @@
  	<item name="werknavy" type="color">#35404F</item>
  	<item name="werkorange" type="color">#F2AE72</item>
  	
+ 	<item name="katiewhite" type="color">#EBE6C5</item>
+ 	<item name="katieteal" type="color">#448D7A</item>
+ 	<item name="katiegreen" type="color">#88A764</item>
+ 	<item name="katieorange" type="color">#D8A027</item>
+ 	<item name="katiered" type="color">#D96459</item>
     
+ 	
     <integer-array name="androidcolors">
         <item>@color/blue</item>
         <item>@color/purple</item>

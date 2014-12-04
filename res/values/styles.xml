@@ -50,13 +50,13 @@
     </style>
 
     <!-- Main Page Theme -->
-    <style name="MainTheme" parent="AppBaseTheme">
+    <style name="MainTheme" parent="@android:style/Theme.Holo.Light">
 
         <!-- Action bar customization -->
         <item name="android:actionBarStyle">@style/MainActionBar</item>
 
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-        <item name="android:windowBackground">@color/werkwhite</item>
+        <item name="android:windowBackground">@color/katieteal</item>
 
         <!-- For the resting Spinner style -->
         <item name="android:spinnerItemStyle">@style/spinnerItemStyle</item>
@@ -67,12 +67,12 @@
 
     <!-- Main Page Theme ActionBar -->
     <style name="MainActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
-        <item name="android:background">#4AAAA5</item>
+        <item name="android:background">@color/katiewhite</item>
         <item name="android:titleTextStyle">@style/MainActionBarTextColor</item>
     </style>
 
     <!-- Share My Location Theme -->
-    <style name="ShareMyLocationTheme" parent="AppBaseTheme">
+    <style name="ShareMyLocationTheme" parent="Theme.AppCompat.Light">
 
         <!-- Action bar customization -->
         <item name="android:actionBarStyle">@style/ShareMyLocationActionBar</item>
@@ -95,7 +95,7 @@
     </style>
 
     <!-- Emergency Theme -->
-    <style name="EmergencyTheme" parent="AppBaseTheme">
+    <style name="EmergencyTheme" parent="Theme.AppCompat.Light">
 
         <!-- Action bar customization -->
         <item name="android:actionBarStyle">@style/EmergencyActionBar</item>
@@ -118,7 +118,7 @@
     </style>
     
     <!-- Setting Theme -->
-    <style name="SettingTheme" parent="AppBaseTheme">
+    <style name="SettingTheme" parent="Theme.AppCompat.Light">
 
         <!-- Action bar customization -->
         <item name="android:actionBarStyle">@style/SettingActionBar</item>
@@ -147,7 +147,7 @@
     
     <!-- Main Activity Title Text Color -->
     <style name="MainActionBarTextColor" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/werkwhite</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     
     <!-- ShareMyLocation Title Text Color -->

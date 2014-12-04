@@ -3,36 +3,26 @@
     <item android:state_pressed="true" >
         <shape>
             <solid
-                android:color="#EEC80000" />
+                android:color="#EED96459" />
             <stroke
                 android:width="1dp"
-                android:color="#980000" />
-            <corners
-        		android:bottomRightRadius="8dip"
-        		android:bottomLeftRadius="8dip"  
-   				android:topRightRadius="8dip"
-        		android:topLeftRadius="8dip" />
+                android:color="#D96459" />
 
         </shape>
     </item>
     <item>
         <shape>
             <gradient
-                android:startColor="#DEC80000"
-                android:endColor="#DE980000"
+                android:startColor="#DED96459"
+                android:endColor="#DEec6659"
                 android:angle="270" />
             <stroke
                 android:width="1dp"
-                android:color="#980000" />
+                android:color="#D96459" />
             <size 
 				android:width="40dp"
 				android:height="40dp"
                 />
-            <corners
-                android:bottomRightRadius="8dip"
-        		android:bottomLeftRadius="8dip"  
-   				android:topRightRadius="8dip"
-        		android:topLeftRadius="8dip" />
 
         </shape>
     </item>
