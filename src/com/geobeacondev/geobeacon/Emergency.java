@@ -81,7 +81,9 @@ public class Emergency extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_emergency);
 
+		Log.d(TAG, "in onCreate");
 		if (savedInstanceState != null) {
+			Log.d(TAG, "saved instance state wasn't null in oncreate");
 			mMessage = savedInstanceState.getString("mMessage");
 			TextView tv = (TextView) findViewById(R.id.tvEmergencyOptionalMessage);
 			tv.setText(savedInstanceState.getCharSequence("mOptionalMessage"));	
@@ -164,6 +166,19 @@ public class Emergency extends ActionBarActivity {
 
 			}
 		});
+	}
+	
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		Log.d(TAG, "in restoreinstancestate");
+		mMessage = savedInstanceState.getString("mMessage");
+		TextView tv = (TextView) findViewById(R.id.tvEmergencyOptionalMessage);
+		tv.setText(savedInstanceState.getCharSequence("mOptionalMessage"));	
+		mAddress = savedInstanceState.getString("mAddress");
+		mLongitude = savedInstanceState.getDouble("mLongitude");
+		mLatitude = savedInstanceState.getDouble("mLatitude");
+		mMapURL = savedInstanceState.getString("mMapURL");
 	}
 
 	private ArrayList<Contact> getEmergencyContacts() {
@@ -390,6 +405,7 @@ public class Emergency extends ActionBarActivity {
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
+		Log.d(TAG, "in onsaveinstancestate");
 
 		outState.putString("mMessage", mMessage);
 		TextView tv = (TextView) findViewById(R.id.tvEmergencyOptionalMessage);

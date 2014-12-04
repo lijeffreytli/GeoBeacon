@@ -159,11 +159,36 @@ ActionBar.TabListener {
 	}
 
 	private void clearRecentContacts() {
+		boolean needsUpdate = false;
+		for (Contact contact: mRecentContacts) {
+			if (contact.selected) {
+				Log.d(TAG, "contact " + contact.contactName + " was selected, clearing check in all contacts too");
+				needsUpdate = true;
+				//contact.setSelected(false);
+				int i = mContactList.indexOf(contact);
+				if (i != -1) {
+					Log.d(TAG, "setting allcontacts[" + i + "] to " + false);
+					mContactList.get(i).setSelected(false);
+				}
+				i = mPrevSelectedContactList.indexOf(contact);
+				if (i != -1) {
+					Log.d(TAG, "removing selected contacts[" + i + "]");
+					mPrevSelectedContactList.remove(i);
+				}
+			}	
+		}
+		if (needsUpdate) {
+			Log.d(TAG, "needs update, so we are updating");
+			mAllDataAdapter = new AllContactsAdapter(a, R.layout.contact_info, mContactList);
+			allLV.setAdapter(mAllDataAdapter);
+		}
 		mRecentContacts.clear();
 		Gson gson = new Gson();
 		Editor prefsEditor = mPrefs.edit();
 		prefsEditor.remove("recentContacts");
 		prefsEditor.commit();
+		mRecentDataAdapter = new RecentContactsAdapter(a, R.layout.contact_info, mRecentContacts);
+		recentLV.setAdapter(mRecentDataAdapter);
 	}
 
 	private void initRecentContacts() {
@@ -234,6 +259,8 @@ ActionBar.TabListener {
 						Contact contact = (Contact) cb.getTag();
 						boolean value = cb.isChecked();
 						contact.setSelected(value);
+						String s = value ? "checking" : "unchecking";
+						Log.d(TAG, s + " " + contact.contactName);
 						int i = mRecentContacts.indexOf(contact);
 						if (i != -1) {
 							Log.d(TAG, "setting recentcontacts[" + i + "] to " + value);
@@ -241,6 +268,12 @@ ActionBar.TabListener {
 						} else {
 							mRecentContacts.add(0, contact);
 						}
+						i = mPrevSelectedContactList.indexOf(contact);
+						if (i != -1) {
+							Log.d(TAG, "removing selected contacts[" + i + "]");
+							mPrevSelectedContactList.remove(i);
+						}
+
 						mRecentDataAdapter = new RecentContactsAdapter(a, R.layout.contact_info, mRecentContacts);
 						recentLV.setAdapter(mRecentDataAdapter);
 						//new ReloadRecentTask().execute();
@@ -252,6 +285,8 @@ ActionBar.TabListener {
 						Contact contact = (Contact) cb.getTag(); 
 						cb.setChecked(!cb.isChecked());
 						boolean value = cb.isChecked();
+						String s = value ? "checking" : "unchecking";
+						Log.d(TAG, s + " " + contact.contactName);
 						contact.setSelected(value);
 						int i = mRecentContacts.indexOf(contact);
 						if (i != -1) {
@@ -260,6 +295,12 @@ ActionBar.TabListener {
 						} else {
 							mRecentContacts.add(0, contact);
 						}
+						i = mPrevSelectedContactList.indexOf(contact);
+						if (i != -1) {
+							Log.d(TAG, "removing selected contacts[" + i + "]");
+							mPrevSelectedContactList.remove(i);
+						}
+						saveRecentContacts();
 						mRecentDataAdapter = new RecentContactsAdapter(a, R.layout.contact_info, mRecentContacts);
 						recentLV.setAdapter(mRecentDataAdapter);
 						//new ReloadRecentTask().execute();
@@ -322,6 +363,8 @@ ActionBar.TabListener {
 						CheckBox cb = (CheckBox)(v);  
 						Contact contact = (Contact) cb.getTag();
 						boolean value = cb.isChecked();
+						String s = value ? "checking" : "unchecking";
+						Log.d(TAG, s + " " + contact.contactName);
 						contact.setSelected(value);
 						int i = mContactList.indexOf(contact);
 						if (i != -1) {
@@ -330,8 +373,11 @@ ActionBar.TabListener {
 							mAllDataAdapter = new AllContactsAdapter(a, R.layout.contact_info, mContactList);
 							allLV.setAdapter(mAllDataAdapter);
 							//new ReloadAllTask().execute();
-						} else {
-							Log.e(TAG, "somehow a recent contact was not in the list of all contacts");
+						}
+						i = mPrevSelectedContactList.indexOf(contact);
+						if (i != -1) {
+							Log.d(TAG, "removing selected contacts[" + i + "]");
+							mPrevSelectedContactList.remove(i);
 						}
 					}  
 				});  
@@ -341,6 +387,8 @@ ActionBar.TabListener {
 						Contact contact = (Contact) cb.getTag();  
 						cb.setChecked(!cb.isChecked());
 						boolean value = cb.isChecked();
+						String s = value ? "checking" : "unchecking";
+						Log.d(TAG, s + " " + contact.contactName);
 						contact.setSelected(value);
 						int i = mContactList.indexOf(contact);
 						if (i != -1) {
@@ -349,8 +397,11 @@ ActionBar.TabListener {
 							mAllDataAdapter = new AllContactsAdapter(a, R.layout.contact_info, mContactList);
 							allLV.setAdapter(mAllDataAdapter);
 							//new ReloadAllTask().execute();
-						} else {
-							Log.e(TAG, "somehow a recent contact was not in the list of all contacts");
+						} 
+						i = mPrevSelectedContactList.indexOf(contact);
+						if (i != -1) {
+							Log.d(TAG, "removing selected contacts[" + i + "]");
+							mPrevSelectedContactList.remove(i);
 						}
 					}  
 				});
@@ -366,6 +417,7 @@ ActionBar.TabListener {
 			holder.name.setText(contact.getName());
 			holder.name.setChecked(contact.isSelected());
 			holder.name.setTag(contact);
+			Log.d(TAG, "recent contact " + contact.contactName + "'s box is checked? " + holder.name.isChecked());
 
 			return convertView;
 		}
@@ -466,6 +518,7 @@ ActionBar.TabListener {
 
 		switch (item.getItemId()){
 		case R.id.action_clear:
+			clearRecentContacts();
 			return true;
 		}
 		return false;

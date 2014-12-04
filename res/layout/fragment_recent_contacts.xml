@@ -23,7 +23,7 @@
         android:background="@drawable/button_send"
         android:onClick="goToShareMyLocation"
         android:text="OK"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/katieteal"
         android:textStyle="bold" />
 
     <ListView

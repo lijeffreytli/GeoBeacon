@@ -11,7 +11,7 @@
     <string name="title_activity_get_contacts">Get Contacts</string>
     <string name="dialog_prompt">Select message</string>
     <string name="edit_emergency_contacts">Edit emergency contacts</string>
-    <string name="action_clear">Clear</string>
+    <string name="action_clear">Clear Recent</string>
 
     <string-array name="emergency_dialogs">
         <item>Car Accident</item>
