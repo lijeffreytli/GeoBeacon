@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black"
+        android:background="@color/katieteal"
         android:orientation="vertical" >
 
         <TextView
@@ -19,7 +19,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="GeoBeacon"
-            android:textColor="@color/cyan"
+            android:textColor="@color/katiewhite"
             android:textSize="30sp" />
         
         
@@ -31,7 +31,7 @@
             android:paddingRight="10dp"
             android:gravity="center"
             android:text="developed by Jeffrey Li, Jared Hettinger, and Katie Ensign"
-            android:textColor="@color/cyan"
+            android:textColor="@color/katiewhite"
             android:textSize="25sp" />
 
         <ImageView
@@ -48,7 +48,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="An app that simplifies location sharing with friends, family, and emergency personnel\n"
-            android:textColor="@color/cyan"
+            android:textColor="@color/katiewhite"
             android:textSize="20sp" />
         
         <TextView
@@ -58,7 +58,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="\nUpdates and Releases"
-            android:textColor="@color/cyan"
+            android:textColor="@color/katiewhite"
             android:textSize="20sp" />
 
         <TextView
@@ -68,7 +68,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text=" Alpha Release"
-            android:textColor="@color/cyan"
+            android:textColor="@color/katiewhite"
             android:textIsSelectable="true"
             android:textSize="17sp" />
 
@@ -79,7 +79,7 @@
             android:paddingRight="10dp"
             android:gravity="center"
             android:text="•Displays live updates of user location\n•Text/Share your location with a friend\n•Send an emergency/distress text to an emergency number\n"
-            android:textColor="@color/white"
+            android:textColor="@color/werkwhite"
             android:textIsSelectable="true"
             android:textSize="15sp" />
 
@@ -90,7 +90,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text=" Beta Release"
-            android:textColor="@color/cyan"
+            android:textColor="@color/katiewhite"
             android:textIsSelectable="true"
             android:textSize="17sp" />
 
@@ -101,7 +101,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="•Select a list of Emergency Contacts to send your distress text\n•Gesture confirmations to prevent accidental message sending\n•Message confirmation that notifies the success/failure of output texts\n"
-            android:textColor="@color/white"
+            android:textColor="@color/werkwhite"
             android:textIsSelectable="true"
             android:textSize="15sp" />
         
@@ -112,7 +112,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text=" Future Release"
-            android:textColor="@color/cyan"
+            android:textColor="@color/katiewhite"
             android:textIsSelectable="true"
             android:textSize="17sp" />
         <TextView
@@ -122,7 +122,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="•Send a voice recording instead of a text in times of distress\n•Ping nearby users within a specific radius with a distress signal\n\n"
-            android:textColor="@color/white"
+            android:textColor="@color/werkwhite"
             android:textIsSelectable="true"
             android:textSize="15sp" />
     </LinearLayout>

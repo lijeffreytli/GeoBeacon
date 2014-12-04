@@ -2,68 +2,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    
     tools:context="com.geobeacondev.geobeacon.MainActivity" >
-     
-     <TextView
-         android:id="@+id/text_view_title"
-         android:layout_width="200dp"
-         android:layout_height="120dp"
-         android:layout_above="@+id/button_share_my_location"
-         android:layout_alignLeft="@+id/button_share_my_location"
-         android:layout_alignRight="@+id/button_emergency"
-         android:layout_marginTop="5dp"
-         android:layout_marginBottom="5dp"
-         android:gravity="left"
-         android:background="@drawable/rounded_corner_main"
-         android:paddingBottom="4dp"
-         android:paddingLeft="8dp"
-         android:paddingRight="8dp"
-         android:paddingTop="4dp"
-         android:scrollbars="vertical"
-         android:textColor="#4AAAA5"
-         android:textSize="17sp" />
 
-     <fragment
-         android:id="@+id/map"
-         android:name="com.google.android.gms.maps.MapFragment"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:layout_above="@+id/text_view_title"
-         android:layout_alignParentRight="true"
-         android:layout_alignParentTop="true" />
+    <View
+        android:id="@+id/strut"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true" />
 
-     <Button
-         android:id="@+id/button_emergency"
-         android:layout_width="55dp"
-         android:layout_height="40dp"
-         android:layout_alignParentBottom="true"
-         android:layout_alignParentRight="true"
-         android:layout_marginRight="5dp"
-         android:layout_marginLeft="2.5dp"
-         android:layout_marginBottom="2.5dp"
-         android:onClick="getEmergency"
-         android:text="!"
-         android:textStyle="bold"
-         android:textColor="#FFFFFFFF"
-         android:background="@drawable/button_emergency"
-         android:typeface="sans" />
+    <TextView
+        android:id="@+id/text_view_title"
+        android:layout_width="200dp"
+        android:layout_height="120dp"
+        android:layout_above="@+id/button_share_my_location"
+        android:layout_alignLeft="@+id/button_share_my_location"
+        android:layout_alignRight="@+id/button_emergency"
+        android:gravity="left"
+        android:paddingBottom="4dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="4dp"
+        android:scrollbars="vertical"
+        android:textColor="@color/katiewhite"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
-     <Button
-         android:id="@+id/button_share_my_location"
-         android:layout_width="150dp"
-         android:layout_height="40dp"
-         android:layout_alignParentBottom="true"
-         android:layout_alignParentLeft="true"
-         android:layout_marginLeft="5dp"
-         android:layout_marginRight="2.5dp"
-         android:layout_marginTop="2.5dp"
-         android:layout_marginBottom="2.5dp"
-         android:layout_toLeftOf="@+id/button_emergency"
-         android:background="@drawable/button_share_my_location"
-         android:onClick="shareMyLocation"
-         android:text="@string/share_my_location"
-         android:textColor="#FFFFFFFF"
-         android:typeface="sans" />
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/text_view_title"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" />
+
+    <Button
+        android:id="@+id/button_emergency"
+        android:layout_width="100dp"
+        android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/strut"
+        android:background="@drawable/button_emergency"
+        android:onClick="getEmergency"
+        android:text="Help!"
+        android:textColor="@color/katiewhite"
+        android:textStyle="bold"
+        android:typeface="sans" />
+
+    <Button
+        android:id="@+id/button_share_my_location"
+        android:layout_width="100dp"
+        android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/strut"
+        android:background="@drawable/button_share_my_location"
+        android:onClick="shareMyLocation"
+        android:text="Share"
+        android:textColor="@color/katiewhite"
+        android:textStyle="bold"
+        android:typeface="sans" />
 
 </RelativeLayout>

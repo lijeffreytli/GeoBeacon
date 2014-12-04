@@ -133,7 +133,7 @@ public class ShareMyLocation extends ActionBarActivity {
 		mMessage = mAddress;
 		TextView currentAddress = (TextView)findViewById(R.id.editCompleteMessage);
 		currentAddress.setMovementMethod(new ScrollingMovementMethod());
-		currentAddress.setTextColor(getResources().getColor(R.color.werkorange));
+		currentAddress.setTextColor(getResources().getColor(R.color.katiewhite));
 		currentAddress.setText(mMessage);
 		/* Add the googlemaps link for the sent message */
 		mMapURL = "https://www.google.com/maps?z=18&t=m&q=loc:" + mLatitude + "+" + mLongitude;
@@ -375,7 +375,7 @@ public class ShareMyLocation extends ActionBarActivity {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				TextView mtvOptionalMessage = (TextView) findViewById(R.id.tvOptionalMessage);
 				mtvOptionalMessage.setText(mOptionalMessage.getText().toString());
-				mtvOptionalMessage.setTextColor(Color.parseColor("#FFFFFF"));
+				mtvOptionalMessage.setTextColor(Color.parseColor("#EBE6C5"));
 			}
 		});
 
@@ -537,7 +537,7 @@ public class ShareMyLocation extends ActionBarActivity {
 
 	private void displaySelectedContacts(){
 		TextView text = (TextView) findViewById(R.id.selectedContacts);
-		text.setTextColor(getResources().getColor(R.color.white));
+		text.setTextColor(getResources().getColor(R.color.katiewhite));
 		text.setMovementMethod(new ScrollingMovementMethod());
 		if (mSelectedContacts != null){
 			String output = getContactNames();
