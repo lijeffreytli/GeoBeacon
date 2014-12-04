@@ -33,8 +33,8 @@
         <item name="android:textColorPrimary">@color/katiewhite</item>
         <item name="android:textColorSecondary">@color/werkwhite </item>
         <item name="android:textColorTertiary">@color/werkwhite</item>
-        <item name="android:textSize">17sp</item>   
-        
+        <item name="android:textSize">17sp</item>
+
         <!-- Action bar customization -->
         <item name="android:actionBarStyle">@style/SettingActionBar</item>
 
@@ -116,7 +116,7 @@
         <item name="android:background">@color/katiewhite</item>
         <item name="android:titleTextStyle">@style/EmergencyActionBarTextColor</item>
     </style>
-    
+
     <!-- Setting Theme -->
     <style name="SettingTheme" parent="Theme.AppCompat.Light">
 
@@ -144,28 +144,66 @@
     <style name="EmergencyActionBarTextColor" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@color/black</item>
     </style>
-    
+
     <!-- Main Activity Title Text Color -->
     <style name="MainActionBarTextColor" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@color/black</item>
     </style>
-    
+
     <!-- ShareMyLocation Title Text Color -->
     <style name="ShareMyLocationActionBarTextColor" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@color/black</item>
     </style>
-    
+
     <!-- Setting Title Text Color -->
     <style name="SettingActionBarTextColor" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@color/black</item>
     </style>
-    
-    
-    
-    
-    
-    
-    
+
+    <!-- Gesture Confirmation Page Theme -->
+    <style name="GestureConfirmationTheme" parent="@android:style/Theme.Holo.Light">
+
+        <!-- Action bar customization -->
+        <item name="android:actionBarStyle">@style/GestureConfirmationActionBar</item>
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:windowBackground">@color/katiered</item>
+    </style>
+
+    <!-- Gesture Confirmation Theme ActionBar -->
+    <style name="GestureConfirmationActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/katiewhite</item>
+        <item name="android:titleTextStyle">@style/GestureConfirmationActionBarTextColor</item>
+    </style>
+
+    <!-- Gesture Confirmation Title Text Color -->
+    <style name="GestureConfirmationActionBarTextColor" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!-- ContactList Page Theme -->
+    <style name="ContactListTheme" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarTabStyle">@style/ContactListActionBarTab</item>
+        <item name="actionBarTabStyle">@style/ContactListActionBarTab</item>
+        <!-- Action bar customization -->
+        <item name="android:actionBarStyle">@style/ContactListActionBar</item>
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+    <!-- ContactList Theme ActionBar -->
+    <style name="ContactListActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/katiewhite</item>
+        <item name="android:titleTextStyle">@style/ContactListActionBarTextColor</item>
+    </style>
+
+    <!-- ContactList Title Text Color -->
+    <style name="ContactListActionBarTextColor" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!-- ContactList Tab Style -->
+    <style name="ContactListActionBarTab" parent="@android:style/Widget.Holo.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_bar_background</item>
+    </style>
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
