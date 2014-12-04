@@ -1,4 +1,4 @@
-seecon
+GeoBeacon
 ======
 
 ## Alpha Release ##
