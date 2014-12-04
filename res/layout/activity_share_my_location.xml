@@ -20,7 +20,7 @@
         android:background="@drawable/button_send_share_location"
         android:onClick="sendMessage"
         android:text="Send"
-        android:textColor="#FFFFFFFF"
+        android:textColor="@color/katienavy"
         android:textStyle="bold" />
 
     <TextView
@@ -75,8 +75,9 @@
         
         android:onClick="getContactList"
         android:text="Select Contacts"
+        android:textStyle="bold" 
         android:textSize="20sp"
-        android:textColor="#FFFFFFFF" />
+        android:textColor="@color/katienavy" />
 
     <!--  -->
     <TextView

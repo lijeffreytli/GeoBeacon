@@ -19,20 +19,20 @@
     <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
         <item name="android:padding">2dp</item>
         <item name="android:textSize">22sp</item>
-        <item name="android:textColor">@color/werkred</item>
+        <item name="android:textColor">@color/katiewhite</item>
     </style>
 
     <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
         <item name="android:padding">3dp</item>
         <item name="android:textSize">22sp</item>
-        <item name="android:textColor">@color/werkred</item>
-        <item name="android:background">@color/werkwhite</item>
+        <item name="android:textColor">@color/katiewhite</item>
+        <item name="android:background">@color/katiered</item>
     </style>
 
     <style name="settingsPreferenceTheme" parent="AppBaseTheme">
-        <item name="android:textColorPrimary">@color/werkgreen</item>
-        <item name="android:textColorSecondary">@color/werknavy </item>
-        <item name="android:textColorTertiary">@color/werknavy</item>
+        <item name="android:textColorPrimary">@color/katiewhite</item>
+        <item name="android:textColorSecondary">@color/werkwhite </item>
+        <item name="android:textColorTertiary">@color/werkwhite</item>
         <item name="android:textSize">17sp</item>   
         
         <!-- Action bar customization -->
@@ -40,7 +40,7 @@
 
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="android:editTextStyle">@style/EditTextStyle</item>
-        <item name="android:windowBackground">@color/werkwhite</item>
+        <item name="android:windowBackground">@color/katieteal</item>
 
         <!-- For the resting Spinner style -->
         <item name="android:spinnerItemStyle">@style/spinnerItemStyle</item>
@@ -79,7 +79,7 @@
 
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="android:editTextStyle">@style/EditTextStyle</item>
-        <item name="android:windowBackground">@color/werkwhite</item>
+        <item name="android:windowBackground">@color/katienavy</item>
 
         <!-- For the resting Spinner style -->
         <item name="android:spinnerItemStyle">@style/spinnerItemStyle</item>
@@ -90,7 +90,7 @@
 
     <!-- ShareMyLocation Theme ActionBar -->
     <style name="ShareMyLocationActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
-        <item name="android:background">#F2AE72</item>
+        <item name="android:background">@color/katiewhite</item>
         <item name="android:titleTextStyle">@style/ShareMyLocationActionBarTextColor</item>
     </style>
 
@@ -102,7 +102,7 @@
 
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="android:editTextStyle">@style/EditTextStyle</item>
-        <item name="android:windowBackground">@color/werkwhite</item>
+        <item name="android:windowBackground">@color/katiered</item>
 
         <!-- For the resting Spinner style -->
         <item name="android:spinnerItemStyle">@style/spinnerItemStyle</item>
@@ -113,7 +113,7 @@
 
     <!-- Emergency Theme ActionBar -->
     <style name="EmergencyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
-        <item name="android:background">#E45F56</item>
+        <item name="android:background">@color/katiewhite</item>
         <item name="android:titleTextStyle">@style/EmergencyActionBarTextColor</item>
     </style>
     
@@ -125,7 +125,7 @@
 
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="android:editTextStyle">@style/EditTextStyle</item>
-        <item name="android:windowBackground">@color/werkwhite</item>
+        <item name="android:windowBackground">@color/katieteal</item>
 
         <!-- For the resting Spinner style -->
         <item name="android:spinnerItemStyle">@style/spinnerItemStyle</item>
@@ -136,13 +136,13 @@
 
     <!-- Setting Theme ActionBar -->
     <style name="SettingActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
-        <item name="android:background">@color/werkgreen</item>
+        <item name="android:background">@color/katiewhite</item>
         <item name="android:titleTextStyle">@style/SettingActionBarTextColor</item>
     </style>
 
     <!-- Emergency Title Text Color -->
     <style name="EmergencyActionBarTextColor" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/werkwhite</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     
     <!-- Main Activity Title Text Color -->
@@ -152,12 +152,12 @@
     
     <!-- ShareMyLocation Title Text Color -->
     <style name="ShareMyLocationActionBarTextColor" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/werkwhite</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     
     <!-- Setting Title Text Color -->
     <style name="SettingActionBarTextColor" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/werkwhite</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     
     

@@ -27,7 +27,7 @@
         android:background="@drawable/button_send"
         android:onClick="sendMessage"
         android:text="Send"
-        android:textColor="#FFFFFFFF"
+        android:textColor="@color/katienavy"
         android:textStyle="bold" />
 
     <TextView
@@ -35,12 +35,12 @@
         android:layout_width="250dp"
         android:layout_height="190dp"
         android:layout_above="@+id/buttonSend"
-        android:layout_alignLeft="@+id/buttonSend"
-        android:layout_alignRight="@+id/buttonSend"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/selectedContacts"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:background="@drawable/text_border"
+        android:background="@drawable/text_border_share_location"
         android:clickable="true"
         android:ems="20"
         android:hint="Click here to add an additional message"
@@ -61,6 +61,7 @@
         android:layout_alignLeft="@+id/tvOptionalMessage"
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/dummy"
+        android:layout_marginTop="5dp"
         android:ems="20"
         android:hint="Finding location...Please return to front page"
         android:inputType="textMultiLine|textNoSuggestions|none"
@@ -80,11 +81,13 @@
         android:layout_alignRight="@+id/selectedContacts"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
-        android:background="@drawable/button_default_style"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/button_send"
         android:onClick="getContactList"
         android:text="Select Contacts"
-        android:textColor="#FFFFFFFF"
-        android:textSize="20sp" />
+        android:textColor="@color/katienavy"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <!--  -->
 
@@ -97,7 +100,7 @@
         android:layout_below="@+id/buttonContacts"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
-        android:background="@drawable/text_border"
+        android:background="@drawable/text_border_share_location"
         android:ems="20"
         android:hint="No contacts selected"
         android:inputType="textMultiLine|textNoSuggestions|none"

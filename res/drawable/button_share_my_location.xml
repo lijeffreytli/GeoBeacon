@@ -3,22 +3,22 @@
     <item android:state_pressed="true" >
         <shape>
             <solid
-                android:color="#EED8A027" />
+                android:color="#EE192740" />
             <stroke
                 android:width="1dp"
-                android:color="#D8A027" />
+                android:color="#192740" />
 
         </shape>
     </item>
     <item>
         <shape>
             <gradient
-                android:startColor="#DED8A027"
-                android:endColor="#DEecad26"
+                android:startColor="#DE192740"
+                android:endColor="#DE192740"
                 android:angle="270" />
             <stroke
                 android:width="1dp"
-                android:color="#D8A027" />
+                android:color="#192740" />
             <size 
 				android:width="150dp"
 				android:height="30dp"

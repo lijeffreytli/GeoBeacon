@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@color/katiered"
     android:orientation="vertical" >
 
     <TextView
@@ -11,12 +12,13 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
-        android:background="@drawable/text_border_emergency"
+        android:background="@drawable/text_border_share_location"
         android:gravity="center"
         android:padding="10dp"
         android:text="Trace the circle"
-        android:textColor="@color/werkred"
-        android:textSize="25sp" />
+        android:textColor="@color/katiewhite"
+        android:textSize="25sp"
+        android:textStyle="bold" />
 
     <android.gesture.GestureOverlayView
         android:id="@+id/gestures"
@@ -27,7 +29,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_weight="1.0"
-        android:background="@drawable/text_border_emergency" >
+        android:background="@drawable/text_border_share_location" >
 
         <View
             android:layout_width="280dp"
@@ -45,7 +47,8 @@
         android:layout_below="@+id/meow"
         android:gravity="center"
         android:text="Start at the top of the circle"
-        android:textColor="@color/red"
-        android:textSize="15sp" />
+        android:textColor="@color/katiewhite"
+        android:textSize="15sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

@@ -16,9 +16,9 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
-        android:background="@drawable/button_send_emergency"
+        android:background="@drawable/button_send_share_location"
         android:onClick="sendMessage"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/katiered"
         android:textStyle="bold"
         android:text="Send (requires confirmation)" />
 
@@ -61,7 +61,7 @@
         android:layout_alignLeft="@+id/spinnerEmergencyDialogs"
         android:layout_alignRight="@+id/spinnerEmergencyDialogs"
         android:layout_below="@+id/spinnerEmergencyDialogs"
-        android:background="@drawable/text_border_emergency"
+        android:background="@drawable/text_border_share_location"
         android:clickable="true"
         android:ems="20"
         android:hint="Click here to add an additional message"

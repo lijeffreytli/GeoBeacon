@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black"
+        android:background="@color/katieteal"
         android:orientation="vertical" >
 
         <TextView
@@ -18,18 +18,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="help"
-            android:textColor="@color/cyan"
+            android:textColor="@color/katiewhite"
             android:textSize="30sp" />
-        
-        <ImageView
-                android:id="@+id/myImageView6"
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:src="@drawable/divider" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -37,7 +27,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="Share My Location"
-            android:textColor="@color/cyan"
+            android:textColor="@color/katiewhite"
             android:textIsSelectable="true"
             android:textSize="22sp" />
 
@@ -47,7 +37,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text=" • Send your location information to one or more friends\n"
-            android:textColor="@color/white"
+            android:textColor="@color/werkwhite"
             android:textIsSelectable="true"
             android:textSize="19sp" />
         
@@ -63,7 +53,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:text="Refresh"
-                android:textColor="@color/cyan"
+                android:textColor="@color/katiewhite"
                 android:textSize="22sp" />
 
             <ImageView
@@ -97,7 +87,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:text="Emergency"
-                android:textColor="@color/cyan"
+                android:textColor="@color/katiewhite"
                 android:textSize="22sp" />
 
             <ImageView
@@ -136,7 +126,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="Settings"
-            android:textColor="@color/cyan"
+            android:textColor="@color/katiewhite"
             android:textIsSelectable="true"
             android:textSize="22sp" />
 
@@ -157,7 +147,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="Location Services"
-            android:textColor="@color/cyan"
+            android:textColor="@color/katiewhite"
             android:textIsSelectable="true"
             android:textSize="22sp" />
         
@@ -167,7 +157,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text=" • Location services/GPS/WIFI must be enabled for location updates "
-            android:textColor="@color/white"
+            android:textColor="@color/werkwhite"
             android:textIsSelectable="true"
             android:textSize="19sp" />
         
@@ -177,7 +167,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text=" • The &apos;Accuracy&apos; is an estimation of the user&apos;s location based on GPS or network connectivity\n"
-            android:textColor="@color/white"
+            android:textColor="@color/werkwhite"
             android:textIsSelectable="true"
             android:textSize="19sp" />
     </LinearLayout>

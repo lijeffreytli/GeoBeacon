@@ -30,9 +30,11 @@
  	<item name="katiewhite" type="color">#EBE6C5</item>
  	<item name="katieteal" type="color">#448D7A</item>
  	<item name="katiegreen" type="color">#88A764</item>
- 	<item name="katieorange" type="color">#D8A027</item>
- 	<item name="katiered" type="color">#D96459</item>
-    
+ 	<item name="katieorange" type="color">#EE9C21</item>
+ 	<item name="katiered" type="color">#97282C</item>
+ 	<item name="katienavy" type="color">#192740</item>
+ 	<!-- old katie's red: D96459 -->
+    <!--  -->
  	
     <integer-array name="androidcolors">
         <item>@color/blue</item>
