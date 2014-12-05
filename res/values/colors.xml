@@ -36,8 +36,8 @@
     <!--  -->
     
     
-    <color name="transparent">#00000000</color>
-    <color name="tab_highlight">#ff9ecfbf</color>
+    <color name="transparent">#192740</color>
+    <color name="tab_highlight">#192740</color>
  	
     <integer-array name="androidcolors">
         <item>@color/blue</item>
@@ -55,6 +55,9 @@
         <item>@color/white_opaque</item>
         <item>@color/pitch_black</item>
     </integer-array>
+    
+    
+    
     
     <!-- Opaque Color Code:
 	100% — FF

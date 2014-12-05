@@ -183,7 +183,7 @@
     <!-- ContactList Page Theme -->
     <style name="ContactListTheme" parent="@android:style/Theme.Holo.Light">
         <item name="android:actionBarTabStyle">@style/ContactListActionBarTab</item>
-        <item name="actionBarTabStyle">@style/ContactListActionBarTab</item>
+        <item name="android:actionBarTabTextStyle">@style/TabTextStyle</item>
         <!-- Action bar customization -->
         <item name="android:actionBarStyle">@style/ContactListActionBar</item>
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
@@ -203,6 +203,12 @@
     <!-- ContactList Tab Style -->
     <style name="ContactListActionBarTab" parent="@android:style/Widget.Holo.ActionBar.TabView">
         <item name="android:background">@drawable/tab_bar_background</item>
+    </style>
+
+    <!-- ContactList Tab Text Style -->
+    <style name="TabTextStyle" parent="@style/Widget.AppCompat.ActionBar.TabText">
+        <item name="android:textColor">@drawable/tab_text</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <!-- Application theme. -->
