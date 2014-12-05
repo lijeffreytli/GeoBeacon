@@ -19,6 +19,7 @@ import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.renderscript.Type;
@@ -52,7 +53,25 @@ public class Preferences extends PreferenceActivity {
 				return true;
 			}
 		});
+		showList();
 	}
+	
+	private void showList() {
+		final Preference editContactsPref = (Preference) findPreference("emergencyContacts");
+		String selected = new String();
+		for (Contact c: mEmergencyContacts) {
+			selected += c.contactName + ", ";
+		}
+		if (mEmergencyContacts.size() > 0) {
+			selected = selected.substring(0, (selected.length() - 2));
+		} else {
+			selected = "No emergency contacts selected";
+		}
+		Log.d(TAG, "selected is " + selected);
+		
+		editContactsPref.setSummary((CharSequence) selected);
+	}
+	
 	
 	private void launchContactList() {
 		ProgressDialog progress = new ProgressDialog(this);
@@ -82,6 +101,7 @@ public class Preferences extends PreferenceActivity {
 				Editor prefsEditor = mPrefs.edit();
 				prefsEditor.putString("emergencyContacts", emergencyContactsJSON);
 				prefsEditor.commit();
+				showList();
 			}
 		break;
 		}
