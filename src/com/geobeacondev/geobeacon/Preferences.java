@@ -55,7 +55,7 @@ public class Preferences extends PreferenceActivity {
 	}
 	
 	private void launchContactList() {
-		ProgressDialog progress = new ProgressDialog(this);
+		ProgressDialog progress = new ProgressDialog(this, R.style.ProgressDialogTheme);
 //		String message = "Loading Contact List...";
 //        SpannableString ss1=  new SpannableString(message);
 //        ss1.setSpan(new RelativeSizeSpan(1.3f), 0, ss1.length(), 0);  

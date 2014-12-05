@@ -265,7 +265,7 @@ public class ShareMyLocation extends ActionBarActivity {
 
 	public void getContactList(View view){
 		playSound(mSendSoundID);
-		ProgressDialog progress = new ProgressDialog(this);
+		ProgressDialog progress = new ProgressDialog(this, R.style.ProgressDialogTheme);
 		String message = "Loading Contact List...";
         SpannableString ss1=  new SpannableString(message);
         ss1.setSpan(new RelativeSizeSpan(1.3f), 0, ss1.length(), 0);  
@@ -297,7 +297,7 @@ public class ShareMyLocation extends ActionBarActivity {
 	}
 
 	public void getAdditionalMessage(View view) {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this, R.style.ProgressDialogTheme);
 
 		LinearLayout layout = new LinearLayout(this);
 		LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);

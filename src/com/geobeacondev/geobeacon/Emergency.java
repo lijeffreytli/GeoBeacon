@@ -190,7 +190,7 @@ public class Emergency extends ActionBarActivity {
 	}
 
 	public void getAdditionalMessage(View view) {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this, R.style.ProgressDialogTheme);
 
 		LinearLayout layout = new LinearLayout(this);
 		LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);

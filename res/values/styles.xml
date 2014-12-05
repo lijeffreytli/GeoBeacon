@@ -18,7 +18,7 @@
 
     <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
         <item name="android:padding">2dp</item>
-        <item name="android:textSize">22sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/katiewhite</item>
     </style>
 
@@ -223,6 +223,32 @@
 
         <!-- For each individual Spinner list item once clicked on -->
         <item name="android:spinnerDropDownItemStyle">@style/spinnerDropDownItemStyle</item>
+    </style>
+
+    <style name="ProgressDialogTheme" parent="@android:style/Theme.Dialog">
+        <item name="android:alertDialogStyle">@style/CustomAlertDialogStyle</item>
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:textColor">@color/katiered</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:textColorSecondary">@color/katiered</item>
+        
+    </style>
+
+    <style name="CustomAlertDialogStyle">
+        <item name="android:bottomBright">@color/katiewhite</item>
+        <item name="android:bottomDark">@color/katiewhite</item>
+        <item name="android:bottomMedium">@color/katiewhite</item>
+        <item name="android:centerBright">@color/katiewhite</item>
+        <item name="android:centerDark">@color/katiewhite</item>
+        <item name="android:centerMedium">@color/katiewhite</item>
+        <item name="android:fullBright">@color/katiewhite</item>
+        <item name="android:fullDark">@color/katiewhite</item>
+        <item name="android:topBright">@color/katiewhite</item>
+        <item name="android:topDark">@color/katiewhite</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:textColor">@color/katiered</item>
+        <item name="android:windowFrame">@null</item>
     </style>
 
 </resources>

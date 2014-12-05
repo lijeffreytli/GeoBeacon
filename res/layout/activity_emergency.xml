@@ -44,7 +44,7 @@
     <Spinner
         android:id="@+id/spinnerEmergencyDialogs"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="55dp"
         android:layout_marginLeft="6dp"
         android:layout_marginRight="6dp"
         android:layout_alignParentLeft="true"
