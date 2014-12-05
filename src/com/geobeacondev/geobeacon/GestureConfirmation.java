@@ -124,7 +124,10 @@ public class GestureConfirmation extends Activity {
 								String message = mMessage + " ";
 								String mapURL = mMapURL + " ";
 
-								if (phoneNo != null && phoneNo.length() > 0) {    
+								if (phoneNo != null && phoneNo.length() > 0) {  
+									/* Send the optional message */
+									sendSMS(phoneNo, mStrOptionalMessage);
+									
 									/* Send the user's location */
 									if (message.length() > 160) {
 										int i = 0;
@@ -142,8 +145,6 @@ public class GestureConfirmation extends Activity {
 										sendSMS(phoneNo, message);
 										sendSMS(phoneNo, mapURL);
 									}
-									/* Send the optional message */
-									sendSMS(phoneNo, mStrOptionalMessage);
 								} 
 							}
 						});
