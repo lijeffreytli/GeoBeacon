@@ -86,7 +86,7 @@ public class MainActivity extends FragmentActivity{
 		else {
 			mLocationEnabled = false;
 			/* AlertDialog if the user needs to update Google Play Services */
-			generateAlert("Please update Google Play Services.", true);
+			generateAlert("Please update Google Play Services.");
 		}
 	}
 
@@ -113,7 +113,7 @@ public class MainActivity extends FragmentActivity{
 	}
 
 
-	public void generateAlert(String message, final boolean isFatal) {
+	public void generateAlert(String message) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 		builder.setMessage(message);
 		builder.setCancelable(true);
@@ -121,8 +121,6 @@ public class MainActivity extends FragmentActivity{
 				new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
-				if (isFatal)
-					finish();
 			}
 		});
 		AlertDialog alert = builder.create();
@@ -157,7 +155,8 @@ public class MainActivity extends FragmentActivity{
 			}
 			Log.d(TAG, "we chose the following best location: " + mLocation);
 			if (mLocation == null) {
-				generateAlert("Error: location information unavailable.", true);
+				generateAlert("Location information unavailable.");
+				return;
 			}
 		}
 		updateLocation(mLocation);
