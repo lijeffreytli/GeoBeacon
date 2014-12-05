@@ -228,10 +228,10 @@
     <style name="ProgressDialogTheme" parent="@android:style/Theme.Dialog">
         <item name="android:alertDialogStyle">@style/CustomAlertDialogStyle</item>
         <item name="android:textColorPrimary">#000000</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:textColor">@color/katiered</item>
+        <item name="android:windowBackground">@color/black</item>
+        <item name="android:textColor">@color/katienavy</item>
         <item name="android:windowFrame">@null</item>
-        <item name="android:textColorSecondary">@color/katiered</item>
+        <item name="android:textColorSecondary">@color/katienavy</item>
         
     </style>
 
