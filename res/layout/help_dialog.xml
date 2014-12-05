@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="help"
+            android:text="Help"
             android:textColor="@color/katiewhite"
             android:textSize="30sp" />
 
@@ -40,12 +40,12 @@
             android:textColor="@color/werkwhite"
             android:textIsSelectable="true"
             android:textSize="19sp" />
-        
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
         </RelativeLayout>
-        
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,13 +55,23 @@
             android:textColor="@color/katiewhite"
             android:textIsSelectable="true"
             android:textSize="22sp" />
-        
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text=" • In order to start sending emergency messages, you must first select your emergency contact list. This can be accessed in the Settings menu\n"
+            android:text=" • By default, emergency messages are intended to send a text to 911. The FCC has mandated that all U.S. carriers support this feature in the future, with earliest deadlines starting June 30th, 2015. Since this capability is not fully functional, the current version of this app does not yet text 911."
+            android:textColor="@color/werkwhite"
+            android:textIsSelectable="true"
+            android:textSize="19sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text=" • Emergency messages can also be sent to a list of specific contacts. In order to enable this feature, use the settings menu to select and edit your emergency contact list.\n"
             android:textColor="@color/werkwhite"
             android:textIsSelectable="true"
             android:textSize="19sp" />
@@ -75,23 +85,23 @@
             android:textColor="@color/katiewhite"
             android:textIsSelectable="true"
             android:textSize="22sp" />
-        
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text=" • Location services/GPS/WIFI must be enabled for location updates "
+            android:text=" • Location services/GPS/WIFI must be enabled for full app functionality "
             android:textColor="@color/werkwhite"
             android:textIsSelectable="true"
             android:textSize="19sp" />
-        
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text=" • The &apos;Accuracy&apos; is an estimation of the user&apos;s location based on GPS or network connectivity\n"
+            android:text=" • The &apos;Accuracy&apos; is an estimation of the user&apos;s location based on GPS or network connectivity. GeoBeacon is not responsible for incorrect location information as a result of this estimation.\n"
             android:textColor="@color/werkwhite"
             android:textIsSelectable="true"
             android:textSize="19sp" />

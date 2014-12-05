@@ -7,46 +7,20 @@
     android:layout_marginRight="5dp"
     android:scrollbars="horizontal" >
 
-    <LinearLayout
+  <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/katieteal"
         android:orientation="vertical" >
-
-        <TextView
+        
+         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Getting Started"
             android:textColor="@color/katiewhite"
             android:textSize="30sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="\nSet Emergency Contact List"
-            android:textColor="@color/katiewhite"
-            android:textIsSelectable="true"
-            android:textSize="22sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text=" • This can be done by accessing the Settings in the menu bar indicated below"
-            android:textColor="@color/werkwhite"
-            android:textIsSelectable="true"
-            android:textSize="19sp" />
-
         
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-        </RelativeLayout>
         
         <TextView
             android:layout_width="wrap_content"
@@ -72,7 +46,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text=" • Select this button to send your location to your friends"
+            android:text=" • Share: Select this button to send your location to your friends"
             android:textColor="@color/werkwhite"
             android:textIsSelectable="true"
             android:textSize="19sp" />
@@ -82,10 +56,33 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text=" • Select this button to send your location to your emergency contacts and emergency personnel (911)"
+            android:text=" • Help!: Select this button to send your location to emergency personnel (911) and your emergency contacts"
             android:textColor="@color/werkwhite"
             android:textIsSelectable="true"
             android:textSize="19sp" />
+       
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="\nSet Emergency Contact List"
+            android:textColor="@color/katiewhite"
+            android:textIsSelectable="true"
+            android:textSize="22sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text=" • Set up a list of emergency contacts to be notified when sending a distress text. This can be done by accessing Settings in the menu bar."
+            android:textColor="@color/werkwhite"
+            android:textIsSelectable="true"
+            android:textSize="19sp" />
+
+        
         
         <TextView
             android:layout_width="wrap_content"
@@ -102,7 +99,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text=" • Selecting either of the buttons will require user-confirmation"
+            android:text=" • Selecting the Help! button will require user-confirmation to prevent distress messages from being sent accidentally"
             android:textColor="@color/werkwhite"
             android:textIsSelectable="true"
             android:textSize="19sp" />
@@ -111,7 +108,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text=" • For best results, use outdoors"
+            android:text=" • For best results, use outdoors\n"
             android:textColor="@color/werkwhite"
             android:textIsSelectable="true"
             android:textSize="19sp" />

@@ -20,9 +20,7 @@
             android:paddingRight="10dp"
             android:text="GeoBeacon"
             android:textColor="@color/katiewhite"
-            android:textSize="30sp" />
-        
-        
+            android:textSize="30sp" /> 
 
         <TextView
             android:layout_width="wrap_content"
@@ -30,7 +28,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:gravity="center"
-            android:text="developed by Jeffrey Li, Jared Hettinger, and Katie Ensign"
+            android:text="developed by Jeffrey Li, Jared Hettinger, and Katie Ensign\n"
             android:textColor="@color/katiewhite"
             android:textSize="25sp" />
 
@@ -47,7 +45,7 @@
             android:gravity="center"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="An app that simplifies location sharing with friends, family, and emergency personnel\n"
+            android:text="\nAn app that simplifies location sharing with friends, family, and emergency personnel\n"
             android:textColor="@color/katiewhite"
             android:textSize="20sp" />
         
@@ -100,7 +98,7 @@
             android:gravity="center"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="•Select a list of Emergency Contacts to send your distress text\n•Gesture confirmations to prevent accidental message sending\n•Message confirmation that notifies the success/failure of output texts\n"
+            android:text="•Select a list of Emergency Contacts to send your distress text\n•Gesture confirmations to prevent accidental message sending\n•Message confirmation that notifies the success/failure of outgoing texts\n"
             android:textColor="@color/werkwhite"
             android:textIsSelectable="true"
             android:textSize="15sp" />
