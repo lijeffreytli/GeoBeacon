@@ -57,14 +57,13 @@
 
     <TextView
         android:id="@+id/tvEmergencyOptionalMessage"
-        android:layout_width="250dp"
-        android:layout_height="85dp"
+        android:layout_width="220dp"
+        android:layout_height="245dp"
         android:layout_above="@+id/buttonSendEmergency"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_below="@+id/spinnerEmergencyDialogs"
         android:background="@drawable/text_border_share_location"
         android:clickable="true"
         android:ems="20"

@@ -99,14 +99,15 @@ public class Preferences extends PreferenceActivity {
 	private void launchContactList() {
 		playSound(mClickSoundID);
 		ProgressDialog progress = new ProgressDialog(this);
-		String message = "Loading Contact List...";
-        SpannableString ss1=  new SpannableString(message);
-        ss1.setSpan(new RelativeSizeSpan(1.3f), 0, ss1.length(), 0);  
-        ss1.setSpan(new ForegroundColorSpan(Color.BLACK), 0, ss1.length(), 0); 
-		progress.setMessage(ss1);
+//		String message = "Loading Contact List...";
+//        SpannableString ss1=  new SpannableString(message);
+//        ss1.setSpan(new RelativeSizeSpan(1.3f), 0, ss1.length(), 0);  
+//        ss1.setSpan(new ForegroundColorSpan(Color.BLACK), 0, ss1.length(), 0); 
+//		progress.setMessage(ss1);
 //		progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 //		progress.setMessage(message);
 		progress.setTitle("Please wait");
+		progress.setMessage("Loading Contact List...");
 		new LaunchContactsTask(progress).execute();
 	}
 
