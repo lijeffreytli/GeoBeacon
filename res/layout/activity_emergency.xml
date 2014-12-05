@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.geobeacondev.geobeacon.Emergency" >
-
+	
     <Button
         android:id="@+id/buttonSendEmergency"
         android:layout_width="200dp"
@@ -12,23 +12,24 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/button_send_share_location"
         android:onClick="sendMessage"
-        android:textColor="#000000"
+        android:textColor="@color/katiered"
         android:textStyle="bold"
         android:text="Send (requires confirmation)" />
-
-
+    
     <TextView
         android:id="@+id/editEmergencyAddress"
         android:layout_width="250dp"
-        android:layout_height="85dp"
-        android:layout_alignLeft="@+id/tvEmergencyOptionalMessage"
-        android:layout_alignRight="@+id/tvEmergencyOptionalMessage"
+        android:layout_height="125dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:ems="20"
         android:hint="Finding location...Please return to main page"
         android:inputType="textMultiLine|textNoSuggestions|none"
@@ -43,12 +44,10 @@
     <Spinner
         android:id="@+id/spinnerEmergencyDialogs"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
+        android:layout_height="60dp"
         android:layout_marginLeft="6dp"
         android:layout_marginRight="6dp"
-        android:layout_alignRight="@+id/buttonSendEmergency"
+        android:layout_alignParentLeft="true"
         android:layout_below="@+id/editEmergencyAddress"
         android:background="@drawable/btn_dropdown"
         android:entries="@array/emergency_dialogs"
@@ -57,18 +56,18 @@
 
     <TextView
         android:id="@+id/tvEmergencyOptionalMessage"
-        android:layout_width="220dp"
-        android:layout_height="245dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/buttonSendEmergency"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
+        android:layout_below="@+id/spinnerEmergencyDialogs"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/text_border_share_location"
         android:clickable="true"
         android:ems="20"
         android:hint="Click here to add an additional message"
-        android:maxHeight="140dp"
         android:onClick="getAdditionalMessage"
         android:paddingBottom="6dp"
         android:paddingLeft="6dp"
