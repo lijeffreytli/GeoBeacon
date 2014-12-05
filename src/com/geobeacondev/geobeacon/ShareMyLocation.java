@@ -212,6 +212,9 @@ public class ShareMyLocation extends ActionBarActivity {
 								String mapURL = "Map coordinates: " + mMapURL + " ";
 
 								if (phoneNo != null && phoneNo.length() > 0) {    
+									/* Send the optional message */
+									sendSMS(phoneNo, mStrOptionalMessage);
+									
 									/* Send the user's location */
 									if (message.length() > 160) {
 										int i = 0;
@@ -229,8 +232,6 @@ public class ShareMyLocation extends ActionBarActivity {
 										sendSMS(phoneNo, message);
 										sendSMS(phoneNo, mapURL);
 									}
-									/* Send the optional message */
-									sendSMS(phoneNo, mStrOptionalMessage);
 
 									finish(); //After sending the message, return back to MainActivity
 								} 
