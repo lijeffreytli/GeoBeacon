@@ -1,15 +1,12 @@
 
 /* formatting classes */
-.center-image {
-    display: block;
-    margin-left: auto;
-    margin-right: auto
-}
-
 .center-text {
 	text-align: center;
 }
 
+.inline-image {
+	display: inline-block;
+}
 .fit-parent {
 	width: 100%;
 }
