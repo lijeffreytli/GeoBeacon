@@ -17,7 +17,7 @@
         android:layout_marginBottom="5dp"
         android:background="@drawable/button_send_share_location"
         android:onClick="sendMessage"
-        android:textColor="@color/katiered"
+        android:textColor="@color/black"
         android:textStyle="bold"
         android:text="Send (requires confirmation)" />
     
