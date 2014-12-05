@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.geobeacondev.geobeacon.Emergency" >
-	
+
     <Button
         android:id="@+id/buttonSendEmergency"
         android:layout_width="200dp"
@@ -12,15 +12,15 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
         android:background="@drawable/button_send_share_location"
         android:onClick="sendMessage"
+        android:text="Send (requires confirmation)"
         android:textColor="@color/black"
-        android:textStyle="bold"
-        android:text="Send (requires confirmation)" />
-    
+        android:textStyle="bold" />
+
     <TextView
         android:id="@+id/editEmergencyAddress"
         android:layout_width="250dp"
@@ -31,7 +31,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:ems="20"
-        android:hint="Finding location...Please return to main page"
+        android:hint="Location information unavailable"
         android:inputType="textMultiLine|textNoSuggestions|none"
         android:maxHeight="140dp"
         android:paddingBottom="4.5dp"
@@ -39,16 +39,17 @@
         android:paddingRight="4.5dp"
         android:paddingTop="4.5dp"
         android:scrollbars="vertical"
+        android:textColorHint="@color/katiewhite"
         android:textSize="20sp" />
 
     <Spinner
         android:id="@+id/spinnerEmergencyDialogs"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginRight="6dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/editEmergencyAddress"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
         android:background="@drawable/btn_dropdown"
         android:entries="@array/emergency_dialogs"
         android:prompt="@string/dialog_prompt"
@@ -61,9 +62,9 @@
         android:layout_above="@+id/buttonSendEmergency"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/spinnerEmergencyDialogs"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
         android:background="@drawable/text_border_share_location"
         android:clickable="true"
         android:ems="20"
@@ -74,6 +75,7 @@
         android:paddingRight="6dp"
         android:paddingTop="6dp"
         android:scrollbars="vertical"
+        android:textColorHint="@color/katiewhite"
         android:textSize="18sp" />
 
 </RelativeLayout>

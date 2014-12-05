@@ -25,6 +25,8 @@
         android:scrollbars="vertical"
         android:textColor="@color/katiewhite"
         android:textSize="16sp"
+        android:hint="Location information unavailable"
+        android:textColorHint="@color/katiewhite"
         android:textStyle="bold" />
 
     <fragment
