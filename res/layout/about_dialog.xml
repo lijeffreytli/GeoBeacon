@@ -39,7 +39,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center"
-            android:src="@drawable/geo_icon" />
+            android:src="@drawable/geobeacon_icon" />
 
         <TextView
             android:layout_width="wrap_content"
