@@ -53,10 +53,10 @@ ActionBar.TabListener {
 
 	private AllContactsAdapter mAllDataAdapter;
 	private RecentContactsAdapter mRecentDataAdapter;
-	
+
 	private ListView allLV;
 	private ListView recentLV;
-	
+
 	// Sound
 	private SoundPool mSounds;	
 	private boolean mSoundOn;
@@ -130,7 +130,7 @@ ActionBar.TabListener {
 		Log.d(TAG, "in on Resume");
 		createSoundPool();
 	}
-	
+
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -140,7 +140,7 @@ ActionBar.TabListener {
 			mSounds = null;
 		}	
 	}
-	
+
 	private void createSoundPool() {
 		mSoundOn = mPrefs.getBoolean("sound", true);
 		mSounds = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
@@ -149,7 +149,7 @@ ActionBar.TabListener {
 		// 0 is the "the sample-rate converter quality. Currently has no effect. Use 0 for the default."
 		mClickSoundID = mSounds.load(this, R.raw.click, 1);
 	}
-	
+
 	private void playSound(int soundID) {
 		if (mSoundOn && mSounds != null)
 			mSounds.play(soundID, 1, 1, 1, 0, 1);
@@ -205,10 +205,12 @@ ActionBar.TabListener {
 					Log.d(TAG, "setting allcontacts[" + i + "] to " + false);
 					mContactList.get(i).setSelected(false);
 				}
-				i = mPrevSelectedContactList.indexOf(contact);
-				if (i != -1) {
-					Log.d(TAG, "removing selected contacts[" + i + "]");
-					mPrevSelectedContactList.remove(i);
+				if (mPrevSelectedContactList != null) {
+					i = mPrevSelectedContactList.indexOf(contact);
+					if (i != -1) {
+						Log.d(TAG, "removing selected contacts[" + i + "]");
+						mPrevSelectedContactList.remove(i);
+					}
 				}
 			}	
 		}
@@ -229,7 +231,7 @@ ActionBar.TabListener {
 	private void initRecentContacts() {
 		Log.d(TAG, "in initRecentContacts, is mRecentContacts null? " + (mRecentContacts == null));
 		if (mRecentContacts != null)
-				return;
+			return;
 		Gson gson = new Gson();
 		String recentJson = mPrefs.getString("recentContacts", "");
 		java.lang.reflect.Type listType = new TypeToken<ArrayList<Contact>>() {}.getType();
@@ -250,7 +252,7 @@ ActionBar.TabListener {
 				mRecentContacts.add(0, c);
 			}
 		}
-		
+
 		for (Contact c: mRecentContacts) {
 			c.selected = false;
 		}
@@ -303,10 +305,12 @@ ActionBar.TabListener {
 						} else {
 							mRecentContacts.add(0, contact);
 						}
-						i = mPrevSelectedContactList.indexOf(contact);
-						if (i != -1) {
-							Log.d(TAG, "removing selected contacts[" + i + "]");
-							mPrevSelectedContactList.remove(i);
+						if (mPrevSelectedContactList != null) {
+							i = mPrevSelectedContactList.indexOf(contact);
+							if (i != -1) {
+								Log.d(TAG, "removing selected contacts[" + i + "]");
+								mPrevSelectedContactList.remove(i);
+							}
 						}
 
 						mRecentDataAdapter = new RecentContactsAdapter(a, R.layout.contact_info, mRecentContacts);
@@ -330,10 +334,12 @@ ActionBar.TabListener {
 						} else {
 							mRecentContacts.add(0, contact);
 						}
-						i = mPrevSelectedContactList.indexOf(contact);
-						if (i != -1) {
-							Log.d(TAG, "removing selected contacts[" + i + "]");
-							mPrevSelectedContactList.remove(i);
+						if (mPrevSelectedContactList != null) {
+							i = mPrevSelectedContactList.indexOf(contact);
+							if (i != -1) {
+								Log.d(TAG, "removing selected contacts[" + i + "]");
+								mPrevSelectedContactList.remove(i);
+							}
 						}
 						saveRecentContacts();
 						mRecentDataAdapter = new RecentContactsAdapter(a, R.layout.contact_info, mRecentContacts);
@@ -364,9 +370,9 @@ ActionBar.TabListener {
 				return null;
 			}
 		}
-		*/
+		 */
 	}
-	
+
 	public class RecentContactsAdapter extends ArrayAdapter<Contact>{
 		private ArrayList<Contact> contactsList;
 
@@ -409,10 +415,12 @@ ActionBar.TabListener {
 							allLV.setAdapter(mAllDataAdapter);
 							//new ReloadAllTask().execute();
 						}
-						i = mPrevSelectedContactList.indexOf(contact);
-						if (i != -1) {
-							Log.d(TAG, "removing selected contacts[" + i + "]");
-							mPrevSelectedContactList.remove(i);
+						if (mPrevSelectedContactList != null) {
+							i = mPrevSelectedContactList.indexOf(contact);
+							if (i != -1) {
+								Log.d(TAG, "removing selected contacts[" + i + "]");
+								mPrevSelectedContactList.remove(i);
+							}
 						}
 					}  
 				});  
@@ -433,10 +441,12 @@ ActionBar.TabListener {
 							allLV.setAdapter(mAllDataAdapter);
 							//new ReloadAllTask().execute();
 						} 
-						i = mPrevSelectedContactList.indexOf(contact);
-						if (i != -1) {
-							Log.d(TAG, "removing selected contacts[" + i + "]");
-							mPrevSelectedContactList.remove(i);
+						if (mPrevSelectedContactList != null) {
+							i = mPrevSelectedContactList.indexOf(contact);
+							if (i != -1) {
+								Log.d(TAG, "removing selected contacts[" + i + "]");
+								mPrevSelectedContactList.remove(i);
+							}
 						}
 					}  
 				});
@@ -465,7 +475,7 @@ ActionBar.TabListener {
 				return null;
 			}
 		}
-		*/
+		 */
 	}
 
 
@@ -536,7 +546,7 @@ ActionBar.TabListener {
 		}
 		 */
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();

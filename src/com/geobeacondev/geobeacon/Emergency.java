@@ -306,6 +306,7 @@ public class Emergency extends ActionBarActivity {
 		//		return true;
 
 	}
+	
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
