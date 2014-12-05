@@ -7,52 +7,70 @@ Jared Hettinger: jah3735
 
    Main menu: the main menu of the app shows the user’s location in Google 
    Maps along with buttons that implement the other app’s features. The main 
-   menu obtains the user’s location and displays it in an easy-to-read font. 
-   Everything that is displayed on the main menu (the Google Map, coordinates, 
-   and street address) are constantly being refreshed and updated for real-time 
-   use.
+   menu obtains the user’s location and displays it in an easy-to-read font.
+   There are two settings for location updates: continuous and on-demand. If
+   the continuous setting is enabled, the user's location is being periodically
+   refreshed. If the default on-demand setting is enabled, the app gets a user's
+   initial location, and will update if the refresh button is clicked.
 
-   Button 1 (Share My Location): This feature allows the user to text a 
-   specific or multiple selected contact their location via SMS services. 
-   The text includes a link to a google map with a pin on the user's exact location. 
-   This allows anyone with internet access to receive the location, 
-   regardless of whether or not the have the app.
+   Button 1 ('Share'): This feature allows the user to text
+   specific contact(s) their location via SMS services. There is also
+   an option to add an additional message to be sent alongside the 
+   location. The text includes a link to a google map with a pin on 
+   the user's exact location. This allows anyone with internet access
+   to receive the location, regardless of whether or not the have the app. 
 
-   Button 2 ('Help!' Emergency): This feature allows the user to send a distress 
-   text to emergency personnel (911) as well as emergency contacts. Since
-   Travis County has not yet implemented text-to-911, this feature will initially
-   send to contacts on the user's emergency contact list.
+   Button 2 ('Help!'): This feature allows the user to send a distress 
+   text to emergency personnel (911) as well as to a predefined list of 
+   emergency contacts. Since Travis County has not yet implemented 
+   text-to-911, this feature will initially send to contacts on the user's
+   emergency contact list.
 
    The user has the ability to select from a list of pre-existing, generic 
-   emergency messages that correlates with a particular situation. If the 
+   emergency messages that correlate with a particular situation. If the 
    message is not specific enough, the user has the option to add additional 
-   information about the situation.
+   information.
 
    When sending the message, the user is required to confirm the message with 
    touch gestures. After correctly tracing the shape (circle), the user is able
    to send the message. This feature ultimately prevents accidental messages
    from being sent. In our prototype, we indicated that we wanted the user to
-   be able to draw a triangle or any other shape. But after researching the 
-   implementation of the GestureBuilder, it was determined that it was difficult
-   in gauging the exact orientation and position that the user starts drawing the
-   shape. Thus, the shape of a circle is used for simplification in development
-   respects as well as real-time usage.
+   be able to draw a triangle. However, after researching the implementation 
+   of the GestureBuilder, it was determined that it was difficult to gauge
+   the exact orientation and position that the user starts drawing the 
+   shape. Thus, the shape of a circle is used for simplification in 
+   development respects as well as real-time usage.
 
    Message confirmation:
-   When sending messages to friend or emergency contacts, an SMS listener 
-   is created that displays a toast in the success/failure of an SMS message.
+   When sending messages to friend or emergency contacts, a BroadcastReceiver
+   is created that displays a toast indicating the success/failure of an 
+   SMS message.
    
    Menu options: About, Help, Getting Started
    Displays a Dialog with text for these three menu options.
 
    Menu options: Settings
-   The user has the option of editing the emergency contact list. This option
-   also provides the user with the option of toggling on/off the display
-   of the exact location coordinates on the main menu. This was included due
-   to the fact that most of the times, this information is useless to the
-   average users. We added sound, which is persistent, when clicking the Share
-   My Location and Emergency buttons as well as when sending a text message.
-
+   Continuous Updates:
+   Switches between continuous location updates and on-demand location updates.
+   Location is updated on-demand by default in order to save battery.
+   
+   Sound:
+   Toggles sound on/off - Sound is on by default, and is used for feedback on
+   button clicks.
+   
+   Show Coordinates:
+   This option also provides the user with the option of toggling on/off the
+   display of the exact location coordinates on the main menu. It's off by default
+   because usually this information is meaningless to the average user. However,
+   if someone is interested in knowing the exact coordinates, he or she can enable
+   those in this menu.
+   
+   Edit Emergency Contacts:
+   The user has the option of editing an emergency contact list. If the user sends an
+   emergency text, these individuals will be notified in addition to 911. This setting
+   shows the currently selected contacts. If the user clicks this setting, he or she
+   can edit the list.
+   
 3. A list of features/use cases form your application prototype that you did not complete
 
    Alpha features:
@@ -83,23 +101,27 @@ prototype
    landscape mode, each activity is designed with an easy-to-use and pleasant 
    landscape design.
    
-   Sharing with Friend Contact List:
-   We implemented a list that allows the users to select one or more contacts 
-   to send location information. This was due to feedback from peer evaluators.
+   Dynamic Contact List:
+   In response to feedback from peer evaluators, we decided to create our own
+   custom contact list. This way, the user could select multiple contacts at the
+   same time as well as see which contacts were already selected.
    
-   Sharing with Emergency Contact List:
-   We implemented a new dynamic list that the user can select emergency contact list
-   members. In the case of a real-time emergency, the message will automatically be
-   sent to both emergency contacts as well as emergency personnel.
+   Recent Contact List:
+   In response to feedback from Mike, we created a list of recent contacts for 
+   quick reference. In most cases, people will be sending location 
+   to the same few people. This list saves the trouble of scrolling through
+   the entire contact list each time.
    
    Automatic/On-Demand Location Updates:
-   We became aware that Google Map's API is difficult to work with in the sense
-   of accessing and refreshing location updates. Through our initial implementation,
-   the app was continuously refreshing and grabbing new location coordinates, which
-   seemed inefficient and wasteful (battery-life) in the case of real-time use. 
-   Therefore, we implemented a Setting that allows the user to refresh coordinates
-   on-demand by clicking the Refresh button.
-   
+   After feedback from the alpha, we realized that users were surprised by the 
+   app continuously updating location. We gave it some thought, and it seemed
+   that generally people would use the app just to get a quick location and 
+   then send it. We then added on-demand location updates, where we just get
+   location once when the app opens. There is a refresh button a user can click
+   if he or she wants a newer location. We created a settings option so that
+   continuous updates can be enabled in cases where the user is moving or needs
+   the latest fix. Structuring our location updates this way also saves 
+   battery life.
 
 5. A list of the classes and major chunks you obtained from other 
    sources/include a reference. (URL and title okay)
@@ -129,13 +151,17 @@ from others
        get a contact's phone number - code adapted from http://stackoverflow.com/questions/11218845/how-to-get-contacts-phone-number-in-android and http://stackoverflow.com/questions/9496350/pick-a-number-and-name-from-contacts-list-in-android-app
        hide soft keyboard - code adapted from http://stackoverflow.com/questions/4165414/how-to-hide-soft-keyboard-on-android-after-clicking-outside-edittext
        passing objects between activities - code adapted from http://stackoverflow.com/questions/13601883/how-to-pass-arraylist-of-objects-from-one-to-another-activity-using-intent-in-an
-       selecting multiple contacts and displaying within ArrayAdapter - code influenced and adapted from http://www.mysamplecode.com/2012/07/android-listview-custom-layout-filter.html
-
+       
    Settings:
        code adapted from Tutorial 6
        
    Menu Action bar:
        issue with icons not showing in action bar - http://stackoverflow.com/questions/23230939/items-not-showing-in-the-actionbar-with-showasaction-always
+
+   Contact List:
+       selecting multiple contacts and displaying within ArrayAdapter - code influenced and adapted from http://www.mysamplecode.com/2012/07/android-listview-custom-layout-filter.html
+       tab layout with swipeable views - http://www.androidhive.info/2013/10/android-tab-layout-with-swipeable-views-1/
+
 
 6. A list of the classes and major chunks of code you completed yourself
 

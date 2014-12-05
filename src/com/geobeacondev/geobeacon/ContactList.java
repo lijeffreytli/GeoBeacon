@@ -199,7 +199,6 @@ ActionBar.TabListener {
 			if (contact.selected) {
 				Log.d(TAG, "contact " + contact.contactName + " was selected, clearing check in all contacts too");
 				needsUpdate = true;
-				//contact.setSelected(false);
 				int i = mContactList.indexOf(contact);
 				if (i != -1) {
 					Log.d(TAG, "setting allcontacts[" + i + "] to " + false);
@@ -315,7 +314,6 @@ ActionBar.TabListener {
 
 						mRecentDataAdapter = new RecentContactsAdapter(a, R.layout.contact_info, mRecentContacts);
 						recentLV.setAdapter(mRecentDataAdapter);
-						//new ReloadRecentTask().execute();
 					}  
 				});  
 				holder.phoneNo.setOnClickListener(new View.OnClickListener() {  
@@ -344,7 +342,6 @@ ActionBar.TabListener {
 						saveRecentContacts();
 						mRecentDataAdapter = new RecentContactsAdapter(a, R.layout.contact_info, mRecentContacts);
 						recentLV.setAdapter(mRecentDataAdapter);
-						//new ReloadRecentTask().execute();
 					}  
 				});
 			} 
@@ -361,16 +358,7 @@ ActionBar.TabListener {
 			holder.name.setTag(contact);
 
 			return convertView;
-		}/*
-		public class ReloadRecentTask extends AsyncTask<Void, Void, Void> {
-
-			public Void doInBackground(Void... unused) {
-				mRecentDataAdapter = new RecentContactsAdapter(a, R.layout.contact_info, mRecentContacts);
-				recentLV.setAdapter(mRecentDataAdapter);
-				return null;
-			}
 		}
-		 */
 	}
 
 	public class RecentContactsAdapter extends ArrayAdapter<Contact>{
@@ -413,7 +401,6 @@ ActionBar.TabListener {
 							mContactList.get(i).setSelected(value);
 							mAllDataAdapter = new AllContactsAdapter(a, R.layout.contact_info, mContactList);
 							allLV.setAdapter(mAllDataAdapter);
-							//new ReloadAllTask().execute();
 						}
 						if (mPrevSelectedContactList != null) {
 							i = mPrevSelectedContactList.indexOf(contact);
@@ -439,7 +426,6 @@ ActionBar.TabListener {
 							mContactList.get(i).setSelected(value);
 							mAllDataAdapter = new AllContactsAdapter(a, R.layout.contact_info, mContactList);
 							allLV.setAdapter(mAllDataAdapter);
-							//new ReloadAllTask().execute();
 						} 
 						if (mPrevSelectedContactList != null) {
 							i = mPrevSelectedContactList.indexOf(contact);
@@ -466,18 +452,7 @@ ActionBar.TabListener {
 
 			return convertView;
 		}
-		/*
-		public class ReloadAllTask extends AsyncTask<Void, Void, Void> {
-
-			public Void doInBackground(Void... unused) {
-				mAllDataAdapter = new AllContactsAdapter(a, R.layout.contact_info, mContactList);
-				allLV.setAdapter(mAllDataAdapter);
-				return null;
-			}
-		}
-		 */
 	}
-
 
 	private void initAllContacts(){
 		Log.d(TAG, "IN INIT ALL CONTACTS ");
@@ -525,26 +500,6 @@ ActionBar.TabListener {
 			if (c.isSelected() && !mSelectedContactList.contains(c))
 				mSelectedContactList.add(c);
 		}
-
-		/*
-		int selected_count = 0;
-		int counter = 0;
-		for (int i = 0; i < contactsList.size(); ++i){
-			Contact contacts = contactsList.get(i);
-			if (contacts.isSelected()){
-				++selected_count;
-			}
-		}
-		String names[] = new String[selected_count];
-		for(int i = 0; i < contactsList.size(); i++){
-			Contact contacts = contactsList.get(i);
-			if(contacts.isSelected()){
-				names[counter] = contacts.getName();
-				++counter;
-				selected.add(contacts);
-			}
-		}
-		 */
 	}
 
 	@Override
