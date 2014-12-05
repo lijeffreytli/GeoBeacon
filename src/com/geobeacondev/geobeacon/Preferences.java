@@ -34,11 +34,6 @@ public class Preferences extends PreferenceActivity {
 	static final int PICK_CONTACT_REQUEST = 219;
 	private ArrayList<Contact> mEmergencyContacts;
 	private SharedPreferences mPrefs;
-	
-	// Sound
-	private SoundPool mSounds;	
-	private boolean mSoundOn;
-	private int mClickSoundID;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,45 +54,7 @@ public class Preferences extends PreferenceActivity {
 		});
 	}
 	
-	@Override
-	public void onResume() {
-		super.onResume();
-		Log.d(TAG, "in on Resume");
-		createSoundPool();
-	}
-	
-	@Override
-	public void onPause() {
-		super.onPause();
-		Log.d(TAG, "in onPause");
-		if(mSounds != null) {
-			mSounds.release();
-			mSounds = null;
-		}	
-	}
-	
-	private void createSoundPool() {
-		mSoundOn = mPrefs.getBoolean("sound", true);
-		mSounds = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
-		// 2 = maximum sounds to play at the same time,
-		// AudioManager.STREAM_MUSIC is the stream type typically used for games
-		// 0 is the "the sample-rate converter quality. Currently has no effect. Use 0 for the default."
-		mClickSoundID = mSounds.load(this, R.raw.click, 1);
-	}
-	
-	private void playSound(int soundID) {
-		// redo this just in case the user changed it
-		if(mSounds != null) {
-			mSounds.release();
-			mSounds = null;
-		}
-		createSoundPool();
-		if (mSoundOn && mSounds != null)
-			mSounds.play(soundID, 1, 1, 1, 0, 1);
-	}
-	
 	private void launchContactList() {
-		playSound(mClickSoundID);
 		ProgressDialog progress = new ProgressDialog(this);
 		String message = "Loading Contact List...";
         SpannableString ss1=  new SpannableString(message);
