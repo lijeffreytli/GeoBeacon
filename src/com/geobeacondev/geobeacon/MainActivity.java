@@ -60,6 +60,7 @@ public class MainActivity extends FragmentActivity{
 	private boolean mLocationEnabled;
 	private boolean mShowCoordinates;
 	private boolean mContinuous;
+	private boolean mFirstTime;
 
 	// Google Map
 	private GoogleMap mGoogleMap;
@@ -79,6 +80,8 @@ public class MainActivity extends FragmentActivity{
 		mSoundOn = mPrefs.getBoolean("sound", true);
 		mContinuous = mPrefs.getBoolean("continuousUpdates", false);
 		mShowCoordinates = mPrefs.getBoolean("showCoordinates", false);
+		mFirstTime = mPrefs.getBoolean("firstTime", true);
+		
 		int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());		
 		if (resultCode == ConnectionResult.SUCCESS) {
 			mLocationEnabled = true;
@@ -88,6 +91,34 @@ public class MainActivity extends FragmentActivity{
 			/* AlertDialog if the user needs to update Google Play Services */
 			generateAlert("Please update Google Play Services.");
 		}
+		Log.e(TAG, "value of mFirstTime" + mFirstTime);
+		if (mFirstTime == true){
+			AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+			builder.setMessage("Update: Text-to-911 will not be supported until June 30, 2015. \n\nDetails are provided in the 'Help' menu option");
+			builder.setTitle("Welcome to GeoBeacon");
+			builder.setCancelable(true);
+			builder.setNegativeButton("OK",
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					dialog.cancel();
+				}
+			});
+			AlertDialog alert = builder.create();
+			alert.show();
+			mFirstTime = false;
+		}
+	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		// Save the current state
+		SharedPreferences.Editor ed = mPrefs.edit(); 
+		ed.putBoolean("sound", mSoundOn);
+		ed.putBoolean("continuousUpdates", mContinuous);
+		ed.putBoolean("showCoordinates", mShowCoordinates);
+		ed.putBoolean("firstTime", mFirstTime);
+		ed.apply();
 	}
 
 	@Override
@@ -266,6 +297,8 @@ public class MainActivity extends FragmentActivity{
 		intent.putExtra(LAT, Double.valueOf(mLatitude).toString());
 		startActivity(intent);
 	}
+
+	
 
 	/* Emergency Button */
 	public void getEmergency(View view) {
