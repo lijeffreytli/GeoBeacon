@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text=" • Help!: Select this button to send your location to emergency personnel (911) and your emergency contacts"
+            android:text=" • Help!: Select this button to send your location to your emergency contacts"
             android:textColor="@color/werkwhite"
             android:textIsSelectable="true"
             android:textSize="19sp" />
