@@ -45,7 +45,7 @@
             android:gravity="center"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="\nAn app that simplifies location sharing with friends, family, and emergency personnel\n"
+            android:text="\nAn app that simplifies location sharing with friends and family.\n"
             android:textColor="@color/katiewhite"
             android:textSize="20sp" />
         
