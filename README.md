@@ -4,7 +4,7 @@ GeoBeacon
 ## Features ##
 * Text location to a contact
 * Send an emergency/distress text
-* Add InCaseEmergency (ICE) contacts
+* Add emergency contacts
 * Trace a circle for message confirmation (prevents accidental message sending)
 
 ## Future Releases ##
